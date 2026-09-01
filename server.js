@@ -165,11 +165,8 @@ async function fetchRealMatches() {
         }))];
         console.log(`📋 Leagues found: ${leagueNames.join(', ')}`);
 
-        // Limit to 100 matches
-        if (matches.length > 100) {
-            matches = matches.slice(0, 100);
-            console.log(`📊 Limited to top 100 matches`);
-        }
+       // Show ALL matches (no limit)
+console.log(`📊 Showing all ${matches.length} matches`);
 
         // Transform to our format
         const transformed = matches.map(m => {
