@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>⚽ Football Predictor</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0e17;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .auth-container { width: 100%; max-width: 400px; }
+        .auth-box {
+            background: #111927;
+            border: 1px solid #1a2a3a;
+            border-radius: 20px;
+            padding: 30px 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        .auth-box .logo { text-align: center; margin-bottom: 24px; }
+        .auth-box .logo .icon {
+            width: 60px; height: 60px;
+            background: linear-gradient(135deg, #00d4aa, #00997a);
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+        .auth-box .logo h1 { color: #f0f4fa; font-size: 24px; }
+        .auth-box .logo small { color: #8a9bb5; font-size: 12px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label {
+            display: block;
+            color: #8a9bb5;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 4px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            background: #0a0e17;
+            border: 1px solid #1a2a3a;
+            border-radius: 10px;
+            color: #f0f4fa;
+            font-size: 15px;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .form-group input:focus {
+            border-color: #00d4aa;
+            box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
+        }
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn:active { transform: scale(0.96); }
+        .btn-primary { background: #00d4aa; color: #0a0e17; }
+        .btn-primary:hover { background: #00997a; }
+        .btn-owner {
+            background: #ffa94d;
+            color: #0a0e17;
+            margin-bottom: 16px;
+            font-size: 16px;
+            border: 2px solid #ffa94d;
+        }
+        .btn-owner:hover { background: #ff8c00; border-color: #ff8c00; }
+        .auth-switch {
+            text-align: center;
+            margin-top: 16px;
+            color: #8a9bb5;
+            font-size: 13px;
+        }
+        .auth-switch a { color: #00d4aa; text-decoration: none; font-weight: 600; cursor: pointer; }
+        .error-msg {
+            color: #ff6b7a;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+        .error-msg.show { display: block; }
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 16px 0;
+            color: #1a2a3a;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #1a2a3a;
+        }
+        .divider span { padding: 0 12px; color: #8a9bb5; font-size: 11px; }
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #111927;
+            border: 1px solid #00d4aa;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #f0f4fa;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+            z-index: 999;
+            animation: slideUp 0.3s ease;
+            max-width: 90%;
+            text-align: center;
+        }
+        .toast.error { border-color: #ff6b7a; }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<div class="auth-container">
+    <div class="auth-box">
+        <div class="logo">
+            <div class="icon">⚽</div>
+            <h1>Football Predictor</h1>
+            <small>AI-powered match predictions</small>
+        </div>
+
+        <!-- OWNER BUTTON - VISIBLE AND WORKING -->
+        <button class="btn btn-owner" id="ownerLoginBtn">
+            👑 Enter as Owner (No Login)
+        </button>
+
+        <div class="divider"><span>OR</span></div>
+
+        <!-- Login Form -->
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="loginUsername" placeholder="Enter your username" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password" required>
+            </div>
+            <div id="loginError" class="error-msg"></div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+
+        <div class="auth-switch">
+            Don't have an account? <a id="showRegister">Sign Up</a>
+        </div>
+
+        <!-- Register Form -->
+        <form id="registerForm" style="display:none;">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="registerUsername" placeholder="Choose a username" required>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="registerEmail" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="registerPassword" placeholder="Choose a password (min 6 chars)" required>
+            </div>
+            <div id="registerError" class="error-msg"></div>
+            <button type="submit" class="btn btn-primary">Create Account</button>
+        </form>
+
+        <div class="auth-switch">
+            Already have an account? <a id="showLogin">Login</a>
+        </div>
+    </div>
+</div>
+
+<script>
+// ============================================================
+//  AUTH SYSTEM - Owner Auto-Login + User Login/Register
+// ============================================================
+
+const API_URL = 'http://localhost:3000/api';
+
+// DOM Elements
+const loginForm = document.getElementById('loginForm');
+const registerForm = document.getElementById('registerForm');
+const showRegister = document.getElementById('showRegister');
+const showLogin = document.getElementById('showLogin');
+const loginError = document.getElementById('loginError');
+const registerError = document.getElementById('registerError');
+
+function toast(msg, type = 'success') {
+    const old = document.querySelector('.toast');
+    if (old) old.remove();
+    const div = document.createElement('div');
+    div.className = `toast ${type}`;
+    div.textContent = msg;
+    document.body.appendChild(div);
+    setTimeout(() => div.remove(), 3000);
+}
+
+// ---------- OWNER AUTO-LOGIN ----------
+document.getElementById('ownerLoginBtn').addEventListener('click', async function() {
+    try {
+        toast('👑 Logging in as Owner...', 'success');
+        
+        const response = await fetch(`${API_URL}/owner`);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || 'Owner login failed');
+        }
+
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+
+        toast('👑 Welcome Owner!');
+        setTimeout(() => {
+            window.location.href = 'dashboard.html';
+        }, 800);
+
+    } catch (err) {
+        toast('❌ ' + err.message, 'error');
+        console.error('Owner login error:', err);
+    }
+});
+
+// ---------- Show/Hide Forms ----------
+showRegister.addEventListener('click', () => {
+    loginForm.style.display = 'none';
+    registerForm.style.display = 'block';
+    showRegister.parentElement.style.display = 'none';
+    showLogin.parentElement.style.display = 'block';
+});
+
+showLogin.addEventListener('click', () => {
+    loginForm.style.display = 'block';
+    registerForm.style.display = 'none';
+    showRegister.parentElement.style.display = 'block';
+    showLogin.parentElement.style.display = 'none';
+});
+
+// ---------- Login ----------
+loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    loginError.classList.remove('show');
+
+    const username = document.getElementById('loginUsername').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+
+    if (!username || !password) {
+        loginError.textContent = 'Please fill in all fields';
+        loginError.classList.add('show');
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || 'Login failed');
+        }
+
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+
+        toast('✅ Login successful!');
+        setTimeout(() => {
+            window.location.href = 'dashboard.html';
+        }, 800);
+
+    } catch (err) {
+        loginError.textContent = err.message;
+        loginError.classList.add('show');
+    }
+});
+
+// ---------- Register ----------
+registerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    registerError.classList.remove('show');
+
+    const username = document.getElementById('registerUsername').value.trim();
+    const email = document.getElementById('registerEmail').value.trim();
+    const password = document.getElementById('registerPassword').value.trim();
+
+    if (!username || !email || !password) {
+        registerError.textContent = 'Please fill in all fields';
+        registerError.classList.add('show');
+        return;
+    }
+
+    if (password.length < 6) {
+        registerError.textContent = 'Password must be at least 6 characters';
+        registerError.classList.add('show');
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, email, password })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || 'Registration failed');
+        }
+
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+
+        toast('✅ Account created!');
+        setTimeout(() => {
+            window.location.href = 'dashboard.html';
+        }, 800);
+
+    } catch (err) {
+        registerError.textContent = err.message;
+        registerError.classList.add('show');
+    }
+});
+
+// Check if already logged in
+if (localStorage.getItem('token')) {
+    window.location.href = 'dashboard.html';
+}
+
+console.log('🔐 Auth page loaded');
+console.log('👑 Click "Enter as Owner" to login without password');
+</script>
+</body>
+</html>

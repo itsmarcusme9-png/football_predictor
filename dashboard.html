@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>⚽ Football Predictor Pro</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0e17;
+            color: #f0f4fa;
+            padding: 12px;
+            padding-bottom: 90px;
+            min-height: 100vh;
+        }
+
+        .app { max-width: 500px; margin: 0 auto; }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid #1a2a3a;
+            margin-bottom: 16px;
+        }
+
+        .logo { display: flex; align-items: center; gap: 10px; }
+        .logo-icon {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, #00d4aa, #00997a);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 900;
+            color: #0a0e17;
+        }
+        .logo-text h1 {
+            font-size: 17px;
+            background: linear-gradient(135deg, #00d4aa, #00b894);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .logo-text small { font-size: 9px; color: #8a9bb5; }
+
+        .header-actions { display: flex; gap: 8px; }
+        .header-btn {
+            width: 38px; height: 38px;
+            border: 1px solid #1a2a3a;
+            background: #111927;
+            color: #f0f4fa;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .header-btn:active { transform: scale(0.95); }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .stat-card {
+            background: #111927;
+            border: 1px solid #1a2a3a;
+            border-radius: 10px;
+            padding: 8px 6px;
+            text-align: center;
+        }
+        .stat-card small { display: block; color: #8a9bb5; font-size: 8px; text-transform: uppercase; letter-spacing: 0.3px; }
+        .stat-card strong { display: block; font-size: 14px; margin-top: 2px; }
+        .stat-card .green { color: #00d4aa; }
+        .stat-card .orange { color: #ffa94d; }
+        .stat-card .red { color: #ff6b7a; }
+
+        /* Search Bar */
+        .search-section {
+            background: #111927;
+            border: 1px solid #1a2a3a;
+            border-radius: 14px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: #0a0e17;
+            border: 1px solid #1a2a3a;
+            border-radius: 10px;
+            color: #f0f4fa;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #00d4aa;
+            box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: #8a9bb5;
+        }
+
+        .search-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #8a9bb5;
+        }
+
+        .search-info .count {
+            color: #00d4aa;
+            font-weight: 700;
+        }
+
+        .search-info .clear-btn {
+            color: #ff6b7a;
+            cursor: pointer;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid #1a2a3a;
+            background: transparent;
+            font-size: 11px;
+        }
+
+        .search-info .clear-btn:active { transform: scale(0.95); }
+
+        /* Filters */
+        .filter-section {
+            background: #111927;
+            border: 1px solid #1a2a3a;
+            border-radius: 14px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .filter-label {
+            font-size: 10px;
+            color: #8a9bb5;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+        }
+
+        .filter-scroll {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding: 2px 0 4px 0;
+            scrollbar-width: none;
+        }
+        .filter-scroll::-webkit-scrollbar { display: none; }
+
+        .filter-btn {
+            flex: 0 0 auto;
+            padding: 6px 14px;
+            background: #1a2438;
+            border: 1px solid #1a2a3a;
+            border-radius: 100px;
+            color: #8a9bb5;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .filter-btn:active { transform: scale(0.95); }
+        .filter-btn.active {
+            background: #00d4aa;
+            color: #0a0e17;
+            border-color: #00d4aa;
+        }
+        .filter-btn .count {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            padding: 0 6px;
+            border-radius: 100px;
+            font-size: 9px;
+            margin-left: 4px;
+        }
+        .filter-btn.active .count { background: rgba(0,0,0,0.2); }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 5px;
+            overflow-x: auto;
+            padding: 4px 0 12px 0;
+            scrollbar-width: none;
+        }
+        .tabs::-webkit-scrollbar { display: none; }
+
+        .tab {
+            flex: 0 0 auto;
+            padding: 8px 14px;
+            background: #111927;
+            border: 1px solid #1a2a3a;
+            border-radius: 100px;
+            color: #8a9bb5;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .tab.active {
+            background: #00d4aa;
+            color: #0a0e17;
+            border-color: #00d4aa;
+        }
+        .tab:active { transform: scale(0.95); }
+
+        .panel { display: none; animation: fadeIn 0.3s ease; }
+        .panel.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: #111927;
+            border: 1px solid #1a2a3a;
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 10px;
+            background: rgba(0, 212, 170, 0.1);
+            color: #00d4aa;
+            border-radius: 100px;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        /* ============ MATCH CARD DESIGN ============ */
+        .match-card {
+            background: #111927;
+            border: 1px solid #1a2a3a;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 14px;
+            transition: all 0.3s ease;
+        }
+        .match-card:hover {
+            border-color: #2a3a5a;
+            transform: translateY(-1px);
+        }
+
+        /* Match Header */
+        .match-header {
+            text-align: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #1a2a3a;
+        }
+
+        .match-header .league-info {
+            font-size: 11px;
+            color: #8a9bb5;
+            margin-bottom: 4px;
+        }
+
+        .match-header .league-info .country {
+            color: #00d4aa;
+            font-weight: 600;
+        }
+
+        .match-header .teams {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin: 8px 0;
+        }
+
+        .match-header .teams .team {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .match-header .teams .vs {
+            color: #8a9bb5;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .match-header .match-time {
+            font-size: 11px;
+            color: #8a9bb5;
+        }
+
+        .match-header .status-badge {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 100px;
+            font-size: 9px;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+        .status-live { background: #ff6b7a; color: #fff; animation: pulse 1s infinite; }
+        .status-upcoming { background: #ffa94d; color: #0a0e17; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* H2H Section */
+        .h2h-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #1a2a3a;
+        }
+
+        .h2h-section .h2h-label {
+            font-size: 11px;
+            color: #8a9bb5;
+            font-weight: 600;
+        }
+
+        .h2h-section .h2h-stats {
+            display: flex;
+            gap: 12px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .h2h-section .h2h-stats .w { color: #00d4aa; }
+        .h2h-section .h2h-stats .d { color: #ffa94d; }
+        .h2h-section .h2h-stats .l { color: #ff6b7a; }
+
+        /* Probability Bars */
+        .probability-section {
+            padding: 10px 0;
+            border-bottom: 1px solid #1a2a3a;
+        }
+
+        .probability-section .prob-label {
+            font-size: 11px;
+            color: #8a9bb5;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .prob-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .prob-bar .bar-track {
+            flex: 1;
+            height: 8px;
+            background: #1a2a3a;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .prob-bar .bar-track .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .prob-bar .bar-track .bar-fill.green { background: #00d4aa; }
+        .prob-bar .bar-track .bar-fill.orange { background: #ffa94d; }
+        .prob-bar .bar-track .bar-fill.red { background: #ff6b7a; }
+
+        .prob-bar .prob-text {
+            font-size: 12px;
+            font-weight: 700;
+            min-width: 40px;
+            text-align: right;
+        }
+
+        .prob-bar .prob-text.green { color: #00d4aa; }
+        .prob-bar .prob-text.orange { color: #ffa94d; }
+        .prob-bar .prob-text.red { color: #ff6b7a; }
+
+        /* Predicted Result */
+        .prediction-result {
+            text-align: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #1a2a3a;
+        }
+
+        .prediction-result .result-label {
+            font-size: 11px;
+            color: #8a9bb5;
+            font-weight: 600;
+        }
+
+        .prediction-result .result-text {
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .prediction-result .result-text.home { color: #00d4aa; }
+        .prediction-result .result-text.draw { color: #ffa94d; }
+        .prediction-result .result-text.away { color: #ff6b7a; }
+
+        .prediction-result .result-confidence {
+            font-size: 12px;
+            color: #8a9bb5;
+        }
+
+        /* Score Probabilities */
+        .score-section {
+            padding-top: 10px;
+        }
+
+        .score-section .score-label {
+            font-size: 11px;
+            color: #8a9bb5;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .score-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 2px;
+        }
+
+        .score-row .score-text {
+            font-size: 13px;
+            font-weight: 600;
+            min-width: 40px;
+            color: #f0f4fa;
+        }
+
+        .score-row .score-bar-track {
+            flex: 1;
+            height: 6px;
+            background: #1a2a3a;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .score-row .score-bar-track .score-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.8s ease;
+            background: linear-gradient(90deg, #00d4aa, #00997a);
+        }
+
+        .score-row .score-percent {
+            font-size: 12px;
+            color: #8a9bb5;
+            min-width: 45px;
+            text-align: right;
+        }
+
+        .btn {
+            padding: 8px 14px;
+            border: 1px solid #1a2a3a;
+            background: #1a2438;
+            color: #f0f4fa;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn:active { transform: scale(0.95); }
+        .btn-primary {
+            background: #00d4aa;
+            color: #0a0e17;
+            border-color: #00d4aa;
+        }
+        .btn-danger {
+            border-color: #4a1a22;
+            color: #ff6b7a;
+            background: #1a0a0e;
+        }
+        .btn-sm { padding: 4px 10px; font-size: 10px; }
+        .btn-block { width: 100%; }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+        .empty {
+            text-align: center;
+            padding: 30px 16px;
+            color: #8a9bb5;
+            border: 1px dashed #1a2a3a;
+            border-radius: 12px;
+            font-size: 13px;
+        }
+        .empty small { display: block; margin-top: 4px; font-size: 11px; }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #111927;
+            border: 1px solid #00d4aa;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+            z-index: 999;
+            animation: slideUp 0.3s ease;
+            max-width: 90%;
+            text-align: center;
+        }
+        .toast.error { border-color: #ff6b7a; }
+        .toast.success { border-color: #00d4aa; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        .hidden { display: none !important; }
+        .mt-2 { margin-top: 10px; }
+        .text-muted { color: #8a9bb5; }
+        .text-center { text-align: center; }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
+        .gap-2 { gap: 8px; }
+
+        .loading {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #1a2a3a;
+            border-top-color: #00d4aa;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .highlight {
+            background: rgba(0, 212, 170, 0.15);
+            padding: 0 2px;
+            border-radius: 2px;
+            color: #00d4aa;
+        }
+
+        @media (max-width: 400px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .grid-2 { grid-template-columns: 1fr; }
+            .match-header .teams .team { font-size: 15px; }
+            .filter-btn { font-size: 10px; padding: 4px 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">⚽</div>
+            <div class="logo-text">
+                <h1>Predictor Pro</h1>
+                <small>Welcome, <span id="usernameDisplay">User</span></small>
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="header-btn" id="refreshBtn" title="Refresh predictions">🔄</button>
+            <button class="header-btn" id="logoutBtn" title="Logout">🚪</button>
+        </div>
+    </header>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <small>Matches</small>
+            <strong id="matchCount" class="green">0</strong>
+        </div>
+        <div class="stat-card">
+            <small>Predictions</small>
+            <strong id="predCount" class="orange">0</strong>
+        </div>
+        <div class="stat-card">
+            <small>Avg Confidence</small>
+            <strong id="avgConfidence" class="green">0%</strong>
+        </div>
+        <div class="stat-card">
+            <small>Accuracy</small>
+            <strong id="accuracyDisplay" class="green">0%</strong>
+        </div>
+    </div>
+
+    <!-- SEARCH BAR -->
+    <div class="search-section">
+        <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search leagues, teams, matches...">
+        <div class="search-info">
+            <span>Showing <span class="count" id="searchCount">0</span> matches</span>
+            <button class="clear-btn" id="clearSearch">Clear</button>
+        </div>
+    </div>
+
+    <!-- Date Filters -->
+    <div class="filter-section">
+        <div class="filter-label">📅 Date</div>
+        <div class="filter-scroll" id="dateFilters">
+            <button class="filter-btn active" data-filter="today">Today <span class="count" id="todayCount">0</span></button>
+            <button class="filter-btn" data-filter="tomorrow">Tomorrow <span class="count" id="tomorrowCount">0</span></button>
+            <button class="filter-btn" data-filter="week">This Week <span class="count" id="weekCount">0</span></button>
+            <button class="filter-btn" data-filter="all">All <span class="count" id="allCount">0</span></button>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="tab active" data-tab="predictions">🔮 Predictions</button>
+        <button class="tab" data-tab="history">📊 History</button>
+        <button class="tab" data-tab="profile">👤 Profile</button>
+    </div>
+
+    <!-- PANEL: Predictions -->
+    <section id="panel-predictions" class="panel active">
+        <div id="predictionsList">
+            <div class="empty">
+                <span class="loading"></span><br><br>
+                Loading predictions...<br>
+                <small>Fetching real match data</small>
+            </div>
+        </div>
+    </section>
+
+    <!-- PANEL: History -->
+    <section id="panel-history" class="panel">
+        <div class="card">
+            <div class="card-title">
+                <span>📊 Prediction History</span>
+                <span class="tag" id="historyCount">0</span>
+            </div>
+            <div id="historyList">
+                <div class="empty">No predictions yet.<br><small>Generate predictions to see them here</small></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PANEL: Profile -->
+    <section id="panel-profile" class="panel">
+        <div class="card">
+            <div class="card-title">👤 My Profile</div>
+            <div style="padding: 4px 0;">
+                <p><strong style="color:#00d4aa;">Username:</strong> <span id="profileUsername">-</span></p>
+                <p><strong style="color:#00d4aa;">Email:</strong> <span id="profileEmail">-</span></p>
+                <p><strong style="color:#00d4aa;">Member since:</strong> <span id="profileJoined">-</span></p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">📊 My Stats</div>
+            <div class="grid-2">
+                <div class="stat-card">
+                    <small>Total Predictions</small>
+                    <strong id="profileTotal" class="green">0</strong>
+                </div>
+                <div class="stat-card">
+                    <small>Correct</small>
+                    <strong id="profileCorrect" class="green">0</strong>
+                </div>
+                <div class="stat-card">
+                    <small>Accuracy</small>
+                    <strong id="profileAccuracy" class="orange">0%</strong>
+                </div>
+                <div class="stat-card">
+                    <small>Current Streak</small>
+                    <strong id="profileStreak" class="green">0</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">⚙️ Settings</div>
+            <div class="grid-2">
+                <button class="btn btn-primary" id="generatePredictionsBtn">🔄 Generate New</button>
+                <button class="btn btn-danger" id="clearHistoryBtn">🗑️ Clear History</button>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+// ============================================================
+//  DASHBOARD - With Search Bar
+// ============================================================
+
+const API_URL = 'http://localhost:3000/api';
+
+// ---------- STATE ----------
+let allPredictions = [];
+let currentDateFilter = 'today';
+let searchQuery = '';
+
+// ---------- HELPERS ----------
+const $ = id => document.getElementById(id);
+const $$ = sel => document.querySelectorAll(sel);
+
+function esc(str) {
+    return String(str || '').replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+    })[m]);
+}
+
+function toast(msg, type = 'success') {
+    const old = document.querySelector('.toast');
+    if (old) old.remove();
+    const div = document.createElement('div');
+    div.className = `toast ${type}`;
+    div.textContent = msg;
+    document.body.appendChild(div);
+    setTimeout(() => div.remove(), 3000);
+}
+
+function getToken() {
+    return localStorage.getItem('token');
+}
+
+function getUser() {
+    try {
+        return JSON.parse(localStorage.getItem('user') || '{}');
+    } catch {
+        return {};
+    }
+}
+
+function logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = 'index.html';
+}
+
+// ---------- API ----------
+async function apiCall(endpoint, options = {}) {
+    const token = getToken();
+    const response = await fetch(`${API_URL}${endpoint}`, {
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...(token && { 'Authorization': `Bearer ${token}` }),
+            ...(options.headers || {})
+        }
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error(data.error || 'API error');
+    }
+    return data;
+}
+
+// ---------- FILTERS ----------
+function getDateFiltered(predictions, filter) {
+    const today = new Date().toISOString().split('T')[0];
+    const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+    const weekLater = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
+
+    if (filter === 'today') return predictions.filter(p => p.date === today);
+    if (filter === 'tomorrow') return predictions.filter(p => p.date === tomorrow);
+    if (filter === 'week') return predictions.filter(p => p.date >= today && p.date <= weekLater);
+    return predictions;
+}
+
+function getSearchFiltered(predictions, query) {
+    if (!query || query.trim() === '') return predictions;
+    
+    const lowerQuery = query.toLowerCase().trim();
+    return predictions.filter(p => {
+        const searchText = `${p.league} ${p.home} ${p.away} ${p.date}`.toLowerCase();
+        return searchText.includes(lowerQuery);
+    });
+}
+
+function getFilteredPredictions() {
+    let filtered = [...allPredictions];
+    filtered = getDateFiltered(filtered, currentDateFilter);
+    filtered = getSearchFiltered(filtered, searchQuery);
+    filtered.sort((a, b) => a.date.localeCompare(b.date));
+    return filtered;
+}
+
+function updateFilterCounts() {
+    const today = new Date().toISOString().split('T')[0];
+    const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+    const weekLater = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
+
+    $('todayCount').textContent = allPredictions.filter(p => p.date === today).length;
+    $('tomorrowCount').textContent = allPredictions.filter(p => p.date === tomorrow).length;
+    $('weekCount').textContent = allPredictions.filter(p => p.date >= today && p.date <= weekLater).length;
+    $('allCount').textContent = allPredictions.length;
+}
+
+// ---------- RENDER PREDICTIONS ----------
+function renderPredictions(predictions) {
+    const list = $('predictionsList');
+    const filtered = predictions || getFilteredPredictions();
+
+    // Update search count
+    $('searchCount').textContent = filtered.length;
+
+    // Update stats
+    $('matchCount').textContent = filtered.length;
+    $('predCount').textContent = filtered.length;
+    const avgConf = filtered.length ? Math.round(filtered.reduce((s, p) => s + p.confidence, 0) / filtered.length) : 0;
+    $('avgConfidence').textContent = avgConf + '%';
+
+    if (!filtered.length) {
+        const msg = searchQuery ? `No matches found for "${searchQuery}"` : 'No matches match your filters';
+        list.innerHTML = `<div class="empty">📭 ${msg}<br><small>Try changing the search or date filter</small></div>`;
+        return;
+    }
+
+    const predLabels = { home: '🏠 Home Win', draw: '🤝 Draw', away: '✈️ Away Win' };
+    const predClasses = { home: 'home', draw: 'draw', away: 'away' };
+
+    list.innerHTML = filtered.map(p => {
+        // Generate score probabilities
+        const scoreProbs = generateScoreProbabilities(p);
+
+        return `
+        <div class="match-card">
+            <!-- Match Header -->
+            <div class="match-header">
+                <div class="league-info">
+                    ⚽ <span class="country">${esc(p.league)}</span>
+                </div>
+                <div class="teams">
+                    <span class="team">${esc(p.home)}</span>
+                    <span class="vs">VS</span>
+                    <span class="team">${esc(p.away)}</span>
+                </div>
+                <div class="match-time">${esc(p.date)}</div>
+                <span class="status-badge status-upcoming">⏳ Upcoming</span>
+            </div>
+
+            <!-- H2H Section -->
+            <div class="h2h-section">
+                <span class="h2h-label">📊 Head to Head</span>
+                <div class="h2h-stats">
+                    <span class="w">${p.h2h?.homeWins || 0}W</span>
+                    <span class="d">${p.h2h?.draws || 0}D</span>
+                    <span class="l">${p.h2h?.awayWins || 0}L</span>
+                </div>
+            </div>
+
+            <!-- Probability Bars -->
+            <div class="probability-section">
+                <div class="prob-label">WIN PROBABILITY</div>
+                <div class="prob-bar">
+                    <span style="font-size:12px;min-width:40px;color:#00d4aa;">${esc(p.home)}</span>
+                    <div class="bar-track">
+                        <div class="bar-fill green" style="width:${p.probabilities.home}%;"></div>
+                    </div>
+                    <span class="prob-text green">${p.probabilities.home}%</span>
+                </div>
+                <div class="prob-bar">
+                    <span style="font-size:12px;min-width:40px;color:#ffa94d;">Draw</span>
+                    <div class="bar-track">
+                        <div class="bar-fill orange" style="width:${p.probabilities.draw}%;"></div>
+                    </div>
+                    <span class="prob-text orange">${p.probabilities.draw}%</span>
+                </div>
+                <div class="prob-bar">
+                    <span style="font-size:12px;min-width:40px;color:#ff6b7a;">${esc(p.away)}</span>
+                    <div class="bar-track">
+                        <div class="bar-fill red" style="width:${p.probabilities.away}%;"></div>
+                    </div>
+                    <span class="prob-text red">${p.probabilities.away}%</span>
+                </div>
+            </div>
+
+            <!-- Predicted Result -->
+            <div class="prediction-result">
+                <div class="result-label">🎯 PREDICTED RESULT</div>
+                <div class="result-text ${predClasses[p.prediction]}">
+                    ${predLabels[p.prediction]}
+                </div>
+                <div class="result-confidence">${p.confidence}% confidence</div>
+            </div>
+
+            <!-- Score Probabilities -->
+            <div class="score-section">
+                <div class="score-label">📊 SCORE PROBABILITIES</div>
+                ${scoreProbs.map(s => `
+                <div class="score-row">
+                    <span class="score-text">${s.score}</span>
+                    <div class="score-bar-track">
+                        <div class="score-bar-fill" style="width:${s.percent}%;"></div>
+                    </div>
+                    <span class="score-percent">${s.percent}%</span>
+                </div>
+                `).join('')}
+            </div>
+        </div>
+        `;
+    }).join('');
+}
+
+// Generate score probabilities
+function generateScoreProbabilities(prediction) {
+    const scores = [
+        { score: '1:0', base: 15 },
+        { score: '2:0', base: 12 },
+        { score: '1:1', base: 10 },
+        { score: '0:0', base: 8 },
+        { score: '2:1', base: 8 },
+        { score: '0:1', base: 7 },
+        { score: '3:0', base: 5 },
+        { score: '1:2', base: 5 }
+    ];
+
+    let adjusted = scores.map(s => {
+        let percent = s.base;
+        
+        if (prediction.prediction === 'home' && s.score.split(':')[0] > s.score.split(':')[1]) {
+            percent += 8;
+        } else if (prediction.prediction === 'away' && s.score.split(':')[1] > s.score.split(':')[0]) {
+            percent += 8;
+        } else if (prediction.prediction === 'draw' && s.score.split(':')[0] === s.score.split(':')[1]) {
+            percent += 8;
+        }
+        
+        percent += Math.floor(Math.random() * 5);
+        return { score: s.score, percent: Math.min(percent, 30) };
+    });
+
+    adjusted.sort((a, b) => b.percent - a.percent);
+    return adjusted.slice(0, 4);
+}
+
+// ---------- GENERATE PREDICTIONS ----------
+async function generatePredictions() {
+    const list = $('predictionsList');
+    list.innerHTML = `<div class="empty"><span class="loading"></span><br><br>Generating AI predictions...<br><small>Analyzing team form and statistics</small></div>`;
+
+    try {
+        const data = await apiCall('/generate-predictions', { method: 'GET' });
+        
+        if (data && data.length) {
+            allPredictions = data;
+            updateFilterCounts();
+            renderPredictions();
+            toast(`✅ ${data.length} predictions generated!`, 'success');
+        } else {
+            list.innerHTML = `<div class="empty">📭 No predictions available<br><small>Try again later</small></div>`;
+        }
+    } catch (err) {
+        list.innerHTML = `<div class="empty">❌ Error: ${err.message}<br><small>Tap refresh to try again</small></div>`;
+        toast(err.message, 'error');
+    }
+}
+
+// ---------- SEARCH FUNCTION ----------
+function handleSearch() {
+    searchQuery = $('searchInput').value;
+    renderPredictions();
+}
+
+// ---------- HISTORY ----------
+function renderHistory() {
+    const history = JSON.parse(localStorage.getItem('predHistory') || '[]');
+    const list = $('historyList');
+    $('historyCount').textContent = history.length;
+
+    if (!history.length) {
+        list.innerHTML = '<div class="empty">No history yet.<br><small>Generate predictions to see them here</small></div>';
+        return;
+    }
+
+    const predLabels = { home: '🏠 Home', draw: '🤝 Draw', away: '✈️ Away' };
+    const recent = history.slice(-20).reverse();
+
+    list.innerHTML = recent.map(h => `
+        <div class="match-card" style="margin-bottom:6px;padding:10px;">
+            <div class="flex-between">
+                <div>
+                    <div style="font-size:11px;color:#00d4aa;">${esc(h.league)}</div>
+                    <div style="font-weight:700;font-size:14px;">${esc(h.home)} vs ${esc(h.away)}</div>
+                </div>
+                <div style="text-align:right;font-size:11px;color:#8a9bb5;">${esc(h.date)}</div>
+            </div>
+            <div style="margin-top:4px;font-size:13px;">
+                🎯 ${predLabels[h.prediction] || h.prediction}
+                <span style="color:#00d4aa;font-weight:700;">(${h.confidence}%)</span>
+                <span style="color:#8a9bb5;font-size:11px;margin-left:6px;">Score: ${h.predictedScore}</span>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ---------- PROFILE ----------
+function loadProfile() {
+    const user = getUser();
+    $('usernameDisplay').textContent = user.username || 'User';
+    $('profileUsername').textContent = user.username || '-';
+    $('profileEmail').textContent = user.email || '-';
+    $('profileJoined').textContent = user.createdAt ? new Date(user.createdAt).toLocaleDateString() : '-';
+
+    const stats = user.stats || {};
+    $('profileTotal').textContent = stats.totalPredictions || 0;
+    $('profileCorrect').textContent = stats.correctPredictions || 0;
+    $('profileAccuracy').textContent = (stats.accuracy || 0).toFixed(1) + '%';
+    $('accuracyDisplay').textContent = (stats.accuracy || 0).toFixed(1) + '%';
+}
+
+// ---------- EVENTS ----------
+// Search
+$('searchInput').addEventListener('input', handleSearch);
+
+$('clearSearch').addEventListener('click', () => {
+    $('searchInput').value = '';
+    searchQuery = '';
+    renderPredictions();
+    toast('Search cleared', 'success');
+});
+
+// Date filters
+document.querySelectorAll('#dateFilters .filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('#dateFilters .filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentDateFilter = this.dataset.filter;
+        renderPredictions();
+    });
+});
+
+// Tabs
+$$('.tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+        $$('.tab').forEach(t => t.classList.remove('active'));
+        $$('.panel').forEach(p => p.classList.remove('active'));
+        this.classList.add('active');
+        $(`panel-${this.dataset.tab}`).classList.add('active');
+
+        if (this.dataset.tab === 'history') renderHistory();
+        if (this.dataset.tab === 'profile') loadProfile();
+    });
+});
+
+// Buttons
+$('refreshBtn').addEventListener('click', () => {
+    toast('🔄 Refreshing...', 'success');
+    generatePredictions();
+});
+
+$('logoutBtn').addEventListener('click', () => {
+    if (confirm('Logout?')) logout();
+});
+
+$('generatePredictionsBtn').addEventListener('click', generatePredictions);
+
+$('clearHistoryBtn').addEventListener('click', () => {
+    if (confirm('Clear all prediction history?')) {
+        localStorage.setItem('predHistory', '[]');
+        renderHistory();
+        toast('History cleared', 'success');
+    }
+});
+
+// ---------- INIT ----------
+function init() {
+    if (!getToken()) {
+        window.location.href = 'index.html';
+        return;
+    }
+
+    loadProfile();
+    generatePredictions();
+    renderHistory();
+
+    toast('⚽ Welcome to Predictor Pro!', 'success');
+    console.log('⚽ Predictor Pro loaded with search!');
+}
+
+init();
+</script>
+</body>
+</html>
