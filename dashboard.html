@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>⚽ Football Predictor Pro</title>
+    <title>⚽ Predictor Pro</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
@@ -57,8 +57,10 @@
             border-radius: 10px;
             font-size: 16px;
             cursor: pointer;
+            transition: all 0.2s;
         }
         .header-btn:active { transform: scale(0.95); }
+        .header-btn.admin-btn { border-color: #ffa94d; color: #ffa94d; }
 
         /* Stats */
         .stats-grid {
@@ -101,15 +103,8 @@
             outline: none;
             transition: all 0.3s;
         }
-
-        .search-input:focus {
-            border-color: #00d4aa;
-            box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
-        }
-
-        .search-input::placeholder {
-            color: #8a9bb5;
-        }
+        .search-input:focus { border-color: #00d4aa; box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1); }
+        .search-input::placeholder { color: #8a9bb5; }
 
         .search-info {
             display: flex;
@@ -119,12 +114,7 @@
             font-size: 11px;
             color: #8a9bb5;
         }
-
-        .search-info .count {
-            color: #00d4aa;
-            font-weight: 700;
-        }
-
+        .search-info .count { color: #00d4aa; font-weight: 700; }
         .search-info .clear-btn {
             color: #ff6b7a;
             cursor: pointer;
@@ -135,7 +125,6 @@
             background: transparent;
             font-size: 11px;
         }
-
         .search-info .clear-btn:active { transform: scale(0.95); }
 
         /* Filters */
@@ -259,7 +248,7 @@
             font-weight: 700;
         }
 
-        /* ============ MATCH CARD DESIGN ============ */
+        /* Match Cards */
         .match-card {
             background: #111927;
             border: 1px solid #1a2a3a;
@@ -273,7 +262,6 @@
             transform: translateY(-1px);
         }
 
-        /* Match Header */
         .match-header {
             text-align: center;
             padding-bottom: 12px;
@@ -285,11 +273,7 @@
             color: #8a9bb5;
             margin-bottom: 4px;
         }
-
-        .match-header .league-info .country {
-            color: #00d4aa;
-            font-weight: 600;
-        }
+        .match-header .league-info .country { color: #00d4aa; font-weight: 600; }
 
         .match-header .teams {
             display: flex;
@@ -298,22 +282,9 @@
             gap: 12px;
             margin: 8px 0;
         }
-
-        .match-header .teams .team {
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        .match-header .teams .vs {
-            color: #8a9bb5;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .match-header .match-time {
-            font-size: 11px;
-            color: #8a9bb5;
-        }
+        .match-header .teams .team { font-size: 18px; font-weight: 700; }
+        .match-header .teams .vs { color: #8a9bb5; font-size: 12px; font-weight: 600; }
+        .match-header .match-time { font-size: 11px; color: #8a9bb5; }
 
         .match-header .status-badge {
             display: inline-block;
@@ -331,7 +302,6 @@
             50% { opacity: 0.5; }
         }
 
-        /* H2H Section */
         .h2h-section {
             display: flex;
             justify-content: space-between;
@@ -339,30 +309,16 @@
             padding: 10px 0;
             border-bottom: 1px solid #1a2a3a;
         }
-
-        .h2h-section .h2h-label {
-            font-size: 11px;
-            color: #8a9bb5;
-            font-weight: 600;
-        }
-
-        .h2h-section .h2h-stats {
-            display: flex;
-            gap: 12px;
-            font-size: 13px;
-            font-weight: 700;
-        }
-
+        .h2h-section .h2h-label { font-size: 11px; color: #8a9bb5; font-weight: 600; }
+        .h2h-section .h2h-stats { display: flex; gap: 12px; font-size: 13px; font-weight: 700; }
         .h2h-section .h2h-stats .w { color: #00d4aa; }
         .h2h-section .h2h-stats .d { color: #ffa94d; }
         .h2h-section .h2h-stats .l { color: #ff6b7a; }
 
-        /* Probability Bars */
         .probability-section {
             padding: 10px 0;
             border-bottom: 1px solid #1a2a3a;
         }
-
         .probability-section .prob-label {
             font-size: 11px;
             color: #8a9bb5;
@@ -376,7 +332,6 @@
             gap: 8px;
             margin-bottom: 4px;
         }
-
         .prob-bar .bar-track {
             flex: 1;
             height: 8px;
@@ -384,13 +339,11 @@
             border-radius: 4px;
             overflow: hidden;
         }
-
         .prob-bar .bar-track .bar-fill {
             height: 100%;
             border-radius: 4px;
             transition: width 0.8s ease;
         }
-
         .prob-bar .bar-track .bar-fill.green { background: #00d4aa; }
         .prob-bar .bar-track .bar-fill.orange { background: #ffa94d; }
         .prob-bar .bar-track .bar-fill.red { background: #ff6b7a; }
@@ -401,44 +354,23 @@
             min-width: 40px;
             text-align: right;
         }
-
         .prob-bar .prob-text.green { color: #00d4aa; }
         .prob-bar .prob-text.orange { color: #ffa94d; }
         .prob-bar .prob-text.red { color: #ff6b7a; }
 
-        /* Predicted Result */
         .prediction-result {
             text-align: center;
             padding: 10px 0;
             border-bottom: 1px solid #1a2a3a;
         }
-
-        .prediction-result .result-label {
-            font-size: 11px;
-            color: #8a9bb5;
-            font-weight: 600;
-        }
-
-        .prediction-result .result-text {
-            font-size: 18px;
-            font-weight: 700;
-            margin-top: 4px;
-        }
-
+        .prediction-result .result-label { font-size: 11px; color: #8a9bb5; font-weight: 600; }
+        .prediction-result .result-text { font-size: 18px; font-weight: 700; margin-top: 4px; }
         .prediction-result .result-text.home { color: #00d4aa; }
         .prediction-result .result-text.draw { color: #ffa94d; }
         .prediction-result .result-text.away { color: #ff6b7a; }
+        .prediction-result .result-confidence { font-size: 12px; color: #8a9bb5; }
 
-        .prediction-result .result-confidence {
-            font-size: 12px;
-            color: #8a9bb5;
-        }
-
-        /* Score Probabilities */
-        .score-section {
-            padding-top: 10px;
-        }
-
+        .score-section { padding-top: 10px; }
         .score-section .score-label {
             font-size: 11px;
             color: #8a9bb5;
@@ -452,14 +384,12 @@
             gap: 8px;
             margin-bottom: 2px;
         }
-
         .score-row .score-text {
             font-size: 13px;
             font-weight: 600;
             min-width: 40px;
             color: #f0f4fa;
         }
-
         .score-row .score-bar-track {
             flex: 1;
             height: 6px;
@@ -467,14 +397,12 @@
             border-radius: 3px;
             overflow: hidden;
         }
-
         .score-row .score-bar-track .score-bar-fill {
             height: 100%;
             border-radius: 3px;
             transition: width 0.8s ease;
             background: linear-gradient(90deg, #00d4aa, #00997a);
         }
-
         .score-row .score-percent {
             font-size: 12px;
             color: #8a9bb5;
@@ -494,16 +422,8 @@
             transition: all 0.2s;
         }
         .btn:active { transform: scale(0.95); }
-        .btn-primary {
-            background: #00d4aa;
-            color: #0a0e17;
-            border-color: #00d4aa;
-        }
-        .btn-danger {
-            border-color: #4a1a22;
-            color: #ff6b7a;
-            background: #1a0a0e;
-        }
+        .btn-primary { background: #00d4aa; color: #0a0e17; border-color: #00d4aa; }
+        .btn-danger { border-color: #4a1a22; color: #ff6b7a; background: #1a0a0e; }
         .btn-sm { padding: 4px 10px; font-size: 10px; }
         .btn-block { width: 100%; }
 
@@ -549,7 +469,6 @@
         .text-muted { color: #8a9bb5; }
         .text-center { text-align: center; }
         .flex-between { display: flex; justify-content: space-between; align-items: center; }
-        .gap-2 { gap: 8px; }
 
         .loading {
             display: inline-block;
@@ -561,13 +480,6 @@
             animation: spin 0.6s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        .highlight {
-            background: rgba(0, 212, 170, 0.15);
-            padding: 0 2px;
-            border-radius: 2px;
-            color: #00d4aa;
-        }
 
         @media (max-width: 400px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -590,32 +502,21 @@
             </div>
         </div>
         <div class="header-actions">
-            <button class="header-btn" id="refreshBtn" title="Refresh predictions">🔄</button>
+            <button class="header-btn admin-btn" onclick="window.location.href='admin.html'" title="Admin Panel">👑</button>
+            <button class="header-btn" id="refreshBtn" title="Refresh">🔄</button>
             <button class="header-btn" id="logoutBtn" title="Logout">🚪</button>
         </div>
     </header>
 
     <!-- Stats -->
     <div class="stats-grid">
-        <div class="stat-card">
-            <small>Matches</small>
-            <strong id="matchCount" class="green">0</strong>
-        </div>
-        <div class="stat-card">
-            <small>Predictions</small>
-            <strong id="predCount" class="orange">0</strong>
-        </div>
-        <div class="stat-card">
-            <small>Avg Confidence</small>
-            <strong id="avgConfidence" class="green">0%</strong>
-        </div>
-        <div class="stat-card">
-            <small>Accuracy</small>
-            <strong id="accuracyDisplay" class="green">0%</strong>
-        </div>
+        <div class="stat-card"><small>Matches</small><strong id="matchCount" class="green">0</strong></div>
+        <div class="stat-card"><small>Predictions</small><strong id="predCount" class="orange">0</strong></div>
+        <div class="stat-card"><small>Confidence</small><strong id="avgConfidence" class="green">0%</strong></div>
+        <div class="stat-card"><small>Accuracy</small><strong id="accuracyDisplay" class="green">0%</strong></div>
     </div>
 
-    <!-- SEARCH BAR -->
+    <!-- Search -->
     <div class="search-section">
         <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search leagues, teams, matches...">
         <div class="search-info">
@@ -642,31 +543,22 @@
         <button class="tab" data-tab="profile">👤 Profile</button>
     </div>
 
-    <!-- PANEL: Predictions -->
+    <!-- Panel: Predictions -->
     <section id="panel-predictions" class="panel active">
         <div id="predictionsList">
-            <div class="empty">
-                <span class="loading"></span><br><br>
-                Loading predictions...<br>
-                <small>Fetching real match data</small>
-            </div>
+            <div class="empty"><span class="loading"></span><br><br>Loading predictions...</div>
         </div>
     </section>
 
-    <!-- PANEL: History -->
+    <!-- Panel: History -->
     <section id="panel-history" class="panel">
         <div class="card">
-            <div class="card-title">
-                <span>📊 Prediction History</span>
-                <span class="tag" id="historyCount">0</span>
-            </div>
-            <div id="historyList">
-                <div class="empty">No predictions yet.<br><small>Generate predictions to see them here</small></div>
-            </div>
+            <div class="card-title"><span>📊 Prediction History</span><span class="tag" id="historyCount">0</span></div>
+            <div id="historyList"><div class="empty">No predictions yet.</div></div>
         </div>
     </section>
 
-    <!-- PANEL: Profile -->
+    <!-- Panel: Profile -->
     <section id="panel-profile" class="panel">
         <div class="card">
             <div class="card-title">👤 My Profile</div>
@@ -680,22 +572,10 @@
         <div class="card">
             <div class="card-title">📊 My Stats</div>
             <div class="grid-2">
-                <div class="stat-card">
-                    <small>Total Predictions</small>
-                    <strong id="profileTotal" class="green">0</strong>
-                </div>
-                <div class="stat-card">
-                    <small>Correct</small>
-                    <strong id="profileCorrect" class="green">0</strong>
-                </div>
-                <div class="stat-card">
-                    <small>Accuracy</small>
-                    <strong id="profileAccuracy" class="orange">0%</strong>
-                </div>
-                <div class="stat-card">
-                    <small>Current Streak</small>
-                    <strong id="profileStreak" class="green">0</strong>
-                </div>
+                <div class="stat-card"><small>Total Predictions</small><strong id="profileTotal" class="green">0</strong></div>
+                <div class="stat-card"><small>Correct</small><strong id="profileCorrect" class="green">0</strong></div>
+                <div class="stat-card"><small>Accuracy</small><strong id="profileAccuracy" class="orange">0%</strong></div>
+                <div class="stat-card"><small>Current Streak</small><strong id="profileStreak" class="green">0</strong></div>
             </div>
         </div>
 
@@ -711,10 +591,13 @@
 
 <script>
 // ============================================================
-//  DASHBOARD - With Search Bar
+//  DASHBOARD - Complete Rewrite
 // ============================================================
 
-const API_URL = 'https://football-predictor-e3s4.onrender.com/api';
+const API_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:3000/api' 
+    : 'https://football-predictor-e3s4.onrender.com/api';
+
 // ---------- STATE ----------
 let allPredictions = [];
 let currentDateFilter = 'today';
@@ -740,16 +623,9 @@ function toast(msg, type = 'success') {
     setTimeout(() => div.remove(), 3000);
 }
 
-function getToken() {
-    return localStorage.getItem('token');
-}
-
+function getToken() { return localStorage.getItem('token'); }
 function getUser() {
-    try {
-        return JSON.parse(localStorage.getItem('user') || '{}');
-    } catch {
-        return {};
-    }
+    try { return JSON.parse(localStorage.getItem('user') || '{}'); } catch { return {}; }
 }
 
 function logout() {
@@ -769,11 +645,8 @@ async function apiCall(endpoint, options = {}) {
             ...(options.headers || {})
         }
     });
-
     const data = await response.json();
-    if (!response.ok) {
-        throw new Error(data.error || 'API error');
-    }
+    if (!response.ok) throw new Error(data.error || 'API error');
     return data;
 }
 
@@ -791,7 +664,6 @@ function getDateFiltered(predictions, filter) {
 
 function getSearchFiltered(predictions, query) {
     if (!query || query.trim() === '') return predictions;
-    
     const lowerQuery = query.toLowerCase().trim();
     return predictions.filter(p => {
         const searchText = `${p.league} ${p.home} ${p.away} ${p.date}`.toLowerCase();
@@ -818,15 +690,33 @@ function updateFilterCounts() {
     $('allCount').textContent = allPredictions.length;
 }
 
+function generateScoreProbabilities(prediction) {
+    const scores = [
+        { score: '1:0', base: 15 }, { score: '2:0', base: 12 },
+        { score: '1:1', base: 10 }, { score: '0:0', base: 8 },
+        { score: '2:1', base: 8 }, { score: '0:1', base: 7 },
+        { score: '3:0', base: 5 }, { score: '1:2', base: 5 }
+    ];
+
+    let adjusted = scores.map(s => {
+        let percent = s.base;
+        if (prediction.prediction === 'home' && s.score.split(':')[0] > s.score.split(':')[1]) percent += 8;
+        else if (prediction.prediction === 'away' && s.score.split(':')[1] > s.score.split(':')[0]) percent += 8;
+        else if (prediction.prediction === 'draw' && s.score.split(':')[0] === s.score.split(':')[1]) percent += 8;
+        percent += Math.floor(Math.random() * 5);
+        return { score: s.score, percent: Math.min(percent, 30) };
+    });
+
+    adjusted.sort((a, b) => b.percent - a.percent);
+    return adjusted.slice(0, 4);
+}
+
 // ---------- RENDER PREDICTIONS ----------
 function renderPredictions(predictions) {
     const list = $('predictionsList');
     const filtered = predictions || getFilteredPredictions();
 
-    // Update search count
     $('searchCount').textContent = filtered.length;
-
-    // Update stats
     $('matchCount').textContent = filtered.length;
     $('predCount').textContent = filtered.length;
     const avgConf = filtered.length ? Math.round(filtered.reduce((s, p) => s + p.confidence, 0) / filtered.length) : 0;
@@ -842,16 +732,11 @@ function renderPredictions(predictions) {
     const predClasses = { home: 'home', draw: 'draw', away: 'away' };
 
     list.innerHTML = filtered.map(p => {
-        // Generate score probabilities
         const scoreProbs = generateScoreProbabilities(p);
-
         return `
         <div class="match-card">
-            <!-- Match Header -->
             <div class="match-header">
-                <div class="league-info">
-                    ⚽ <span class="country">${esc(p.league)}</span>
-                </div>
+                <div class="league-info">⚽ <span class="country">${esc(p.league)}</span></div>
                 <div class="teams">
                     <span class="team">${esc(p.home)}</span>
                     <span class="vs">VS</span>
@@ -861,7 +746,6 @@ function renderPredictions(predictions) {
                 <span class="status-badge status-upcoming">⏳ Upcoming</span>
             </div>
 
-            <!-- H2H Section -->
             <div class="h2h-section">
                 <span class="h2h-label">📊 Head to Head</span>
                 <div class="h2h-stats">
@@ -871,50 +755,37 @@ function renderPredictions(predictions) {
                 </div>
             </div>
 
-            <!-- Probability Bars -->
             <div class="probability-section">
                 <div class="prob-label">WIN PROBABILITY</div>
                 <div class="prob-bar">
                     <span style="font-size:12px;min-width:40px;color:#00d4aa;">${esc(p.home)}</span>
-                    <div class="bar-track">
-                        <div class="bar-fill green" style="width:${p.probabilities.home}%;"></div>
-                    </div>
+                    <div class="bar-track"><div class="bar-fill green" style="width:${p.probabilities.home}%;"></div></div>
                     <span class="prob-text green">${p.probabilities.home}%</span>
                 </div>
                 <div class="prob-bar">
                     <span style="font-size:12px;min-width:40px;color:#ffa94d;">Draw</span>
-                    <div class="bar-track">
-                        <div class="bar-fill orange" style="width:${p.probabilities.draw}%;"></div>
-                    </div>
+                    <div class="bar-track"><div class="bar-fill orange" style="width:${p.probabilities.draw}%;"></div></div>
                     <span class="prob-text orange">${p.probabilities.draw}%</span>
                 </div>
                 <div class="prob-bar">
                     <span style="font-size:12px;min-width:40px;color:#ff6b7a;">${esc(p.away)}</span>
-                    <div class="bar-track">
-                        <div class="bar-fill red" style="width:${p.probabilities.away}%;"></div>
-                    </div>
+                    <div class="bar-track"><div class="bar-fill red" style="width:${p.probabilities.away}%;"></div></div>
                     <span class="prob-text red">${p.probabilities.away}%</span>
                 </div>
             </div>
 
-            <!-- Predicted Result -->
             <div class="prediction-result">
                 <div class="result-label">🎯 PREDICTED RESULT</div>
-                <div class="result-text ${predClasses[p.prediction]}">
-                    ${predLabels[p.prediction]}
-                </div>
+                <div class="result-text ${predClasses[p.prediction]}">${predLabels[p.prediction]}</div>
                 <div class="result-confidence">${p.confidence}% confidence</div>
             </div>
 
-            <!-- Score Probabilities -->
             <div class="score-section">
                 <div class="score-label">📊 SCORE PROBABILITIES</div>
                 ${scoreProbs.map(s => `
                 <div class="score-row">
                     <span class="score-text">${s.score}</span>
-                    <div class="score-bar-track">
-                        <div class="score-bar-fill" style="width:${s.percent}%;"></div>
-                    </div>
+                    <div class="score-bar-track"><div class="score-bar-fill" style="width:${s.percent}%;"></div></div>
                     <span class="score-percent">${s.percent}%</span>
                 </div>
                 `).join('')}
@@ -924,64 +795,25 @@ function renderPredictions(predictions) {
     }).join('');
 }
 
-// Generate score probabilities
-function generateScoreProbabilities(prediction) {
-    const scores = [
-        { score: '1:0', base: 15 },
-        { score: '2:0', base: 12 },
-        { score: '1:1', base: 10 },
-        { score: '0:0', base: 8 },
-        { score: '2:1', base: 8 },
-        { score: '0:1', base: 7 },
-        { score: '3:0', base: 5 },
-        { score: '1:2', base: 5 }
-    ];
-
-    let adjusted = scores.map(s => {
-        let percent = s.base;
-        
-        if (prediction.prediction === 'home' && s.score.split(':')[0] > s.score.split(':')[1]) {
-            percent += 8;
-        } else if (prediction.prediction === 'away' && s.score.split(':')[1] > s.score.split(':')[0]) {
-            percent += 8;
-        } else if (prediction.prediction === 'draw' && s.score.split(':')[0] === s.score.split(':')[1]) {
-            percent += 8;
-        }
-        
-        percent += Math.floor(Math.random() * 5);
-        return { score: s.score, percent: Math.min(percent, 30) };
-    });
-
-    adjusted.sort((a, b) => b.percent - a.percent);
-    return adjusted.slice(0, 4);
-}
-
 // ---------- GENERATE PREDICTIONS ----------
 async function generatePredictions() {
     const list = $('predictionsList');
-    list.innerHTML = `<div class="empty"><span class="loading"></span><br><br>Generating AI predictions...<br><small>Analyzing team form and statistics</small></div>`;
+    list.innerHTML = `<div class="empty"><span class="loading"></span><br><br>Generating AI predictions...</div>`;
 
     try {
         const data = await apiCall('/generate-predictions', { method: 'GET' });
-        
         if (data && data.length) {
             allPredictions = data;
             updateFilterCounts();
             renderPredictions();
             toast(`✅ ${data.length} predictions generated!`, 'success');
         } else {
-            list.innerHTML = `<div class="empty">📭 No predictions available<br><small>Try again later</small></div>`;
+            list.innerHTML = `<div class="empty">📭 No predictions available</div>`;
         }
     } catch (err) {
-        list.innerHTML = `<div class="empty">❌ Error: ${err.message}<br><small>Tap refresh to try again</small></div>`;
+        list.innerHTML = `<div class="empty">❌ Error: ${err.message}</div>`;
         toast(err.message, 'error');
     }
-}
-
-// ---------- SEARCH FUNCTION ----------
-function handleSearch() {
-    searchQuery = $('searchInput').value;
-    renderPredictions();
 }
 
 // ---------- HISTORY ----------
@@ -1033,9 +865,12 @@ function loadProfile() {
 
 // ---------- EVENTS ----------
 // Search
-$('searchInput').addEventListener('input', handleSearch);
+$('searchInput').addEventListener('input', function() {
+    searchQuery = this.value;
+    renderPredictions();
+});
 
-$('clearSearch').addEventListener('click', () => {
+$('clearSearch').addEventListener('click', function() {
     $('searchInput').value = '';
     searchQuery = '';
     renderPredictions();
@@ -1096,8 +931,16 @@ function init() {
     generatePredictions();
     renderHistory();
 
-    toast('⚽ Welcome to Predictor Pro!', 'success');
-    console.log('⚽ Predictor Pro loaded with search!');
+    // Check if user is owner and show admin button
+    const user = getUser();
+    if (user.isOwner) {
+        document.querySelector('.admin-btn').style.display = 'flex';
+    } else {
+        document.querySelector('.admin-btn').style.display = 'none';
+    }
+
+    toast('⚽ Welcome back!', 'success');
+    console.log('⚽ Dashboard loaded!');
 }
 
 init();
