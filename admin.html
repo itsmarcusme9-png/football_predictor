@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>👑 Admin Panel</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0e17;
+            color: #f0f4fa;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container { max-width: 500px; margin: 0 auto; }
+        h1 { color: #ffa94d; margin-bottom: 20px; }
+        .card {
+            background: #111927;
+            border: 1px solid #1a2a3a;
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .card h2 { font-size: 16px; margin-bottom: 10px; color: #ffa94d; }
+        .user-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #1a2a3a;
+        }
+        .btn {
+            padding: 6px 12px;
+            border: 1px solid #1a2a3a;
+            background: #1a2438;
+            color: #f0f4fa;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+        .btn-danger { border-color: #ff6b7a; color: #ff6b7a; }
+        .btn-primary { background: #ffa94d; color: #0a0e17; border-color: #ffa94d; }
+        .empty { color: #8a9bb5; text-align: center; padding: 20px; }
+        .back-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #1a2438;
+            border: 1px solid #1a2a3a;
+            border-radius: 8px;
+            color: #f0f4fa;
+            text-decoration: none;
+            margin-bottom: 16px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+        .stat-box {
+            background: #0a0e17;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stat-box small { display: block; color: #8a9bb5; font-size: 9px; }
+        .stat-box strong { display: block; font-size: 18px; color: #00d4aa; }
+        .loading {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #1a2a3a;
+            border-top-color: #ffa94d;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
+    <h1>👑 Admin Panel</h1>
+
+    <div class="card">
+        <h2>📊 System Stats</h2>
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-box"><small>Users</small><strong id="statUsers">0</strong></div>
+            <div class="stat-box"><small>Predictions</small><strong id="statPreds">0</strong></div>
+            <div class="stat-box"><small>Accuracy</small><strong id="statAcc">0%</strong></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>👥 Users</h2>
+        <div id="userList"><div class="empty"><span class="loading"></span> Loading...</div></div>
+    </div>
+
+    <div class="card">
+        <h2>🏆 Leagues</h2>
+        <div id="leagueList"><div class="empty"><span class="loading"></span> Loading...</div></div>
+    </div>
+</div>
+
+<script>
+const API_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:3000/api' 
+    : 'https://football-predictor-e3s4.onrender.com/api';
+
+async function apiCall(endpoint) {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`${API_URL}${endpoint}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+    });
+    return res.json();
+}
+
+async function loadData() {
+    try {
+        // Load users
+        const users = await apiCall('/admin/users');
+        const userList = document.getElementById('userList');
+        document.getElementById('statUsers').textContent = users.length;
+        
+        if (users.length === 0) {
+            userList.innerHTML = '<div class="empty">No users</div>';
+        } else {
+            userList.innerHTML = users.filter(u => !u.isOwner).map(u => `
+                <div class="user-item">
+                    <span><strong>${u.username}</strong> <small style="color:#8a9bb5;">${u.stats?.totalPredictions || 0} bets</small></span>
+                    <button class="btn btn-danger" onclick="deleteUser('${u.id}')">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        // Load predictions for leagues
+        const preds = await apiCall('/admin/predictions');
+        document.getElementById('statPreds').textContent = preds.length;
+
+        // Group by league
+        const leagues = {};
+        preds.forEach(p => {
+            const league = p.league || 'Unknown';
+            leagues[league] = (leagues[league] || 0) + 1;
+        });
+
+        const leagueList = document.getElementById('leagueList');
+        const sorted = Object.entries(leagues).sort((a,b) => b[1] - a[1]);
+        if (sorted.length === 0) {
+            leagueList.innerHTML = '<div class="empty">No leagues</div>';
+        } else {
+            leagueList.innerHTML = sorted.map(([name, count]) => `
+                <div class="user-item">
+                    <span>${name}</span>
+                    <span style="color:#00d4aa;">${count} matches</span>
+                </div>
+            `).join('');
+        }
+
+        // Load stats
+        const stats = await apiCall('/admin/stats');
+        document.getElementById('statAcc').textContent = (stats.accuracy || 0) + '%';
+
+    } catch (e) {
+        document.getElementById('userList').innerHTML = `<div class="empty">Error: ${e.message}</div>`;
+    }
+}
+
+window.deleteUser = async function(id) {
+    if (!confirm('Delete this user?')) return;
+    await fetch(`${API_URL}/admin/users/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+    });
+    loadData();
+};
+
+// Check if user is owner
+const user = JSON.parse(localStorage.getItem('user') || '{}');
+if (!user.isOwner) {
+    document.body.innerHTML = '<div class="container"><h1>⚠️ Admin Access Only</h1><p>You need to be logged in as owner.</p><a href="index.html" class="back-btn">Login</a></div>';
+} else {
+    loadData();
+}
+</script>
+</body>
+</html>
