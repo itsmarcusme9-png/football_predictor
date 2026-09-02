@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>⚽ Predictor Pro</title>
     <style>
-        /* ===== CSS VARIABLES ===== */
         :root {
             --bg: #0a0e17;
             --surface: #111927;
@@ -23,7 +22,6 @@
             --danger: #ff6b7a;
             --warning: #ffa94d;
         }
-
         .light-mode {
             --bg: #f0f4fa;
             --surface: #ffffff;
@@ -37,9 +35,7 @@
             --card-bg: #ffffff;
             --header-bg: #f0f4fa;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg);
@@ -49,10 +45,7 @@
             min-height: 100vh;
             transition: background 0.3s, color 0.3s;
         }
-
         .app { max-width: 500px; margin: 0 auto; }
-
-        /* ===== HEADER ===== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -63,7 +56,6 @@
             background: var(--header-bg);
             transition: background 0.3s;
         }
-
         .logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
         .logo-icon {
             width: 40px; height: 40px;
@@ -76,12 +68,8 @@
             font-weight: 900;
             color: #fff;
         }
-        .logo-text h1 {
-            font-size: 17px;
-            color: var(--accent);
-        }
+        .logo-text h1 { font-size: 17px; color: var(--accent); }
         .logo-text small { font-size: 9px; color: var(--muted); }
-
         .header-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
         .header-btn {
             width: 38px; height: 38px;
@@ -99,8 +87,7 @@
         .header-btn:active { transform: scale(0.95); }
         .header-btn.admin-btn { border-color: var(--admin-badge); color: var(--admin-badge); }
         .header-btn.ai-btn { border-color: #00d4aa; color: #00d4aa; }
-        .header-btn.ai-btn:active { background: #00d4aa; color: #0a0e17; }
-
+        .header-btn.update-btn { border-color: var(--admin-badge); color: var(--admin-badge); }
         .admin-badge {
             display: none;
             padding: 2px 10px;
@@ -113,15 +100,12 @@
             text-transform: uppercase;
         }
         .admin-badge.show { display: inline-block; }
-
-        /* ===== STATS ===== */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 6px;
             margin-bottom: 12px;
         }
-
         .stat-card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -137,8 +121,6 @@
         .stat-card .orange { color: var(--warning); }
         .stat-card .red { color: var(--danger); }
         .stat-card .blue { color: var(--accent); }
-
-        /* ===== SEARCH ===== */
         .search-section {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -147,7 +129,6 @@
             margin-bottom: 12px;
             transition: background 0.3s;
         }
-
         .search-input {
             width: 100%;
             padding: 12px 16px;
@@ -161,7 +142,6 @@
         }
         .search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
         .search-input::placeholder { color: var(--muted); }
-
         .search-info {
             display: flex;
             justify-content: space-between;
@@ -181,8 +161,6 @@
             background: transparent;
             font-size: 11px;
         }
-
-        /* ===== FILTERS ===== */
         .filter-section {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -191,7 +169,6 @@
             margin-bottom: 12px;
             transition: background 0.3s;
         }
-
         .filter-label {
             font-size: 10px;
             color: var(--muted);
@@ -200,7 +177,6 @@
             margin-bottom: 6px;
             letter-spacing: 0.3px;
         }
-
         .filter-scroll {
             display: flex;
             gap: 6px;
@@ -209,7 +185,6 @@
             scrollbar-width: none;
         }
         .filter-scroll::-webkit-scrollbar { display: none; }
-
         .filter-btn {
             flex: 0 0 auto;
             padding: 6px 14px;
@@ -237,8 +212,6 @@
             font-size: 9px;
             margin-left: 4px;
         }
-
-        /* ===== LEAGUE FILTERS ===== */
         .league-filter-section {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -247,7 +220,6 @@
             margin-bottom: 12px;
             transition: background 0.3s;
         }
-
         .league-filter-scroll {
             display: flex;
             gap: 6px;
@@ -256,7 +228,6 @@
             scrollbar-width: none;
         }
         .league-filter-scroll::-webkit-scrollbar { display: none; }
-
         .league-btn {
             flex: 0 0 auto;
             padding: 6px 14px;
@@ -276,8 +247,6 @@
             color: #fff;
             border-color: var(--accent);
         }
-
-        /* ===== TABS ===== */
         .tabs {
             display: flex;
             gap: 5px;
@@ -286,7 +255,6 @@
             scrollbar-width: none;
         }
         .tabs::-webkit-scrollbar { display: none; }
-
         .tab {
             flex: 0 0 auto;
             padding: 8px 14px;
@@ -306,8 +274,6 @@
             border-color: var(--accent);
         }
         .tab:active { transform: scale(0.95); }
-
-        /* ===== ADMIN TABS ===== */
         .admin-tabs {
             display: none;
             gap: 5px;
@@ -319,7 +285,6 @@
             margin-top: 4px;
         }
         .admin-tabs.show { display: flex; }
-
         .admin-tab {
             flex: 0 0 auto;
             padding: 6px 12px;
@@ -338,15 +303,12 @@
             color: #0a0e17;
         }
         .admin-tab:active { transform: scale(0.95); }
-
         .panel { display: none; animation: fadeIn 0.3s ease; }
         .panel.active { display: block; }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border);
@@ -355,7 +317,6 @@
             margin-bottom: 12px;
             transition: background 0.3s;
         }
-
         .card-title {
             font-size: 15px;
             font-weight: 700;
@@ -364,7 +325,6 @@
             justify-content: space-between;
             align-items: center;
         }
-
         .tag {
             display: inline-block;
             padding: 2px 10px;
@@ -374,8 +334,6 @@
             font-size: 9px;
             font-weight: 700;
         }
-
-        /* ===== MATCH CARDS ===== */
         .match-card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -385,20 +343,17 @@
             transition: all 0.3s ease;
         }
         .match-card:hover { border-color: var(--accent); }
-
         .match-header {
             text-align: center;
             padding-bottom: 12px;
             border-bottom: 1px solid var(--border);
         }
-
         .match-header .league-info {
             font-size: 11px;
             color: var(--muted);
             margin-bottom: 4px;
         }
         .match-header .league-info .country { color: var(--accent); font-weight: 600; }
-
         .match-header .teams {
             display: flex;
             justify-content: center;
@@ -409,7 +364,6 @@
         .match-header .teams .team { font-size: 18px; font-weight: 700; }
         .match-header .teams .vs { color: var(--muted); font-size: 12px; font-weight: 600; }
         .match-header .match-time { font-size: 11px; color: var(--muted); }
-
         .match-header .status-badge {
             display: inline-block;
             padding: 2px 12px;
@@ -420,12 +374,10 @@
         }
         .status-live { background: var(--danger); color: #fff; animation: pulse 1s infinite; }
         .status-upcoming { background: var(--warning); color: #0a0e17; }
-
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
-
         .h2h-section {
             display: flex;
             justify-content: space-between;
@@ -438,7 +390,6 @@
         .h2h-section .h2h-stats .w { color: var(--success); }
         .h2h-section .h2h-stats .d { color: var(--warning); }
         .h2h-section .h2h-stats .l { color: var(--danger); }
-
         .probability-section {
             padding: 10px 0;
             border-bottom: 1px solid var(--border);
@@ -449,7 +400,6 @@
             font-weight: 600;
             margin-bottom: 8px;
         }
-
         .prob-bar {
             display: flex;
             align-items: center;
@@ -472,7 +422,6 @@
         .prob-bar .bar-track .bar-fill.orange { background: var(--warning); }
         .prob-bar .bar-track .bar-fill.red { background: var(--danger); }
         .prob-bar .bar-track .bar-fill.blue { background: var(--accent); }
-
         .prob-bar .prob-text {
             font-size: 12px;
             font-weight: 700;
@@ -483,7 +432,6 @@
         .prob-bar .prob-text.orange { color: var(--warning); }
         .prob-bar .prob-text.red { color: var(--danger); }
         .prob-bar .prob-text.blue { color: var(--accent); }
-
         .prediction-result {
             text-align: center;
             padding: 10px 0;
@@ -495,7 +443,6 @@
         .prediction-result .result-text.draw { color: var(--warning); }
         .prediction-result .result-text.away { color: var(--danger); }
         .prediction-result .result-confidence { font-size: 12px; color: var(--muted); }
-
         .score-section { padding-top: 10px; }
         .score-section .score-label {
             font-size: 11px;
@@ -503,7 +450,6 @@
             font-weight: 600;
             margin-bottom: 6px;
         }
-
         .score-row {
             display: flex;
             align-items: center;
@@ -535,7 +481,6 @@
             min-width: 45px;
             text-align: right;
         }
-
         .btn {
             padding: 8px 14px;
             border: 1px solid var(--border);
@@ -553,9 +498,7 @@
         .btn-success { background: var(--success); color: #0a0e17; border-color: var(--success); }
         .btn-sm { padding: 4px 10px; font-size: 10px; }
         .btn-block { width: 100%; }
-
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
         .empty {
             text-align: center;
             padding: 30px 16px;
@@ -565,7 +508,6 @@
             font-size: 13px;
         }
         .empty small { display: block; margin-top: 4px; font-size: 11px; }
-
         .toast {
             position: fixed;
             bottom: 20px;
@@ -585,18 +527,15 @@
         }
         .toast.error { border-color: var(--danger); }
         .toast.success { border-color: var(--success); }
-
         @keyframes slideUp {
             from { opacity: 0; transform: translateX(-50%) translateY(20px); }
             to { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
-
         .hidden { display: none !important; }
         .mt-2 { margin-top: 10px; }
         .text-muted { color: var(--muted); }
         .text-center { text-align: center; }
         .flex-between { display: flex; justify-content: space-between; align-items: center; }
-
         .loading {
             display: inline-block;
             width: 14px;
@@ -607,8 +546,6 @@
             animation: spin 0.6s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* ===== FOOTER ===== */
         .footer {
             text-align: center;
             padding: 20px 0 10px 0;
@@ -619,8 +556,6 @@
         }
         .footer .heart { color: var(--danger); }
         .footer .name { color: var(--accent); font-weight: 700; }
-
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 400px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .grid-2 { grid-template-columns: 1fr; }
@@ -637,9 +572,7 @@
     </style>
 </head>
 <body>
-
 <div class="app">
-    <!-- ===== HEADER ===== -->
     <header class="header">
         <div class="logo" onclick="window.location.href='index.html'">
             <div class="logo-icon">⚽</div>
@@ -651,21 +584,18 @@
         <div class="header-actions">
             <button class="header-btn ai-btn" onclick="window.location.href='admin-ai.html'" title="AI Assistant">🤖</button>
             <button class="header-btn" onclick="toggleDarkMode()" title="Toggle Dark Mode">🌓</button>
+            <button class="header-btn update-btn" id="updateBtn" onclick="quickUpdate()" title="Quick Update">⚡</button>
             <button class="header-btn admin-btn" id="adminBtn" onclick="window.location.href='admin.html'" title="Admin Panel">👑</button>
             <button class="header-btn" id="refreshBtn" title="Refresh">🔄</button>
             <button class="header-btn" id="logoutBtn" title="Logout">🚪</button>
         </div>
     </header>
-
-    <!-- ===== STATS ===== -->
     <div class="stats-grid">
         <div class="stat-card"><small>Matches</small><strong id="matchCount" class="blue">0</strong></div>
         <div class="stat-card"><small>Predictions</small><strong id="predCount" class="orange">0</strong></div>
         <div class="stat-card"><small>Confidence</small><strong id="avgConfidence" class="green">0%</strong></div>
         <div class="stat-card"><small>Accuracy</small><strong id="accuracyDisplay" class="green">0%</strong></div>
     </div>
-
-    <!-- ===== SEARCH ===== -->
     <div class="search-section">
         <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search leagues, teams, matches...">
         <div class="search-info">
@@ -673,8 +603,6 @@
             <button class="clear-btn" id="clearSearch">Clear</button>
         </div>
     </div>
-
-    <!-- ===== LEAGUE FILTERS ===== -->
     <div class="league-filter-section">
         <div class="filter-label">🏆 League</div>
         <div class="league-filter-scroll" id="leagueFilters">
@@ -686,8 +614,6 @@
             <button class="league-btn" data-league="Ligue 1">🇫🇷 Ligue 1</button>
         </div>
     </div>
-
-    <!-- ===== DATE FILTERS ===== -->
     <div class="filter-section">
         <div class="filter-label">📅 Date</div>
         <div class="filter-scroll" id="dateFilters">
@@ -697,8 +623,6 @@
             <button class="filter-btn" data-filter="all">All <span class="count" id="allCount">0</span></button>
         </div>
     </div>
-
-    <!-- ===== TABS ===== -->
     <div class="tabs">
         <button class="tab active" data-tab="predictions">🔮 Predictions</button>
         <button class="tab" data-tab="live">🔴 Live</button>
@@ -706,703 +630,71 @@
         <button class="tab" data-tab="history">📊 History</button>
         <button class="tab" data-tab="profile">👤 Profile</button>
     </div>
-
-    <!-- ===== ADMIN TABS (Hidden for users) ===== -->
     <div class="admin-tabs" id="adminTabs">
         <button class="admin-tab active" data-admin-tab="dashboard">📊 Dashboard</button>
         <button class="admin-tab" data-admin-tab="users">👥 Users</button>
         <button class="admin-tab" data-admin-tab="analytics">📈 Analytics</button>
         <button class="admin-tab" data-admin-tab="settings">⚙️ Settings</button>
     </div>
-
-    <!-- ===== PANEL: Predictions ===== -->
-    <section id="panel-predictions" class="panel active">
-        <div id="predictionsList">
-            <div class="empty"><span class="loading"></span><br><br>Loading predictions...</div>
-        </div>
-    </section>
-
-    <!-- ===== PANEL: Live ===== -->
-    <section id="panel-live" class="panel">
-        <div class="card">
-            <div class="card-title">
-                <span>🔴 Live Scores</span>
-                <span class="tag" id="liveCount">0</span>
-            </div>
-            <div id="liveList">
-                <div class="empty">No live matches at the moment.<br><small>Check back during match hours</small></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== PANEL: Combo Builder ===== -->
-    <section id="panel-combo" class="panel">
-        <div class="card">
-            <div class="card-title">
-                <span>🧠 Smart Combo Builder</span>
-                <span class="tag">AI Powered</span>
-            </div>
-            <div style="text-align:center;padding:12px;">
-                <p style="color:var(--muted);margin-bottom:12px;">Build intelligent combos with AI suggestions and EV analysis</p>
-                <button class="btn btn-primary" onclick="window.location.href='combos.html'" style="width:100%;padding:14px;font-size:16px;">
-                    🚀 Open Combo Builder
-                </button>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-title">📊 Your Recent Combos</div>
-            <div id="recentCombos">
-                <div class="empty">No combos saved yet.<br><small>Build your first combo in the Combo Builder!</small></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== PANEL: History ===== -->
-    <section id="panel-history" class="panel">
-        <div class="card">
-            <div class="card-title"><span>📊 Prediction History</span><span class="tag" id="historyCount">0</span></div>
-            <div id="historyList"><div class="empty">No predictions yet.</div></div>
-        </div>
-    </section>
-
-    <!-- ===== PANEL: Profile ===== -->
-    <section id="panel-profile" class="panel">
-        <div class="card">
-            <div class="card-title">👤 My Profile</div>
-            <div style="padding: 4px 0;">
-                <p><strong style="color:var(--accent);">Username:</strong> <span id="profileUsername">-</span></p>
-                <p><strong style="color:var(--accent);">Email:</strong> <span id="profileEmail">-</span></p>
-                <p><strong style="color:var(--accent);">Member since:</strong> <span id="profileJoined">-</span></p>
-                <p><strong style="color:var(--accent);">Role:</strong> <span id="profileRole">User</span></p>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">📊 My Stats</div>
-            <div class="grid-2">
-                <div class="stat-card"><small>Total Predictions</small><strong id="profileTotal" class="blue">0</strong></div>
-                <div class="stat-card"><small>Correct</small><strong id="profileCorrect" class="green">0</strong></div>
-                <div class="stat-card"><small>Accuracy</small><strong id="profileAccuracy" class="orange">0%</strong></div>
-                <div class="stat-card"><small>Current Streak</small><strong id="profileStreak" class="green">0</strong></div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">⚙️ Settings</div>
-            <div class="grid-2">
-                <button class="btn btn-primary" id="generatePredictionsBtn">🔄 Generate New</button>
-                <button class="btn btn-danger" id="clearHistoryBtn">🗑️ Clear History</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== ADMIN PANEL: Dashboard ===== -->
-    <section id="panel-admin-dashboard" class="panel">
-        <div class="card">
-            <div class="card-title">📊 Admin Overview</div>
-            <div class="grid-2" id="adminStats">
-                <div class="stat-card"><small>Total Users</small><strong id="adminTotalUsers" class="blue">0</strong></div>
-                <div class="stat-card"><small>Total Predictions</small><strong id="adminTotalPreds" class="orange">0</strong></div>
-                <div class="stat-card"><small>System Accuracy</small><strong id="adminAccuracy" class="green">0%</strong></div>
-                <div class="stat-card"><small>Active Today</small><strong id="adminActive" class="green">0</strong></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== ADMIN PANEL: Users ===== -->
-    <section id="panel-admin-users" class="panel">
-        <div class="card">
-            <div class="card-title">
-                <span>👥 All Users</span>
-                <span class="tag" id="adminUserCount">0</span>
-            </div>
-            <div id="adminUserList">
-                <div class="empty">Loading users...</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== ADMIN PANEL: Analytics ===== -->
-    <section id="panel-admin-analytics" class="panel">
-        <div class="card">
-            <div class="card-title">📈 Analytics</div>
-            <div id="adminAnalytics">
-                <div class="empty">Loading analytics...</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== ADMIN PANEL: Settings ===== -->
-    <section id="panel-admin-settings" class="panel">
-        <div class="card">
-            <div class="card-title">⚙️ System Settings</div>
-            <div class="grid-2">
-                <button class="btn btn-primary" id="adminRefreshData">🔄 Refresh Data</button>
-                <button class="btn btn-danger" id="adminClearCache">🗑️ Clear Cache</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== FOOTER ===== -->
-    <div class="footer">
-        © 2024 <span class="name">Marcus</span> — Football Predictor 
-        <span class="heart">❤️</span> Made with passion
-    </div>
+    <section id="panel-predictions" class="panel active"><div id="predictionsList"><div class="empty"><span class="loading"></span><br><br>Loading predictions...</div></div></section>
+    <section id="panel-live" class="panel"><div class="card"><div class="card-title"><span>🔴 Live Scores</span><span class="tag" id="liveCount">0</span></div><div id="liveList"><div class="empty">No live matches at the moment.<br><small>Check back during match hours</small></div></div></div></section>
+    <section id="panel-combo" class="panel"><div class="card"><div class="card-title"><span>🧠 Smart Combo Builder</span><span class="tag">AI Powered</span></div><div style="text-align:center;padding:12px;"><p style="color:var(--muted);margin-bottom:12px;">Build intelligent combos with AI suggestions and EV analysis</p><button class="btn btn-primary" onclick="window.location.href='combos.html'" style="width:100%;padding:14px;font-size:16px;">🚀 Open Combo Builder</button></div></div><div class="card"><div class="card-title">📊 Your Recent Combos</div><div id="recentCombos"><div class="empty">No combos saved yet.<br><small>Build your first combo in the Combo Builder!</small></div></div></div></section>
+    <section id="panel-history" class="panel"><div class="card"><div class="card-title"><span>📊 Prediction History</span><span class="tag" id="historyCount">0</span></div><div id="historyList"><div class="empty">No predictions yet.</div></div></div></section>
+    <section id="panel-profile" class="panel"><div class="card"><div class="card-title">👤 My Profile</div><div style="padding:4px 0;"><p><strong style="color:var(--accent);">Username:</strong> <span id="profileUsername">-</span></p><p><strong style="color:var(--accent);">Email:</strong> <span id="profileEmail">-</span></p><p><strong style="color:var(--accent);">Member since:</strong> <span id="profileJoined">-</span></p><p><strong style="color:var(--accent);">Role:</strong> <span id="profileRole">User</span></p></div></div><div class="card"><div class="card-title">📊 My Stats</div><div class="grid-2"><div class="stat-card"><small>Total Predictions</small><strong id="profileTotal" class="blue">0</strong></div><div class="stat-card"><small>Correct</small><strong id="profileCorrect" class="green">0</strong></div><div class="stat-card"><small>Accuracy</small><strong id="profileAccuracy" class="orange">0%</strong></div><div class="stat-card"><small>Current Streak</small><strong id="profileStreak" class="green">0</strong></div></div></div><div class="card"><div class="card-title">⚙️ Settings</div><div class="grid-2"><button class="btn btn-primary" id="generatePredictionsBtn">🔄 Generate New</button><button class="btn btn-danger" id="clearHistoryBtn">🗑️ Clear History</button></div></div></section>
+    <section id="panel-admin-dashboard" class="panel"><div class="card"><div class="card-title">📊 Admin Overview</div><div class="grid-2" id="adminStats"><div class="stat-card"><small>Total Users</small><strong id="adminTotalUsers" class="blue">0</strong></div><div class="stat-card"><small>Total Predictions</small><strong id="adminTotalPreds" class="orange">0</strong></div><div class="stat-card"><small>System Accuracy</small><strong id="adminAccuracy" class="green">0%</strong></div><div class="stat-card"><small>Active Today</small><strong id="adminActive" class="green">0</strong></div></div></div></section>
+    <section id="panel-admin-users" class="panel"><div class="card"><div class="card-title"><span>👥 All Users</span><span class="tag" id="adminUserCount">0</span></div><div id="adminUserList"><div class="empty">Loading users...</div></div></div></section>
+    <section id="panel-admin-analytics" class="panel"><div class="card"><div class="card-title">📈 Analytics</div><div id="adminAnalytics"><div class="empty">Loading analytics...</div></div></div></section>
+    <section id="panel-admin-settings" class="panel"><div class="card"><div class="card-title">⚙️ System Settings</div><div class="grid-2"><button class="btn btn-primary" id="adminRefreshData">🔄 Refresh Data</button><button class="btn btn-danger" id="adminClearCache">🗑️ Clear Cache</button></div></div></section>
+    <div class="footer">© 2024 <span class="name">Marcus</span> — Football Predictor <span class="heart">❤️</span> Made with passion</div>
 </div>
-
 <script>
-// ============================================================
-//  DASHBOARD - Complete with Admin/User Separation
-// ============================================================
-
-const API_URL = window.location.hostname === 'localhost' 
-    ? 'http://localhost:3000/api' 
-    : 'https://football-predictor-e3s4.onrender.com/api';
-
-// ---------- STATE ----------
+const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000/api' : 'https://football-predictor-e3s4.onrender.com/api';
 let allPredictions = [];
 let currentDateFilter = 'today';
 let currentLeagueFilter = 'all';
 let searchQuery = '';
 let isAdmin = false;
-
-// ---------- HELPERS ----------
 const $ = id => document.getElementById(id);
 const $$ = sel => document.querySelectorAll(sel);
-
-function esc(str) {
-    return String(str || '').replace(/[&<>"']/g, m => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
-    })[m]);
-}
-
-function toast(msg, type = 'success') {
-    const old = document.querySelector('.toast');
-    if (old) old.remove();
-    const div = document.createElement('div');
-    div.className = `toast ${type}`;
-    div.textContent = msg;
-    document.body.appendChild(div);
-    setTimeout(() => div.remove(), 3000);
-}
-
+function esc(str) { return String(str || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'})[m]); }
+function toast(msg, type = 'success') { const old = document.querySelector('.toast'); if (old) old.remove(); const div = document.createElement('div'); div.className = `toast ${type}`; div.textContent = msg; document.body.appendChild(div); setTimeout(() => div.remove(), 3000); }
 function getToken() { return localStorage.getItem('token'); }
-function getUser() {
-    try { return JSON.parse(localStorage.getItem('user') || '{}'); } catch { return {}; }
-}
-
-function logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    window.location.href = 'index.html';
-}
-
-// ---------- DARK MODE ----------
-function toggleDarkMode() {
-    document.body.classList.toggle('light-mode');
-    localStorage.setItem('darkMode', document.body.classList.contains('light-mode') ? 'light' : 'dark');
-}
-
-if (localStorage.getItem('darkMode') === 'light') {
-    document.body.classList.add('light-mode');
-}
-
-// ---------- CHECK ADMIN ----------
-function checkAdmin() {
-    const user = getUser();
-    isAdmin = user.isOwner === true;
-    
-    if (isAdmin) {
-        document.getElementById('adminBadge').classList.add('show');
-        document.getElementById('adminBtn').style.display = 'flex';
-        document.getElementById('adminTabs').classList.add('show');
-        document.getElementById('profileRole').textContent = '👑 Admin';
-        
-        loadAdminUsers();
-        loadAdminStats();
-        loadAdminAnalytics();
-    } else {
-        document.getElementById('adminBadge').classList.remove('show');
-        document.getElementById('adminBtn').style.display = 'none';
-        document.getElementById('adminTabs').classList.remove('show');
-        document.getElementById('profileRole').textContent = 'User';
-    }
-}
-
-// ---------- API ----------
-async function apiCall(endpoint, options = {}) {
-    const token = getToken();
-    const response = await fetch(`${API_URL}${endpoint}`, {
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...(token && { 'Authorization': `Bearer ${token}` }),
-            ...(options.headers || {})
-        }
-    });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.error || 'API error');
-    return data;
-}
-
-// ---------- FILTERS ----------
-function getDateFiltered(predictions, filter) {
-    const today = new Date().toISOString().split('T')[0];
-    const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
-    const weekLater = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
-
-    if (filter === 'today') return predictions.filter(p => p.date === today);
-    if (filter === 'tomorrow') return predictions.filter(p => p.date === tomorrow);
-    if (filter === 'week') return predictions.filter(p => p.date >= today && p.date <= weekLater);
-    return predictions;
-}
-
-function getLeagueFiltered(predictions, filter) {
-    if (filter === 'all') return predictions;
-    return predictions.filter(p => p.league && p.league.toLowerCase().includes(filter.toLowerCase()));
-}
-
-function getSearchFiltered(predictions, query) {
-    if (!query || query.trim() === '') return predictions;
-    const lowerQuery = query.toLowerCase().trim();
-    return predictions.filter(p => {
-        const searchText = `${p.league} ${p.home} ${p.away} ${p.date}`.toLowerCase();
-        return searchText.includes(lowerQuery);
-    });
-}
-
-function getFilteredPredictions() {
-    let filtered = [...allPredictions];
-    filtered = getDateFiltered(filtered, currentDateFilter);
-    filtered = getLeagueFiltered(filtered, currentLeagueFilter);
-    filtered = getSearchFiltered(filtered, searchQuery);
-    filtered.sort((a, b) => a.date.localeCompare(b.date));
-    return filtered;
-}
-
-function updateFilterCounts() {
-    const today = new Date().toISOString().split('T')[0];
-    const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
-    const weekLater = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
-
-    $('todayCount').textContent = allPredictions.filter(p => p.date === today).length;
-    $('tomorrowCount').textContent = allPredictions.filter(p => p.date === tomorrow).length;
-    $('weekCount').textContent = allPredictions.filter(p => p.date >= today && p.date <= weekLater).length;
-    $('allCount').textContent = allPredictions.length;
-}
-
-function generateScoreProbabilities(prediction) {
-    const scores = [
-        { score: '1:0', base: 15 }, { score: '2:0', base: 12 },
-        { score: '1:1', base: 10 }, { score: '0:0', base: 8 },
-        { score: '2:1', base: 8 }, { score: '0:1', base: 7 },
-        { score: '3:0', base: 5 }, { score: '1:2', base: 5 }
-    ];
-
-    let adjusted = scores.map(s => {
-        let percent = s.base;
-        if (prediction.prediction === 'home' && s.score.split(':')[0] > s.score.split(':')[1]) percent += 8;
-        else if (prediction.prediction === 'away' && s.score.split(':')[1] > s.score.split(':')[0]) percent += 8;
-        else if (prediction.prediction === 'draw' && s.score.split(':')[0] === s.score.split(':')[1]) percent += 8;
-        percent += Math.floor(Math.random() * 5);
-        return { score: s.score, percent: Math.min(percent, 30) };
-    });
-
-    adjusted.sort((a, b) => b.percent - a.percent);
-    return adjusted.slice(0, 4);
-}
-
-// ---------- RENDER PREDICTIONS ----------
-function renderPredictions(predictions) {
-    const list = $('predictionsList');
-    const filtered = predictions || getFilteredPredictions();
-
-    $('searchCount').textContent = filtered.length;
-    $('matchCount').textContent = filtered.length;
-    $('predCount').textContent = filtered.length;
-    const avgConf = filtered.length ? Math.round(filtered.reduce((s, p) => s + p.confidence, 0) / filtered.length) : 0;
-    $('avgConfidence').textContent = avgConf + '%';
-
-    if (!filtered.length) {
-        const msg = searchQuery ? `No matches found for "${searchQuery}"` : 'No matches match your filters';
-        list.innerHTML = `<div class="empty">📭 ${msg}<br><small>Try changing the search or date filter</small></div>`;
-        return;
-    }
-
-    const predLabels = { home: '🏠 Home Win', draw: '🤝 Draw', away: '✈️ Away Win' };
-    const predClasses = { home: 'home', draw: 'draw', away: 'away' };
-
-    list.innerHTML = filtered.map(p => {
-        const scoreProbs = generateScoreProbabilities(p);
-        return `
-        <div class="match-card">
-            <div class="match-header">
-                <div class="league-info">⚽ <span class="country">${esc(p.league)}</span></div>
-                <div class="teams">
-                    <span class="team">${esc(p.home)}</span>
-                    <span class="vs">VS</span>
-                    <span class="team">${esc(p.away)}</span>
-                </div>
-                <div class="match-time">${esc(p.date)}</div>
-                <span class="status-badge status-upcoming">⏳ Upcoming</span>
-            </div>
-
-            <div class="h2h-section">
-                <span class="h2h-label">📊 Head to Head</span>
-                <div class="h2h-stats">
-                    <span class="w">${p.h2h?.homeWins || 0}W</span>
-                    <span class="d">${p.h2h?.draws || 0}D</span>
-                    <span class="l">${p.h2h?.awayWins || 0}L</span>
-                </div>
-            </div>
-
-            <div class="probability-section">
-                <div class="prob-label">WIN PROBABILITY</div>
-                <div class="prob-bar">
-                    <span style="font-size:12px;min-width:40px;color:var(--success);">${esc(p.home)}</span>
-                    <div class="bar-track"><div class="bar-fill green" style="width:${p.probabilities.home}%;"></div></div>
-                    <span class="prob-text green">${p.probabilities.home}%</span>
-                </div>
-                <div class="prob-bar">
-                    <span style="font-size:12px;min-width:40px;color:var(--warning);">Draw</span>
-                    <div class="bar-track"><div class="bar-fill orange" style="width:${p.probabilities.draw}%;"></div></div>
-                    <span class="prob-text orange">${p.probabilities.draw}%</span>
-                </div>
-                <div class="prob-bar">
-                    <span style="font-size:12px;min-width:40px;color:var(--danger);">${esc(p.away)}</span>
-                    <div class="bar-track"><div class="bar-fill red" style="width:${p.probabilities.away}%;"></div></div>
-                    <span class="prob-text red">${p.probabilities.away}%</span>
-                </div>
-            </div>
-
-            <div class="prediction-result">
-                <div class="result-label">🎯 PREDICTED RESULT</div>
-                <div class="result-text ${predClasses[p.prediction]}">${predLabels[p.prediction]}</div>
-                <div class="result-confidence">${p.confidence}% confidence</div>
-            </div>
-
-            <div class="score-section">
-                <div class="score-label">📊 SCORE PROBABILITIES</div>
-                ${scoreProbs.map(s => `
-                <div class="score-row">
-                    <span class="score-text">${s.score}</span>
-                    <div class="score-bar-track"><div class="score-bar-fill" style="width:${s.percent}%;"></div></div>
-                    <span class="score-percent">${s.percent}%</span>
-                </div>
-                `).join('')}
-            </div>
-        </div>
-        `;
-    }).join('');
-}
-
-// ---------- LIVE SCORES ----------
-function renderLiveScores() {
-    const list = $('liveList');
-    const liveMatches = allPredictions.filter(p => p.status === 'live');
-    $('liveCount').textContent = liveMatches.length;
-
-    if (!liveMatches.length) {
-        list.innerHTML = '<div class="empty">🔴 No live matches at the moment.<br><small>Check back during match hours</small></div>';
-        return;
-    }
-
-    list.innerHTML = liveMatches.map(p => `
-        <div class="match-card" style="border-color: var(--danger);">
-            <div class="match-header">
-                <div class="league-info">⚽ <span class="country">${esc(p.league)}</span></div>
-                <div class="teams">
-                    <span class="team">${esc(p.home)}</span>
-                    <span class="vs">VS</span>
-                    <span class="team">${esc(p.away)}</span>
-                </div>
-                <span class="status-badge status-live">🔴 LIVE</span>
-                <div style="margin-top:6px;font-size:13px;color:var(--danger);">⏱️ Match in progress</div>
-            </div>
-        </div>
-    `).join('');
-}
-
-// ---------- RECENT COMBOS ----------
-function loadRecentCombos() {
-    const combos = JSON.parse(localStorage.getItem('comboHistory') || '[]');
-    const container = document.getElementById('recentCombos');
-    
-    if (!combos.length) {
-        container.innerHTML = '<div class="empty">No combos saved yet.<br><small>Build your first combo in the Combo Builder!</small></div>';
-        return;
-    }
-    
-    const recent = combos.slice(-3).reverse();
-    container.innerHTML = recent.map(c => `
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:6px;">
-            <div style="display:flex;justify-content:space-between;">
-                <span style="font-weight:700;">${c.selections.length} selections</span>
-                <span style="color:var(--accent);font-weight:700;">${c.combinedOdds.toFixed(2)}</span>
-            </div>
-            <div style="font-size:12px;color:var(--muted);margin-top:2px;">
-                ${c.selections.map(b => `${b.label}`).join(' + ')}
-            </div>
-        </div>
-    `).join('');
-}
-
-// ---------- GENERATE PREDICTIONS ----------
-async function generatePredictions() {
-    const list = $('predictionsList');
-    list.innerHTML = `<div class="empty"><span class="loading"></span><br><br>Generating AI predictions...</div>`;
-
-    try {
-        const data = await apiCall('/generate-predictions', { method: 'GET' });
-        if (data && data.length) {
-            allPredictions = data;
-            updateFilterCounts();
-            renderPredictions();
-            renderLiveScores();
-            toast(`✅ ${data.length} predictions generated!`, 'success');
-        } else {
-            list.innerHTML = `<div class="empty">📭 No predictions available</div>`;
-        }
-    } catch (err) {
-        list.innerHTML = `<div class="empty">❌ Error: ${err.message}</div>`;
-        toast(err.message, 'error');
-    }
-}
-
-// ---------- HISTORY ----------
-function renderHistory() {
-    const history = JSON.parse(localStorage.getItem('predHistory') || '[]');
-    const list = $('historyList');
-    $('historyCount').textContent = history.length;
-
-    if (!history.length) {
-        list.innerHTML = '<div class="empty">No history yet.<br><small>Generate predictions to see them here</small></div>';
-        return;
-    }
-
-    const predLabels = { home: '🏠 Home', draw: '🤝 Draw', away: '✈️ Away' };
-    const recent = history.slice(-20).reverse();
-
-    list.innerHTML = recent.map(h => `
-        <div class="match-card" style="margin-bottom:6px;padding:10px;">
-            <div class="flex-between">
-                <div>
-                    <div style="font-size:11px;color:var(--accent);">${esc(h.league)}</div>
-                    <div style="font-weight:700;font-size:14px;">${esc(h.home)} vs ${esc(h.away)}</div>
-                </div>
-                <div style="text-align:right;font-size:11px;color:var(--muted);">${esc(h.date)}</div>
-            </div>
-            <div style="margin-top:4px;font-size:13px;">
-                🎯 ${predLabels[h.prediction] || h.prediction}
-                <span style="color:var(--accent);font-weight:700;">(${h.confidence}%)</span>
-                <span style="color:var(--muted);font-size:11px;margin-left:6px;">Score: ${h.predictedScore}</span>
-            </div>
-        </div>
-    `).join('');
-}
-
-// ---------- PROFILE ----------
-function loadProfile() {
-    const user = getUser();
-    $('usernameDisplay').textContent = user.username || 'User';
-    $('profileUsername').textContent = user.username || '-';
-    $('profileEmail').textContent = user.email || '-';
-    $('profileJoined').textContent = user.createdAt ? new Date(user.createdAt).toLocaleDateString() : '-';
-
-    const stats = user.stats || {};
-    $('profileTotal').textContent = stats.totalPredictions || 0;
-    $('profileCorrect').textContent = stats.correctPredictions || 0;
-    $('profileAccuracy').textContent = (stats.accuracy || 0).toFixed(1) + '%';
-    $('accuracyDisplay').textContent = (stats.accuracy || 0).toFixed(1) + '%';
-}
-
-// ---------- ADMIN FUNCTIONS ----------
-async function loadAdminUsers() {
-    try {
-        const users = await apiCall('/admin/users', { method: 'GET' });
-        const list = $('adminUserList');
-        $('adminUserCount').textContent = users.length;
-
-        if (!users.length) {
-            list.innerHTML = '<div class="empty">No users</div>';
-            return;
-        }
-
-        list.innerHTML = users.filter(u => !u.isOwner).map(u => `
-            <div class="match-card" style="padding:10px;margin-bottom:4px;">
-                <div class="flex-between">
-                    <div>
-                        <strong>${esc(u.username)}</strong>
-                        <small style="color:var(--muted);display:block;font-size:11px;">${u.stats?.totalPredictions || 0} predictions • ${u.email || 'No email'}</small>
-                    </div>
-                    <button class="btn btn-danger btn-sm" onclick="deleteUser('${u.id}')">Delete</button>
-                </div>
-            </div>
-        `).join('');
-
-    } catch (e) {
-        $('adminUserList').innerHTML = `<div class="empty">Error loading users</div>`;
-    }
-}
-
-async function loadAdminStats() {
-    try {
-        const stats = await apiCall('/admin/stats', { method: 'GET' });
-        $('adminTotalUsers').textContent = stats.totalUsers || 0;
-        $('adminTotalPreds').textContent = stats.totalPredictions || 0;
-        $('adminAccuracy').textContent = (stats.accuracy || 0) + '%';
-        $('adminActive').textContent = 'N/A';
-    } catch (e) {
-        // Silent fail
-    }
-}
-
-async function loadAdminAnalytics() {
-    try {
-        const stats = await apiCall('/admin/stats', { method: 'GET' });
-        const container = $('adminAnalytics');
-        container.innerHTML = `
-            <div class="grid-2">
-                <div class="stat-card"><small>Users</small><strong class="blue">${stats.totalUsers || 0}</strong></div>
-                <div class="stat-card"><small>Predictions</small><strong class="orange">${stats.totalPredictions || 0}</strong></div>
-                <div class="stat-card"><small>Correct</small><strong class="green">${stats.correctPredictions || 0}</strong></div>
-                <div class="stat-card"><small>Accuracy</small><strong class="green">${stats.accuracy || 0}%</strong></div>
-            </div>
-        `;
-    } catch (e) {
-        $('adminAnalytics').innerHTML = '<div class="empty">No analytics available</div>';
-    }
-}
-
-window.deleteUser = async function(userId) {
-    if (!confirm('Delete this user?')) return;
-    try {
-        await apiCall(`/admin/users/${userId}`, { method: 'DELETE' });
-        toast('✅ User deleted', 'success');
-        loadAdminUsers();
-        loadAdminStats();
-    } catch (err) {
-        toast(err.message, 'error');
-    }
-};
-
-// ---------- EVENTS ----------
-// Search
-$('searchInput').addEventListener('input', function() {
-    searchQuery = this.value;
-    renderPredictions();
-});
-
-$('clearSearch').addEventListener('click', function() {
-    $('searchInput').value = '';
-    searchQuery = '';
-    renderPredictions();
-    toast('Search cleared', 'success');
-});
-
-// Date filters
-document.querySelectorAll('#dateFilters .filter-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        document.querySelectorAll('#dateFilters .filter-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        currentDateFilter = this.dataset.filter;
-        renderPredictions();
-    });
-});
-
-// League filters
-document.querySelectorAll('#leagueFilters .league-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        document.querySelectorAll('#leagueFilters .league-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        currentLeagueFilter = this.dataset.league;
-        renderPredictions();
-    });
-});
-
-// Main Tabs
-$$('.tab').forEach(tab => {
-    tab.addEventListener('click', function() {
-        $$('.tab').forEach(t => t.classList.remove('active'));
-        $$('.panel').forEach(p => p.classList.remove('active'));
-        this.classList.add('active');
-        const panelId = `panel-${this.dataset.tab}`;
-        $(panelId).classList.add('active');
-
-        if (this.dataset.tab === 'history') renderHistory();
-        if (this.dataset.tab === 'profile') loadProfile();
-        if (this.dataset.tab === 'live') renderLiveScores();
-        if (this.dataset.tab === 'combo') loadRecentCombos();
-    });
-});
-
-// Admin Tabs
-$$('.admin-tab').forEach(tab => {
-    tab.addEventListener('click', function() {
-        $$('.admin-tab').forEach(t => t.classList.remove('active'));
-        $$('.panel').forEach(p => p.classList.remove('active'));
-        this.classList.add('active');
-        const panelId = `panel-admin-${this.dataset.adminTab}`;
-        $(panelId).classList.add('active');
-
-        if (this.dataset.adminTab === 'users') loadAdminUsers();
-        if (this.dataset.adminTab === 'analytics') loadAdminAnalytics();
-        if (this.dataset.adminTab === 'dashboard') loadAdminStats();
-    });
-});
-
-// Buttons
-$('refreshBtn').addEventListener('click', () => {
-    toast('🔄 Refreshing...', 'success');
-    generatePredictions();
-});
-
-$('logoutBtn').addEventListener('click', () => {
-    if (confirm('Logout?')) logout();
-});
-
+function getUser() { try { return JSON.parse(localStorage.getItem('user') || '{}'); } catch { return {}; } }
+function logout() { localStorage.removeItem('token'); localStorage.removeItem('user'); window.location.href = 'index.html'; }
+function toggleDarkMode() { document.body.classList.toggle('light-mode'); localStorage.setItem('darkMode', document.body.classList.contains('light-mode') ? 'light' : 'dark'); }
+if (localStorage.getItem('darkMode') === 'light') { document.body.classList.add('light-mode'); }
+function checkAdmin() { const user = getUser(); isAdmin = user.isOwner === true; if (isAdmin) { document.getElementById('adminBadge').classList.add('show'); document.getElementById('adminBtn').style.display = 'flex'; document.getElementById('adminTabs').classList.add('show'); document.getElementById('profileRole').textContent = '👑 Admin'; loadAdminUsers(); loadAdminStats(); loadAdminAnalytics(); } else { document.getElementById('adminBadge').classList.remove('show'); document.getElementById('adminBtn').style.display = 'none'; document.getElementById('adminTabs').classList.remove('show'); document.getElementById('profileRole').textContent = 'User'; } }
+async function apiCall(endpoint, options = {}) { const token = getToken(); const response = await fetch(`${API_URL}${endpoint}`, { ...options, headers: { 'Content-Type': 'application/json', ...(token && { 'Authorization': `Bearer ${token}` }), ...(options.headers || {}) } }); const data = await response.json(); if (!response.ok) throw new Error(data.error || 'API error'); return data; }
+function getDateFiltered(predictions, filter) { const today = new Date().toISOString().split('T')[0]; const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0]; const weekLater = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0]; if (filter === 'today') return predictions.filter(p => p.date === today); if (filter === 'tomorrow') return predictions.filter(p => p.date === tomorrow); if (filter === 'week') return predictions.filter(p => p.date >= today && p.date <= weekLater); return predictions; }
+function getLeagueFiltered(predictions, filter) { if (filter === 'all') return predictions; return predictions.filter(p => p.league && p.league.toLowerCase().includes(filter.toLowerCase())); }
+function getSearchFiltered(predictions, query) { if (!query || query.trim() === '') return predictions; const lowerQuery = query.toLowerCase().trim(); return predictions.filter(p => { const searchText = `${p.league} ${p.home} ${p.away} ${p.date}`.toLowerCase(); return searchText.includes(lowerQuery); }); }
+function getFilteredPredictions() { let filtered = [...allPredictions]; filtered = getDateFiltered(filtered, currentDateFilter); filtered = getLeagueFiltered(filtered, currentLeagueFilter); filtered = getSearchFiltered(filtered, searchQuery); filtered.sort((a, b) => a.date.localeCompare(b.date)); return filtered; }
+function updateFilterCounts() { const today = new Date().toISOString().split('T')[0]; const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0]; const weekLater = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0]; $('todayCount').textContent = allPredictions.filter(p => p.date === today).length; $('tomorrowCount').textContent = allPredictions.filter(p => p.date === tomorrow).length; $('weekCount').textContent = allPredictions.filter(p => p.date >= today && p.date <= weekLater).length; $('allCount').textContent = allPredictions.length; }
+function generateScoreProbabilities(prediction) { const scores = [{ score: '1:0', base: 15 }, { score: '2:0', base: 12 }, { score: '1:1', base: 10 }, { score: '0:0', base: 8 }, { score: '2:1', base: 8 }, { score: '0:1', base: 7 }, { score: '3:0', base: 5 }, { score: '1:2', base: 5 }]; let adjusted = scores.map(s => { let percent = s.base; if (prediction.prediction === 'home' && s.score.split(':')[0] > s.score.split(':')[1]) percent += 8; else if (prediction.prediction === 'away' && s.score.split(':')[1] > s.score.split(':')[0]) percent += 8; else if (prediction.prediction === 'draw' && s.score.split(':')[0] === s.score.split(':')[1]) percent += 8; percent += Math.floor(Math.random() * 5); return { score: s.score, percent: Math.min(percent, 30) }; }); adjusted.sort((a, b) => b.percent - a.percent); return adjusted.slice(0, 4); }
+function renderPredictions(predictions) { const list = $('predictionsList'); const filtered = predictions || getFilteredPredictions(); $('searchCount').textContent = filtered.length; $('matchCount').textContent = filtered.length; $('predCount').textContent = filtered.length; const avgConf = filtered.length ? Math.round(filtered.reduce((s, p) => s + p.confidence, 0) / filtered.length) : 0; $('avgConfidence').textContent = avgConf + '%'; if (!filtered.length) { const msg = searchQuery ? `No matches found for "${searchQuery}"` : 'No matches match your filters'; list.innerHTML = `<div class="empty">📭 ${msg}<br><small>Try changing the search or date filter</small></div>`; return; } const predLabels = { home: '🏠 Home Win', draw: '🤝 Draw', away: '✈️ Away Win' }; const predClasses = { home: 'home', draw: 'draw', away: 'away' }; list.innerHTML = filtered.map(p => { const scoreProbs = generateScoreProbabilities(p); return `<div class="match-card"><div class="match-header"><div class="league-info">⚽ <span class="country">${esc(p.league)}</span></div><div class="teams"><span class="team">${esc(p.home)}</span><span class="vs">VS</span><span class="team">${esc(p.away)}</span></div><div class="match-time">${esc(p.date)}</div><span class="status-badge status-upcoming">⏳ Upcoming</span></div><div class="h2h-section"><span class="h2h-label">📊 Head to Head</span><div class="h2h-stats"><span class="w">${p.h2h?.homeWins || 0}W</span><span class="d">${p.h2h?.draws || 0}D</span><span class="l">${p.h2h?.awayWins || 0}L</span></div></div><div class="probability-section"><div class="prob-label">WIN PROBABILITY</div><div class="prob-bar"><span style="font-size:12px;min-width:40px;color:var(--success);">${esc(p.home)}</span><div class="bar-track"><div class="bar-fill green" style="width:${p.probabilities.home}%;"></div></div><span class="prob-text green">${p.probabilities.home}%</span></div><div class="prob-bar"><span style="font-size:12px;min-width:40px;color:var(--warning);">Draw</span><div class="bar-track"><div class="bar-fill orange" style="width:${p.probabilities.draw}%;"></div></div><span class="prob-text orange">${p.probabilities.draw}%</span></div><div class="prob-bar"><span style="font-size:12px;min-width:40px;color:var(--danger);">${esc(p.away)}</span><div class="bar-track"><div class="bar-fill red" style="width:${p.probabilities.away}%;"></div></div><span class="prob-text red">${p.probabilities.away}%</span></div></div><div class="prediction-result"><div class="result-label">🎯 PREDICTED RESULT</div><div class="result-text ${predClasses[p.prediction]}">${predLabels[p.prediction]}</div><div class="result-confidence">${p.confidence}% confidence</div></div><div class="score-section"><div class="score-label">📊 SCORE PROBABILITIES</div>${scoreProbs.map(s => `<div class="score-row"><span class="score-text">${s.score}</span><div class="score-bar-track"><div class="score-bar-fill" style="width:${s.percent}%;"></div></div><span class="score-percent">${s.percent}%</span></div>`).join('')}</div></div>`; }).join(''); }
+function renderLiveScores() { const list = $('liveList'); const liveMatches = allPredictions.filter(p => p.status === 'live'); $('liveCount').textContent = liveMatches.length; if (!liveMatches.length) { list.innerHTML = '<div class="empty">🔴 No live matches at the moment.<br><small>Check back during match hours</small></div>'; return; } list.innerHTML = liveMatches.map(p => `<div class="match-card" style="border-color: var(--danger);"><div class="match-header"><div class="league-info">⚽ <span class="country">${esc(p.league)}</span></div><div class="teams"><span class="team">${esc(p.home)}</span><span class="vs">VS</span><span class="team">${esc(p.away)}</span></div><span class="status-badge status-live">🔴 LIVE</span><div style="margin-top:6px;font-size:13px;color:var(--danger);">⏱️ Match in progress</div></div></div>`).join(''); }
+function loadRecentCombos() { const combos = JSON.parse(localStorage.getItem('comboHistory') || '[]'); const container = document.getElementById('recentCombos'); if (!combos.length) { container.innerHTML = '<div class="empty">No combos saved yet.<br><small>Build your first combo in the Combo Builder!</small></div>'; return; } const recent = combos.slice(-3).reverse(); container.innerHTML = recent.map(c => `<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:6px;"><div style="display:flex;justify-content:space-between;"><span style="font-weight:700;">${c.selections.length} selections</span><span style="color:var(--accent);font-weight:700;">${c.combinedOdds.toFixed(2)}</span></div><div style="font-size:12px;color:var(--muted);margin-top:2px;">${c.selections.map(b => `${b.label}`).join(' + ')}</div></div>`).join(''); }
+async function generatePredictions() { const list = $('predictionsList'); list.innerHTML = `<div class="empty"><span class="loading"></span><br><br>Generating AI predictions...</div>`; try { const data = await apiCall('/generate-predictions', { method: 'GET' }); if (data && data.length) { allPredictions = data; updateFilterCounts(); renderPredictions(); renderLiveScores(); toast(`✅ ${data.length} predictions generated!`, 'success'); } else { list.innerHTML = `<div class="empty">📭 No predictions available</div>`; } } catch (err) { list.innerHTML = `<div class="empty">❌ Error: ${err.message}</div>`; toast(err.message, 'error'); } }
+function renderHistory() { const history = JSON.parse(localStorage.getItem('predHistory') || '[]'); const list = $('historyList'); $('historyCount').textContent = history.length; if (!history.length) { list.innerHTML = '<div class="empty">No history yet.<br><small>Generate predictions to see them here</small></div>'; return; } const predLabels = { home: '🏠 Home', draw: '🤝 Draw', away: '✈️ Away' }; const recent = history.slice(-20).reverse(); list.innerHTML = recent.map(h => `<div class="match-card" style="margin-bottom:6px;padding:10px;"><div class="flex-between"><div><div style="font-size:11px;color:var(--accent);">${esc(h.league)}</div><div style="font-weight:700;font-size:14px;">${esc(h.home)} vs ${esc(h.away)}</div></div><div style="text-align:right;font-size:11px;color:var(--muted);">${esc(h.date)}</div></div><div style="margin-top:4px;font-size:13px;">🎯 ${predLabels[h.prediction] || h.prediction}<span style="color:var(--accent);font-weight:700;">(${h.confidence}%)</span><span style="color:var(--muted);font-size:11px;margin-left:6px;">Score: ${h.predictedScore}</span></div></div>`).join(''); }
+function loadProfile() { const user = getUser(); $('usernameDisplay').textContent = user.username || 'User'; $('profileUsername').textContent = user.username || '-'; $('profileEmail').textContent = user.email || '-'; $('profileJoined').textContent = user.createdAt ? new Date(user.createdAt).toLocaleDateString() : '-'; const stats = user.stats || {}; $('profileTotal').textContent = stats.totalPredictions || 0; $('profileCorrect').textContent = stats.correctPredictions || 0; $('profileAccuracy').textContent = (stats.accuracy || 0).toFixed(1) + '%'; $('accuracyDisplay').textContent = (stats.accuracy || 0).toFixed(1) + '%'; }
+async function loadAdminUsers() { try { const users = await apiCall('/admin/users', { method: 'GET' }); const list = $('adminUserList'); $('adminUserCount').textContent = users.length; if (!users.length) { list.innerHTML = '<div class="empty">No users</div>'; return; } list.innerHTML = users.filter(u => !u.isOwner).map(u => `<div class="match-card" style="padding:10px;margin-bottom:4px;"><div class="flex-between"><div><strong>${esc(u.username)}</strong><small style="color:var(--muted);display:block;font-size:11px;">${u.stats?.totalPredictions || 0} predictions • ${u.email || 'No email'}</small></div><button class="btn btn-danger btn-sm" onclick="deleteUser('${u.id}')">Delete</button></div></div>`).join(''); } catch (e) { $('adminUserList').innerHTML = `<div class="empty">Error loading users</div>`; } }
+async function loadAdminStats() { try { const stats = await apiCall('/admin/stats', { method: 'GET' }); $('adminTotalUsers').textContent = stats.totalUsers || 0; $('adminTotalPreds').textContent = stats.totalPredictions || 0; $('adminAccuracy').textContent = (stats.accuracy || 0) + '%'; $('adminActive').textContent = 'N/A'; } catch (e) {} }
+async function loadAdminAnalytics() { try { const stats = await apiCall('/admin/stats', { method: 'GET' }); const container = $('adminAnalytics'); container.innerHTML = `<div class="grid-2"><div class="stat-card"><small>Users</small><strong class="blue">${stats.totalUsers || 0}</strong></div><div class="stat-card"><small>Predictions</small><strong class="orange">${stats.totalPredictions || 0}</strong></div><div class="stat-card"><small>Correct</small><strong class="green">${stats.correctPredictions || 0}</strong></div><div class="stat-card"><small>Accuracy</small><strong class="green">${stats.accuracy || 0}%</strong></div></div>`; } catch (e) { $('adminAnalytics').innerHTML = '<div class="empty">No analytics available</div>'; } }
+window.deleteUser = async function(userId) { if (!confirm('Delete this user?')) return; try { await apiCall(`/admin/users/${userId}`, { method: 'DELETE' }); toast('✅ User deleted', 'success'); loadAdminUsers(); loadAdminStats(); } catch (err) { toast(err.message, 'error'); } };
+async function quickUpdate() { if (!confirm('⚡ Deploy latest changes?')) return; const btn = document.getElementById('updateBtn'); const originalText = btn.innerHTML; btn.innerHTML = '⏳'; btn.disabled = true; try { const token = localStorage.getItem('token'); const response = await fetch('/api/deploy-site', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` } }); const result = await response.json(); if (result.success) { toast('🚀 Deploy triggered! Site will update in 1-2 minutes.', 'success'); } else { toast('❌ Deploy failed: ' + result.error, 'error'); } } catch (e) { toast('❌ Error: ' + e.message, 'error'); } finally { btn.innerHTML = originalText; btn.disabled = false; } }
+$('searchInput').addEventListener('input', function() { searchQuery = this.value; renderPredictions(); });
+$('clearSearch').addEventListener('click', function() { $('searchInput').value = ''; searchQuery = ''; renderPredictions(); toast('Search cleared', 'success'); });
+document.querySelectorAll('#dateFilters .filter-btn').forEach(btn => { btn.addEventListener('click', function() { document.querySelectorAll('#dateFilters .filter-btn').forEach(b => b.classList.remove('active')); this.classList.add('active'); currentDateFilter = this.dataset.filter; renderPredictions(); }); });
+document.querySelectorAll('#leagueFilters .league-btn').forEach(btn => { btn.addEventListener('click', function() { document.querySelectorAll('#leagueFilters .league-btn').forEach(b => b.classList.remove('active')); this.classList.add('active'); currentLeagueFilter = this.dataset.league; renderPredictions(); }); });
+$$('.tab').forEach(tab => { tab.addEventListener('click', function() { $$('.tab').forEach(t => t.classList.remove('active')); $$('.panel').forEach(p => p.classList.remove('active')); this.classList.add('active'); const panelId = `panel-${this.dataset.tab}`; $(panelId).classList.add('active'); if (this.dataset.tab === 'history') renderHistory(); if (this.dataset.tab === 'profile') loadProfile(); if (this.dataset.tab === 'live') renderLiveScores(); if (this.dataset.tab === 'combo') loadRecentCombos(); }); });
+$$('.admin-tab').forEach(tab => { tab.addEventListener('click', function() { $$('.admin-tab').forEach(t => t.classList.remove('active')); $$('.panel').forEach(p => p.classList.remove('active')); this.classList.add('active'); const panelId = `panel-admin-${this.dataset.adminTab}`; $(panelId).classList.add('active'); if (this.dataset.adminTab === 'users') loadAdminUsers(); if (this.dataset.adminTab === 'analytics') loadAdminAnalytics(); if (this.dataset.adminTab === 'dashboard') loadAdminStats(); }); });
+$('refreshBtn').addEventListener('click', () => { toast('🔄 Refreshing...', 'success'); generatePredictions(); });
+$('logoutBtn').addEventListener('click', () => { if (confirm('Logout?')) logout(); });
 $('generatePredictionsBtn').addEventListener('click', generatePredictions);
-
-$('clearHistoryBtn').addEventListener('click', () => {
-    if (confirm('Clear all prediction history?')) {
-        localStorage.setItem('predHistory', '[]');
-        renderHistory();
-        toast('History cleared', 'success');
-    }
-});
-
-$('adminRefreshData').addEventListener('click', () => {
-    generatePredictions();
-    loadAdminUsers();
-    loadAdminStats();
-    loadAdminAnalytics();
-    toast('✅ Data refreshed!', 'success');
-});
-
-$('adminClearCache').addEventListener('click', () => {
-    if (!confirm('Clear cache?')) return;
-    localStorage.clear();
-    toast('✅ Cache cleared!', 'success');
-    setTimeout(() => window.location.reload(), 1000);
-});
-
-// ---------- INIT ----------
-function init() {
-    if (!getToken()) {
-        window.location.href = 'index.html';
-        return;
-    }
-
-    checkAdmin();
-    loadProfile();
-    generatePredictions();
-    renderHistory();
-    loadRecentCombos();
-
-    toast('⚽ Welcome back!', 'success');
-    console.log('⚽ Dashboard loaded!');
-}
-
+$('clearHistoryBtn').addEventListener('click', () => { if (confirm('Clear all prediction history?')) { localStorage.setItem('predHistory', '[]'); renderHistory(); toast('History cleared', 'success'); } });
+$('adminRefreshData').addEventListener('click', () => { generatePredictions(); loadAdminUsers(); loadAdminStats(); loadAdminAnalytics(); toast('✅ Data refreshed!', 'success'); });
+$('adminClearCache').addEventListener('click', () => { if (!confirm('Clear cache?')) return; localStorage.clear(); toast('✅ Cache cleared!', 'success'); setTimeout(() => window.location.reload(), 1000); });
+function init() { if (!getToken()) { window.location.href = 'index.html'; return; } checkAdmin(); loadProfile(); generatePredictions(); renderHistory(); loadRecentCombos(); toast('⚽ Welcome back!', 'success'); console.log('⚽ Dashboard loaded!'); }
 init();
 </script>
 </body>
