@@ -24,7 +24,6 @@
             --warning: #ffa94d;
         }
 
-        /* ===== LIGHT MODE ===== */
         .light-mode {
             --bg: #f0f4fa;
             --surface: #ffffff;
@@ -101,7 +100,6 @@
         .header-btn.admin-btn { border-color: var(--admin-badge); color: var(--admin-badge); }
         .header-btn.admin-btn.active { background: var(--admin-badge); color: #0a0e17; }
 
-        /* ===== ADMIN BADGE ===== */
         .admin-badge {
             display: none;
             padding: 2px 10px;
@@ -628,6 +626,10 @@
             .match-header .teams .team { font-size: 15px; }
             .filter-btn { font-size: 10px; padding: 4px 10px; }
             .league-btn { font-size: 10px; padding: 4px 10px; }
+            .tabs { flex-wrap: wrap; gap: 4px; }
+            .tab { font-size: 11px; padding: 6px 10px; }
+            .admin-tabs { flex-wrap: wrap; }
+            .admin-tab { font-size: 10px; padding: 4px 8px; }
         }
     </style>
 </head>
@@ -696,6 +698,7 @@
     <div class="tabs">
         <button class="tab active" data-tab="predictions">🔮 Predictions</button>
         <button class="tab" data-tab="live">🔴 Live</button>
+        <button class="tab" data-tab="combo">🧠 Combo</button>
         <button class="tab" data-tab="history">📊 History</button>
         <button class="tab" data-tab="profile">👤 Profile</button>
     </div>
@@ -724,6 +727,28 @@
             </div>
             <div id="liveList">
                 <div class="empty">No live matches at the moment.<br><small>Check back during match hours</small></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PANEL: Combo Builder ===== -->
+    <section id="panel-combo" class="panel">
+        <div class="card">
+            <div class="card-title">
+                <span>🧠 Smart Combo Builder</span>
+                <span class="tag">AI Powered</span>
+            </div>
+            <div style="text-align:center;padding:12px;">
+                <p style="color:var(--muted);margin-bottom:12px;">Build intelligent combos with AI suggestions and EV analysis</p>
+                <button class="btn btn-primary" onclick="window.location.href='combos.html'" style="width:100%;padding:14px;font-size:16px;">
+                    🚀 Open Combo Builder
+                </button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title">📊 Your Recent Combos</div>
+            <div id="recentCombos">
+                <div class="empty">No combos saved yet.<br><small>Build your first combo in the Combo Builder!</small></div>
             </div>
         </div>
     </section>
@@ -889,7 +914,6 @@ function checkAdmin() {
         document.getElementById('adminTabs').classList.add('show');
         document.getElementById('profileRole').textContent = '👑 Admin';
         
-        // Show admin panels
         loadAdminUsers();
         loadAdminStats();
         loadAdminAnalytics();
@@ -1095,6 +1119,30 @@ function renderLiveScores() {
     `).join('');
 }
 
+// ---------- RECENT COMBOS ----------
+function loadRecentCombos() {
+    const combos = JSON.parse(localStorage.getItem('comboHistory') || '[]');
+    const container = document.getElementById('recentCombos');
+    
+    if (!combos.length) {
+        container.innerHTML = '<div class="empty">No combos saved yet.<br><small>Build your first combo in the Combo Builder!</small></div>';
+        return;
+    }
+    
+    const recent = combos.slice(-3).reverse();
+    container.innerHTML = recent.map(c => `
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:6px;">
+            <div style="display:flex;justify-content:space-between;">
+                <span style="font-weight:700;">${c.selections.length} selections</span>
+                <span style="color:var(--accent);font-weight:700;">${c.combinedOdds.toFixed(2)}</span>
+            </div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px;">
+                ${c.selections.map(b => `${b.label}`).join(' + ')}
+            </div>
+        </div>
+    `).join('');
+}
+
 // ---------- GENERATE PREDICTIONS ----------
 async function generatePredictions() {
     const list = $('predictionsList');
@@ -1280,6 +1328,7 @@ $$('.tab').forEach(tab => {
         if (this.dataset.tab === 'history') renderHistory();
         if (this.dataset.tab === 'profile') loadProfile();
         if (this.dataset.tab === 'live') renderLiveScores();
+        if (this.dataset.tab === 'combo') loadRecentCombos();
     });
 });
 
@@ -1344,6 +1393,7 @@ function init() {
     loadProfile();
     generatePredictions();
     renderHistory();
+    loadRecentCombos();
 
     toast('⚽ Welcome back!', 'success');
     console.log('⚽ Dashboard loaded!');
