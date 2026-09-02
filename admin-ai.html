@@ -275,10 +275,18 @@
     <!-- ===== SUGGESTIONS ===== -->
     <div class="suggestions" id="suggestions">
         <span class="suggestion-chip" onclick="sendMessage('Change header color to blue')">🎨 Change Color</span>
-        <span class="suggestion-chip" onclick="sendMessage('Add live scores')">📊 Add Feature</span>
+        <span class="suggestion-chip" onclick="sendMessage('Add leaderboard')">🏆 Leaderboard</span>
+        <span class="suggestion-chip" onclick="sendMessage('Add charts')">📊 Charts</span>
+        <span class="suggestion-chip" onclick="sendMessage('Team stats')">📊 Team Stats</span>
+        <span class="suggestion-chip" onclick="sendMessage('Betting tips')">💰 Betting Tips</span>
         <span class="suggestion-chip" onclick="sendMessage('What should I improve?')">💡 Advice</span>
-        <span class="suggestion-chip" onclick="sendMessage('Check site health')">🔍 Health Check</span>
+        <span class="suggestion-chip" onclick="sendMessage('Check site health')">🔍 Health</span>
         <span class="suggestion-chip" onclick="sendMessage('Add footer with my name')">📝 Add Text</span>
+        <span class="suggestion-chip" onclick="sendMessage('Notifications')">🔔 Alerts</span>
+        <span class="suggestion-chip" onclick="sendMessage('Social sharing')">📱 Share</span>
+        <span class="suggestion-chip" onclick="sendMessage('Dark mode')">🎨 Theme</span>
+        <span class="suggestion-chip" onclick="sendMessage('Language')">🌍 Language</span>
+        <span class="suggestion-chip" onclick="sendMessage('Feedback')">💬 Feedback</span>
     </div>
 
     <!-- ===== CHAT ===== -->
@@ -295,7 +303,7 @@
 
 <script>
 // ============================================================
-//  🤖 SELF-LEARNING AI ADMIN ASSISTANT
+//  🤖 SELF-LEARNING AI ADMIN ASSISTANT - COMPLETE
 // ============================================================
 
 // ============ STATE ============
@@ -402,12 +410,10 @@ Your most used color is <strong style="color:#4a9eff;">blue</strong> (${Math.rou
         
         response.extra = `<div class="command-badge">🎨 Color Change</div>`;
         
-        // Track preference
         learningData.preferences.lastColor = color;
         if (!learningData.preferences.colors) learningData.preferences.colors = {};
         learningData.preferences.colors[color] = (learningData.preferences.colors[color] || 0) + 1;
         saveLearningData();
-        
         return response;
     }
 
@@ -425,6 +431,143 @@ This feature will show real-time match updates. <br><br>
         
         learningData.features.push('live-scores');
         saveLearningData();
+        return response;
+    }
+
+    // ====== LEADERBOARD ======
+    if (lower.includes('leaderboard')) {
+        response.message = `🏆 <strong>Leaderboard Feature</strong><br><br>
+I can add a leaderboard that shows:<br>
+• Top predictors by accuracy<br>
+• Users with most correct predictions<br>
+• Weekly/monthly rankings<br>
+• User streaks and achievements<br><br>
+💡 <span style="color:#8a9bb5;">This would make your site more engaging and competitive!</span>`;
+        
+        response.extra = `<div class="suggestion-badge">🏆 Feature Suggestion</div>`;
+        learningData.features.push('leaderboard');
+        saveLearningData();
+        return response;
+    }
+
+    // ====== CHARTS ======
+    if (lower.includes('chart') || lower.includes('graph') || lower.includes('visualize')) {
+        response.message = `📊 <strong>Charts & Visualization</strong><br><br>
+I can add charts to show:<br>
+• Prediction trends over time<br>
+• Accuracy by league<br>
+• User growth<br>
+• Match statistics<br>
+• Team performance graphs<br><br>
+💡 <span style="color:#8a9bb5;">Visual data makes insights easier to understand!</span>`;
+        
+        response.extra = `<div class="suggestion-badge">📊 Visualization</div>`;
+        return response;
+    }
+
+    // ====== TEAM STATS ======
+    if (lower.includes('team') && (lower.includes('stat') || lower.includes('form'))) {
+        response.message = `📊 <strong>Team Stats Feature</strong><br><br>
+I can add real team statistics including:<br>
+• Last 5 matches (W/D/L)<br>
+• Goals scored/conceded<br>
+• Home vs away performance<br>
+• Head-to-head history<br>
+• Current form trends<br><br>
+💡 <span style="color:#8a9bb5;">This would make predictions more accurate!</span>`;
+        
+        response.extra = `<div class="suggestion-badge">📊 Team Stats</div>`;
+        return response;
+    }
+
+    // ====== BETTING TIPS ======
+    if (lower.includes('bet') && (lower.includes('tip') || lower.includes('advice'))) {
+        response.message = `💰 <strong>Betting Tips Feature</strong><br><br>
+I can add betting insights including:<br>
+• Value bet detection<br>
+• EV (Expected Value) calculations<br>
+• Bet of the day recommendations<br>
+• Risk assessment for each bet<br>
+• Smart combo suggestions<br><br>
+💡 <span style="color:#8a9bb5;">This helps users make smarter betting decisions!</span>`;
+        
+        response.extra = `<div class="suggestion-badge">💰 Betting Tips</div>`;
+        return response;
+    }
+
+    // ====== USER FEEDBACK ======
+    if (lower.includes('feedback') || lower.includes('review') || lower.includes('comment')) {
+        response.message = `💬 <strong>User Feedback System</strong><br><br>
+I can add:<br>
+• User reviews and ratings<br>
+• Feedback forms<br>
+• Comment sections on matches<br>
+• Feature requests from users<br>
+• User satisfaction surveys<br><br>
+💡 <span style="color:#8a9bb5;">This helps you understand what users want!</span>`;
+        
+        response.extra = `<div class="suggestion-badge">💬 Feedback</div>`;
+        return response;
+    }
+
+    // ====== SOCIAL SHARING ======
+    if (lower.includes('share') || lower.includes('social')) {
+        response.message = `📱 <strong>Social Sharing Feature</strong><br><br>
+I can add:<br>
+• Share predictions on WhatsApp<br>
+• Share on Twitter/X<br>
+• Share on Facebook<br>
+• Copy link to share<br>
+• QR code for quick sharing<br><br>
+💡 <span style="color:#8a9bb5;">This helps grow your user base organically!</span>`;
+        
+        response.extra = `<div class="suggestion-badge">📱 Social Sharing</div>`;
+        return response;
+    }
+
+    // ====== NOTIFICATIONS ======
+    if (lower.includes('notif') || lower.includes('alert') || lower.includes('reminder')) {
+        response.message = `🔔 <strong>Notifications System</strong><br><br>
+I can add:<br>
+• Match reminders before games<br>
+• Prediction alerts<br>
+• Combo win/loss notifications<br>
+• Daily betting tips<br>
+• Weekly summary reports<br><br>
+💡 <span style="color:#8a9bb5;">This keeps users engaged and coming back!</span>`;
+        
+        response.extra = `<div class="suggestion-badge">🔔 Notifications</div>`;
+        return response;
+    }
+
+    // ====== MULTI-LANGUAGE ======
+    if (lower.includes('language') || lower.includes('translate')) {
+        response.message = `🌍 <strong>Multi-Language Support</strong><br><br>
+I can add:<br>
+• English (current)<br>
+• Spanish<br>
+• French<br>
+• German<br>
+• Italian<br>
+• Portuguese<br><br>
+💡 <span style="color:#8a9bb5;">This opens your site to a global audience!</span>`;
+        
+        response.extra = `<div class="suggestion-badge">🌍 Multi-Language</div>`;
+        return response;
+    }
+
+    // ====== DARK MODE TOGGLE ======
+    if (lower.includes('dark') || lower.includes('light') || lower.includes('theme')) {
+        response.message = `🎨 <strong>Theme Settings</strong><br><br>
+I can add:<br>
+• Dark mode (current)<br>
+• Light mode<br>
+• Custom color themes<br>
+• Auto-switch based on time<br>
+• User preference saving<br><br>
+💡 <span style="color:#8a9bb5;">Users love having theme options!</span>`;
+        
+        response.extra = `<div class="suggestion-badge">🎨 Theme</div>`;
         return response;
     }
 
@@ -491,28 +634,42 @@ I'm your AI Admin Assistant. I can:<br>
 • Add features 📊<br>
 • Give advice 💡<br>
 • Check site health 🔍<br>
-• Add text 📝<br><br>
+• Add text 📝<br>
+• And much more!<br><br>
 <em style="color:#8a9bb5;">What would you like me to do?</em>`;
         return response;
     }
 
     // ====== HELP ======
     if (lower.includes('help') || lower.includes('what can you do')) {
-        response.message = `🤖 <strong>What I Can Do</strong><br><br>
-<strong>🎨 Change Colors</strong><br>
-"Change header to red"<br>
+        response.message = `🤖 <strong>Complete Command List</strong><br><br>
+🎨 <strong>Colors</strong><br>
+"Change header to red/blue/green"<br>
 <br>
-<strong>📊 Add Features</strong><br>
+📊 <strong>Features</strong><br>
 "Add live scores"<br>
+"Add leaderboard"<br>
+"Add charts"<br>
+"Team stats"<br>
+"Betting tips"<br>
+"Feedback"<br>
+"Social sharing"<br>
+"Notifications"<br>
+"Multi-language"<br>
+"Dark mode"<br>
 <br>
-<strong>💡 Get Advice</strong><br>
+💡 <strong>Advice</strong><br>
 "What should I improve?"<br>
 <br>
-<strong>🔍 Health Check</strong><br>
+🔍 <strong>Health</strong><br>
 "Check site health"<br>
 <br>
-<strong>📝 Add Text</strong><br>
+📝 <strong>Content</strong><br>
 "Add footer with my name"<br>
+<br>
+💬 <strong>Other</strong><br>
+"Help" - Show this list<br>
+"Hi" - Greeting<br>
 <br>
 <em style="color:#8a9bb5;">Just type what you want and I'll do it!</em>`;
         return response;
@@ -523,6 +680,7 @@ I'm your AI Admin Assistant. I can:<br>
 💡 <span style="color:#8a9bb5;">Try saying:</span><br>
 • "Change header to blue"<br>
 • "Add live scores"<br>
+• "Add leaderboard"<br>
 • "What should I improve?"<br>
 • "Check site health"<br>
 • "Help" to see all commands`;
@@ -586,7 +744,7 @@ I'm your AI Admin Assistant. I've been tracking your activity:<br>
 • ${learningData.commands.length} commands processed<br>
 • ${changeCount} changes made<br>
 • ${learningData.features.length} features added<br><br>
-💡 <span style="color:#8a9bb5;">What would you like me to do?</span>`);
+💡 <span style="color:#8a9bb5;">Type "Help" to see all commands or ask me anything!</span>`);
 
     updateStatus();
     console.log('🤖 AI Assistant loaded!');
