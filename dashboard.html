@@ -82,7 +82,7 @@
         }
         .logo-text small { font-size: 9px; color: var(--muted); }
 
-        .header-actions { display: flex; gap: 8px; align-items: center; }
+        .header-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
         .header-btn {
             width: 38px; height: 38px;
             border: 1px solid var(--border);
@@ -98,7 +98,8 @@
         }
         .header-btn:active { transform: scale(0.95); }
         .header-btn.admin-btn { border-color: var(--admin-badge); color: var(--admin-badge); }
-        .header-btn.admin-btn.active { background: var(--admin-badge); color: #0a0e17; }
+        .header-btn.ai-btn { border-color: #00d4aa; color: #00d4aa; }
+        .header-btn.ai-btn:active { background: #00d4aa; color: #0a0e17; }
 
         .admin-badge {
             display: none;
@@ -630,6 +631,8 @@
             .tab { font-size: 11px; padding: 6px 10px; }
             .admin-tabs { flex-wrap: wrap; }
             .admin-tab { font-size: 10px; padding: 4px 8px; }
+            .header-actions { gap: 4px; }
+            .header-btn { width: 34px; height: 34px; font-size: 14px; }
         }
     </style>
 </head>
@@ -646,6 +649,7 @@
             </div>
         </div>
         <div class="header-actions">
+            <button class="header-btn ai-btn" onclick="window.location.href='admin-ai.html'" title="AI Assistant">🤖</button>
             <button class="header-btn" onclick="toggleDarkMode()" title="Toggle Dark Mode">🌓</button>
             <button class="header-btn admin-btn" id="adminBtn" onclick="window.location.href='admin.html'" title="Admin Panel">👑</button>
             <button class="header-btn" id="refreshBtn" title="Refresh">🔄</button>
