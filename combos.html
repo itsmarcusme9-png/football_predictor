@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🤖 Smart Combo Builder</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0e17;
+            color: #f0f4fa;
+            padding: 12px;
+            padding-bottom: 100px;
+            min-height: 100vh;
+        }
+
+        .app { max-width: 500px; margin: 0 auto; }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid #1a2a3a;
+            margin-bottom: 16px;
+        }
+
+        .logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .logo-icon {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, #4a9eff, #1a6bc4);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 900;
+            color: #fff;
+        }
+        .logo-text h1 {
+            font-size: 17px;
+            color: #4a9eff;
+        }
+        .logo-text small { font-size: 9px; color: #8a9bb5; }
+
+        .header-btn {
+            width: 38px; height: 38px;
+            border: 1px solid #1a2a3a;
+            background: #111927;
+            color: #f0f4fa;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .header-btn:active { transform: scale(0.95); }
+
+        /* AI Status */
+        .ai-status {
+            background: linear-gradient(135deg, rgba(74, 158, 255, 0.1), rgba(0, 212, 170, 0.1));
+            border: 1px solid #4a9eff;
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .ai-status .pulse {
+            width: 10px;
+            height: 10px;
+            background: #00d4aa;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        .ai-status .text { font-size: 13px; color: #8a9bb5; }
+        .ai-status .text strong { color: #4a9eff; }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .stat-card {
+            background: #111927;
+            border: 1px solid #1a2a3a;
+            border-radius: 10px;
+            padding: 8px 6px;
+            text-align: center;
+        }
+        .stat-card small { display: block; color: #8a9bb5; font-size: 8px; text-transform: uppercase; letter-spacing: 0.3px; }
+        .stat-card strong { display: block; font-size: 14px; margin-top: 2px; }
+        .stat-card .green { color: #00d4aa; }
+        .stat-card .orange { color: #ffa94d; }
+        .stat-card .blue { color: #4a9eff; }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 5px;
+            overflow-x: auto;
+            padding: 4px 0 12px 0;
+            scrollbar-width: none;
+        }
+        .tabs::-webkit-scrollbar { display: none; }
+
+        .tab {
+            flex: 0 0 auto;
+            padding: 8px 14px;
+            background: #111927;
+            border: 1px solid #1a2a3a;
+            border-radius: 100px;
+            color: #8a9bb5;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .tab.active {
+            background: #4a9eff;
+            color: #fff;
+            border-color: #4a9eff;
+        }
+        .tab:active { transform: scale(0.95); }
+
+        .panel { display: none; animation: fadeIn 0.3s ease; }
+        .panel.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: #111927;
+            border: 1px solid #1a2a3a;
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 10px;
+            background: rgba(74, 158, 255, 0.1);
+            color: #4a9eff;
+            border-radius: 100px;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        /* Match Cards for Combo Builder */
+        .match-select {
+            background: #0a0e17;
+            border: 1px solid #1a2a3a;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .match-select .match-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .match-select .match-league {
+            font-size: 11px;
+            color: #8a9bb5;
+            margin-bottom: 8px;
+        }
+
+        .bet-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 6px;
+        }
+
+        .bet-option {
+            background: #111927;
+            border: 1px solid #1a2a3a;
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .bet-option:active { transform: scale(0.95); }
+        .bet-option .label { font-size: 10px; color: #8a9bb5; }
+        .bet-option .odds { font-size: 14px; font-weight: 700; color: #f0f4fa; }
+        .bet-option.selected {
+            border-color: #4a9eff;
+            background: rgba(74, 158, 255, 0.1);
+        }
+        .bet-option.selected .odds { color: #4a9eff; }
+        .bet-option.disabled { opacity: 0.4; cursor: not-allowed; }
+
+        /* Combo Builder Section */
+        .combo-builder {
+            background: #111927;
+            border: 2px solid #4a9eff;
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+
+        .combo-builder .combo-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #4a9eff;
+            margin-bottom: 8px;
+        }
+
+        .combo-selection {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+            border-bottom: 1px solid #1a2a3a;
+            font-size: 13px;
+        }
+        .combo-selection .remove {
+            color: #ff6b7a;
+            cursor: pointer;
+            font-weight: 700;
+        }
+        .combo-selection .remove:active { transform: scale(0.9); }
+
+        .combo-total {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px solid #1a2a3a;
+        }
+
+        .combo-total .item {
+            text-align: center;
+            padding: 8px;
+            background: #0a0e17;
+            border-radius: 8px;
+        }
+        .combo-total .item small { display: block; color: #8a9bb5; font-size: 9px; }
+        .combo-total .item strong { display: block; font-size: 16px; }
+        .combo-total .item .value { color: #00d4aa; }
+        .combo-total .item .danger { color: #ff6b7a; }
+
+        /* AI Suggestion Cards */
+        .suggestion-card {
+            background: #0a0e17;
+            border: 1px solid #1a2a3a;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        .suggestion-card .grade {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .grade-a { background: rgba(0, 212, 170, 0.2); color: #00d4aa; }
+        .grade-b { background: rgba(74, 158, 255, 0.2); color: #4a9eff; }
+        .grade-c { background: rgba(255, 169, 77, 0.2); color: #ffa94d; }
+        .grade-d { background: rgba(255, 107, 122, 0.2); color: #ff6b7a; }
+
+        .suggestion-card .combo-detail {
+            margin-top: 6px;
+            font-size: 13px;
+        }
+        .suggestion-card .combo-detail .highlight {
+            color: #00d4aa;
+            font-weight: 700;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border: 1px solid #1a2a3a;
+            background: #1a2438;
+            color: #f0f4fa;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        .btn:active { transform: scale(0.95); }
+        .btn-primary { background: #4a9eff; color: #fff; border-color: #4a9eff; }
+        .btn-success { background: #00d4aa; color: #0a0e17; border-color: #00d4aa; }
+        .btn-danger { border-color: #ff6b7a; color: #ff6b7a; background: rgba(255, 107, 122, 0.1); }
+        .btn-sm { padding: 6px 12px; font-size: 11px; width: auto; }
+        .btn-block { width: 100%; }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+        .empty {
+            text-align: center;
+            padding: 30px 16px;
+            color: #8a9bb5;
+            border: 1px dashed #1a2a3a;
+            border-radius: 12px;
+            font-size: 13px;
+        }
+        .empty small { display: block; margin-top: 4px; font-size: 11px; }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #111927;
+            border: 1px solid #4a9eff;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+            z-index: 999;
+            animation: slideUp 0.3s ease;
+            max-width: 90%;
+            text-align: center;
+        }
+        .toast.error { border-color: #ff6b7a; }
+        .toast.success { border-color: #00d4aa; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        .hidden { display: none !important; }
+        .mt-2 { margin-top: 10px; }
+        .text-muted { color: #8a9bb5; }
+        .text-center { text-align: center; }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
+
+        .loading {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #1a2a3a;
+            border-top-color: #4a9eff;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .footer {
+            text-align: center;
+            padding: 20px 0 10px 0;
+            border-top: 1px solid #1a2a3a;
+            color: #8a9bb5;
+            font-size: 11px;
+            margin-top: 10px;
+        }
+        .footer .heart { color: #ff6b7a; }
+        .footer .name { color: #4a9eff; font-weight: 700; }
+
+        @media (max-width: 400px) {
+            .bet-options { grid-template-columns: 1fr 1fr 1fr; }
+            .combo-total { grid-template-columns: 1fr 1fr 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+    <!-- Header -->
+    <header class="header">
+        <div class="logo" onclick="window.location.href='dashboard.html'">
+            <div class="logo-icon">🧠</div>
+            <div class="logo-text">
+                <h1>Combo AI</h1>
+                <small>Intelligent Bet Builder</small>
+            </div>
+        </div>
+        <div>
+            <button class="header-btn" onclick="window.location.href='dashboard.html'">🏠</button>
+        </div>
+    </header>
+
+    <!-- AI Status -->
+    <div class="ai-status">
+        <div class="pulse"></div>
+        <div class="text">
+            <strong>🧠 AI Active</strong> — Analyzing <span id="matchCountAI">0</span> matches
+            <span style="display:block;font-size:11px;">Scanning for the best value combos...</span>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <small>Available Bets</small>
+            <strong id="totalBets" class="blue">0</strong>
+        </div>
+        <div class="stat-card">
+            <small>Best EV</small>
+            <strong id="bestEV" class="green">+0%</strong>
+        </div>
+        <div class="stat-card">
+            <small>Combos Found</small>
+            <strong id="combosFound" class="orange">0</strong>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="tab active" data-tab="builder">🔨 Builder</button>
+        <button class="tab" data-tab="suggestions">🤖 AI Suggestions</button>
+        <button class="tab" data-tab="history">📊 History</button>
+    </div>
+
+    <!-- PANEL: Builder -->
+    <section id="panel-builder" class="panel active">
+        <!-- Matches -->
+        <div id="matchesList">
+            <div class="empty"><span class="loading"></span><br><br>Loading matches...</div>
+        </div>
+
+        <!-- Combo Builder -->
+        <div class="combo-builder" id="comboBuilder">
+            <div class="combo-title">🧠 Your Combo</div>
+            <div id="comboSelections">
+                <div class="empty" style="padding:12px;">No selections yet</div>
+            </div>
+            <div class="combo-total">
+                <div class="item">
+                    <small>Selections</small>
+                    <strong id="selectionCount">0</strong>
+                </div>
+                <div class="item">
+                    <small>Combined Odds</small>
+                    <strong id="combinedOdds">1.00</strong>
+                </div>
+                <div class="item">
+                    <small>EV</small>
+                    <strong id="comboEV" class="value">+0%</strong>
+                </div>
+            </div>
+            <div style="margin-top:10px;display:flex;gap:8px;">
+                <button class="btn btn-success" id="saveComboBtn">💾 Save Combo</button>
+                <button class="btn btn-danger" id="clearComboBtn">🗑️ Clear</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- PANEL: Suggestions -->
+    <section id="panel-suggestions" class="panel">
+        <div id="suggestionsList">
+            <div class="empty"><span class="loading"></span><br><br>AI is generating smart combos...</div>
+        </div>
+    </section>
+
+    <!-- PANEL: History -->
+    <section id="panel-history" class="panel">
+        <div class="card">
+            <div class="card-title">
+                <span>📊 Combo History</span>
+                <span class="tag" id="historyCount">0</span>
+            </div>
+            <div id="historyList">
+                <div class="empty">No combos saved yet.<br><small>Build and save your first combo!</small></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div class="footer">
+        🧠 Powered by AI · © 2024 <span class="name">Marcus</span> <span class="heart">❤️</span>
+    </div>
+</div>
+
+<script>
+// ============================================================
+//  INTELLIGENT COMBO BUILDER - Complete AI System
+// ============================================================
+
+const API_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:3000/api' 
+    : 'https://football-predictor-e3s4.onrender.com/api';
+
+// ============ STATE ============
+let matches = [];
+let selectedBets = [];
+let savedCombos = JSON.parse(localStorage.getItem('savedCombos') || '[]');
+let comboHistory = JSON.parse(localStorage.getItem('comboHistory') || '[]');
+let aiSuggestions = [];
+
+// ============ DOM REFS ============
+const $ = id => document.getElementById(id);
+
+// ============ HELPERS ============
+function esc(str) {
+    return String(str || '').replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+    })[m]);
+}
+
+function toast(msg, type = 'success') {
+    const old = document.querySelector('.toast');
+    if (old) old.remove();
+    const div = document.createElement('div');
+    div.className = `toast ${type}`;
+    div.textContent = msg;
+    document.body.appendChild(div);
+    setTimeout(() => div.remove(), 3000);
+}
+
+function getToken() {
+    return localStorage.getItem('token');
+}
+
+function getUser() {
+    try { return JSON.parse(localStorage.getItem('user') || '{}'); } catch { return {}; }
+}
+
+// ============ API CALLS ============
+async function apiCall(endpoint, options = {}) {
+    const token = getToken();
+    const response = await fetch(`${API_URL}${endpoint}`, {
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...(token && { 'Authorization': `Bearer ${token}` }),
+            ...(options.headers || {})
+        }
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'API error');
+    return data;
+}
+
+// ============ LOAD MATCHES ============
+async function loadMatches() {
+    try {
+        const data = await apiCall('/predictions', { method: 'GET' });
+        if (data && data.length) {
+            matches = data;
+            renderMatches();
+            generateAISuggestions();
+            updateStats();
+        } else {
+            $('matchesList').innerHTML = `<div class="empty">📭 No matches available</div>`;
+            $('matchCountAI').textContent = '0';
+        }
+    } catch (err) {
+        $('matchesList').innerHTML = `<div class="empty">❌ Error: ${err.message}</div>`;
+    }
+}
+
+// ============ RENDER MATCHES ============
+function renderMatches() {
+    const container = $('matchesList');
+    $('matchCountAI').textContent = matches.length;
+
+    if (!matches.length) {
+        container.innerHTML = '<div class="empty">No matches available</div>';
+        return;
+    }
+
+    // Calculate total available bets
+    let totalBets = 0;
+    matches.forEach(m => {
+        if (m.probabilities) totalBets += 3; // Home, Draw, Away
+    });
+    $('totalBets').textContent = totalBets;
+
+    container.innerHTML = matches.map((m, idx) => {
+        const prob = m.probabilities || { home: 33, draw: 33, away: 33 };
+        const odds = {
+            home: (1 / (prob.home / 100)).toFixed(2),
+            draw: (1 / (prob.draw / 100)).toFixed(2),
+            away: (1 / (prob.away / 100)).toFixed(2)
+        };
+
+        return `
+        <div class="match-select">
+            <div class="match-title">${esc(m.home)} vs ${esc(m.away)}</div>
+            <div class="match-league">${esc(m.league)} • ${esc(m.date)}</div>
+            <div class="bet-options">
+                <div class="bet-option" onclick="addBet('${m.id}', 'home', '${esc(m.home)} Win', ${parseFloat(odds.home)})">
+                    <div class="label">${esc(m.home)}</div>
+                    <div class="odds">${odds.home}</div>
+                </div>
+                <div class="bet-option" onclick="addBet('${m.id}', 'draw', 'Draw', ${parseFloat(odds.draw)})">
+                    <div class="label">Draw</div>
+                    <div class="odds">${odds.draw}</div>
+                </div>
+                <div class="bet-option" onclick="addBet('${m.id}', 'away', '${esc(m.away)} Win', ${parseFloat(odds.away)})">
+                    <div class="label">${esc(m.away)}</div>
+                    <div class="odds">${odds.away}</div>
+                </div>
+            </div>
+        </div>
+        `;
+    }).join('');
+
+    // Highlight selected bets
+    selectedBets.forEach(sb => {
+        document.querySelectorAll('.bet-option').forEach(el => {
+            // We'll re-render on selection change
+        });
+    });
+}
+
+// ============ ADD BET TO COMBO ============
+function addBet(matchId, outcome, label, odds) {
+    // Check if already selected
+    const existing = selectedBets.find(b => b.matchId === matchId && b.outcome === outcome);
+    if (existing) {
+        toast('Already selected this bet', 'error');
+        return;
+    }
+
+    // Check if match already has a bet selected
+    const matchSelected = selectedBets.find(b => b.matchId === matchId);
+    if (matchSelected) {
+        toast('Already selected a bet from this match', 'error');
+        return;
+    }
+
+    selectedBets.push({
+        matchId,
+        outcome,
+        label,
+        odds,
+        matchName: getMatchName(matchId)
+    });
+
+    updateComboDisplay();
+    toast(`Added: ${label} (${odds.toFixed(2)})`, 'success');
+}
+
+// ============ GET MATCH NAME ============
+function getMatchName(matchId) {
+    const match = matches.find(m => m.id === matchId);
+    return match ? `${match.home} vs ${match.away}` : 'Match';
+}
+
+// ============ REMOVE BET FROM COMBO ============
+function removeBet(index) {
+    selectedBets.splice(index, 1);
+    updateComboDisplay();
+    toast('Removed from combo', 'success');
+}
+
+// ============ UPDATE COMBO DISPLAY ============
+function updateComboDisplay() {
+    const container = $('comboSelections');
+    $('selectionCount').textContent = selectedBets.length;
+
+    if (!selectedBets.length) {
+        container.innerHTML = '<div class="empty" style="padding:12px;">No selections yet</div>';
+        $('combinedOdds').textContent = '1.00';
+        $('comboEV').textContent = '+0%';
+        return;
+    }
+
+    // Calculate combined odds
+    const combinedOdds = selectedBets.reduce((acc, b) => acc * b.odds, 1);
+    $('combinedOdds').textContent = combinedOdds.toFixed(2);
+
+    // Calculate EV (Estimated Value)
+    const avgProb = 0.5; // Average probability
+    const trueProb = Math.pow(avgProb, selectedBets.length);
+    const ev = (trueProb * combinedOdds - 1) * 100;
+    const evDisplay = ev > 0 ? `+${ev.toFixed(1)}%` : `${ev.toFixed(1)}%`;
+    const evClass = ev > 5 ? 'value' : (ev > 0 ? 'value' : 'danger');
+    $('comboEV').textContent = evDisplay;
+    $('comboEV').className = evClass;
+
+    // Render selections
+    container.innerHTML = selectedBets.map((b, idx) => `
+        <div class="combo-selection">
+            <span>${esc(b.matchName)} — ${esc(b.label)} (${b.odds.toFixed(2)})</span>
+            <span class="remove" onclick="removeBet(${idx})">✕</span>
+        </div>
+    `).join('');
+}
+
+// ============ SAVE COMBO ============
+$('saveComboBtn').addEventListener('click', function() {
+    if (selectedBets.length < 2) {
+        toast('Add at least 2 bets to save a combo', 'error');
+        return;
+    }
+
+    const combinedOdds = selectedBets.reduce((acc, b) => acc * b.odds, 1);
+    const combo = {
+        id: Date.now(),
+        date: new Date().toISOString(),
+        selections: [...selectedBets],
+        combinedOdds: combinedOdds,
+        potentialWin: 10000 * combinedOdds,
+        ev: (0.5 ** selectedBets.length * combinedOdds - 1) * 100
+    };
+
+    savedCombos.push(combo);
+    comboHistory.push(combo);
+    localStorage.setItem('savedCombos', JSON.stringify(savedCombos));
+    localStorage.setItem('comboHistory', JSON.stringify(comboHistory));
+
+    toast('✅ Combo saved!', 'success');
+    renderHistory();
+});
+
+// ============ CLEAR COMBO ============
+$('clearComboBtn').addEventListener('click', function() {
+    selectedBets = [];
+    updateComboDisplay();
+    toast('Combo cleared', 'success');
+});
+
+// ============ GENERATE AI SUGGESTIONS ============
+function generateAISuggestions() {
+    if (!matches.length) return;
+
+    aiSuggestions = [];
+    const allBets = [];
+
+    matches.forEach(m => {
+        const prob = m.probabilities || { home: 33, draw: 33, away: 33 };
+        const odds = {
+            home: 1 / (prob.home / 100),
+            draw: 1 / (prob.draw / 100),
+            away: 1 / (prob.away / 100)
+        };
+
+        allBets.push({
+            matchId: m.id,
+            matchName: `${m.home} vs ${m.away}`,
+            league: m.league,
+            outcome: 'home',
+            label: `${m.home} Win`,
+            odds: odds.home,
+            prob: prob.home / 100
+        });
+        allBets.push({
+            matchId: m.id,
+            matchName: `${m.home} vs ${m.away}`,
+            league: m.league,
+            outcome: 'draw',
+            label: 'Draw',
+            odds: odds.draw,
+            prob: prob.draw / 100
+        });
+        allBets.push({
+            matchId: m.id,
+            matchName: `${m.home} vs ${m.away}`,
+            league: m.league,
+            outcome: 'away',
+            label: `${m.away} Win`,
+            odds: odds.away,
+            prob: prob.away / 100
+        });
+    });
+
+    // Generate 10 different combo suggestions
+    for (let i = 0; i < 10; i++) {
+        const combo = [];
+        const usedMatches = new Set();
+        const numBets = Math.floor(Math.random() * 3) + 2; // 2-4 bets
+
+        // Shuffle and pick
+        const shuffled = [...allBets].sort(() => Math.random() - 0.5);
+        for (const bet of shuffled) {
+            if (!usedMatches.has(bet.matchId)) {
+                combo.push(bet);
+                usedMatches.add(bet.matchId);
+                if (combo.length >= numBets) break;
+            }
+        }
+
+        if (combo.length >= 2) {
+            const combinedOdds = combo.reduce((acc, b) => acc * b.odds, 1);
+            const avgProb = 0.5;
+            const trueProb = Math.pow(avgProb, combo.length);
+            const ev = (trueProb * combinedOdds - 1) * 100;
+
+            // Calculate confidence based on individual probabilities
+            const avgConfidence = combo.reduce((acc, b) => acc + b.prob, 0) / combo.length;
+            const confidence = Math.round(avgConfidence * 100);
+
+            // Grade based on EV
+            let grade = 'D';
+            if (ev > 30) grade = 'A';
+            else if (ev > 15) grade = 'B';
+            else if (ev > 5) grade = 'C';
+
+            aiSuggestions.push({
+                id: `suggestion-${i}`,
+                bets: combo,
+                combinedOdds: combinedOdds,
+                ev: ev,
+                confidence: confidence,
+                grade: grade,
+                trueProb: trueProb * 100
+            });
+        }
+    }
+
+    // Sort by EV descending
+    aiSuggestions.sort((a, b) => b.ev - a.ev);
+    $('combosFound').textContent = aiSuggestions.length;
+    renderSuggestions();
+}
+
+// ============ RENDER SUGGESTIONS ============
+function renderSuggestions() {
+    const container = $('suggestionsList');
+
+    if (!aiSuggestions.length) {
+        container.innerHTML = '<div class="empty">No AI suggestions yet</div>';
+        return;
+    }
+
+    const gradeColors = {
+        'A': 'grade-a',
+        'B': 'grade-b',
+        'C': 'grade-c',
+        'D': 'grade-d'
+    };
+
+    container.innerHTML = aiSuggestions.slice(0, 10).map(s => `
+        <div class="suggestion-card">
+            <div class="flex-between">
+                <span class="grade ${gradeColors[s.grade]}">Grade ${s.grade}</span>
+                <span style="color:${s.ev > 15 ? '#00d4aa' : '#ffa94d'};font-weight:700;">
+                    EV: ${s.ev > 0 ? '+' : ''}${s.ev.toFixed(1)}%
+                </span>
+            </div>
+            <div class="combo-detail">
+                ${s.bets.map(b => `
+                    <div>• ${esc(b.matchName)} — ${esc(b.label)} (${b.odds.toFixed(2)})</div>
+                `).join('')}
+            </div>
+            <div style="margin-top:6px;font-size:12px;color:#8a9bb5;">
+                Combined Odds: <strong style="color:#4a9eff;">${s.combinedOdds.toFixed(2)}</strong> · 
+                Confidence: <strong style="color:#00d4aa;">${s.confidence}%</strong>
+            </div>
+            <button class="btn btn-primary btn-sm mt-2" onclick="useSuggestion('${s.id}')" style="width:100%;">
+                🧠 Use This Combo
+            </button>
+        </div>
+    `).join('');
+}
+
+// ============ USE SUGGESTION ============
+function useSuggestion(suggestionId) {
+    const suggestion = aiSuggestions.find(s => s.id === suggestionId);
+    if (!suggestion) return;
+
+    selectedBets = suggestion.bets.map(b => ({
+        matchId: b.matchId,
+        outcome: b.outcome,
+        label: b.label,
+        odds: b.odds,
+        matchName: b.matchName
+    }));
+
+    updateComboDisplay();
+    toast('🧠 AI Combo loaded!', 'success');
+}
+
+// ============ RENDER HISTORY ============
+function renderHistory() {
+    const container = $('historyList');
+    $('historyCount').textContent = comboHistory.length;
+
+    if (!comboHistory.length) {
+        container.innerHTML = '<div class="empty">No combos saved yet.</div>';
+        return;
+    }
+
+    const recent = comboHistory.slice(-20).reverse();
+    container.innerHTML = recent.map(c => `
+        <div class="suggestion-card">
+            <div class="flex-between">
+                <span style="font-weight:700;">${c.selections.length} selections</span>
+                <span style="color:#4a9eff;font-weight:700;">${c.combinedOdds.toFixed(2)}</span>
+            </div>
+            <div class="combo-detail" style="font-size:12px;">
+                ${c.selections.map(b => `
+                    <div>• ${esc(b.matchName)} — ${esc(b.label)} (${b.odds.toFixed(2)})</div>
+                `).join('')}
+            </div>
+            <div style="margin-top:4px;font-size:11px;color:#8a9bb5;">
+                ${new Date(c.date).toLocaleDateString()} · 
+                EV: ${c.ev > 0 ? '+' : ''}${c.ev.toFixed(1)}%
+            </div>
+        </div>
+    `).join('');
+}
+
+// ============ UPDATE STATS ============
+function updateStats() {
+    if (matches.length) {
+        $('matchCountAI').textContent = matches.length;
+        // Find best EV from suggestions
+        if (aiSuggestions.length) {
+            const bestEV = aiSuggestions.reduce((max, s) => s.ev > max.ev ? s : max, aiSuggestions[0]);
+            $('bestEV').textContent = `${bestEV.ev > 0 ? '+' : ''}${bestEV.ev.toFixed(1)}%`;
+        }
+    }
+}
+
+// ============ TABS ============
+document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        this.classList.add('active');
+        $(`panel-${this.dataset.tab}`).classList.add('active');
+
+        if (this.dataset.tab === 'suggestions') renderSuggestions();
+        if (this.dataset.tab === 'history') renderHistory();
+        if (this.dataset.tab === 'builder') renderMatches();
+    });
+});
+
+// ============ INIT ============
+function init() {
+    if (!getToken()) {
+        window.location.href = 'index.html';
+        return;
+    }
+
+    loadMatches();
+    renderHistory();
+
+    toast('🧠 Smart Combo AI is ready!', 'success');
+    console.log('🧠 Combo AI loaded!');
+}
+
+init();
+</script>
+</body>
+</html>
