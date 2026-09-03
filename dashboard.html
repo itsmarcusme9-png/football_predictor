@@ -6,25 +6,19 @@
     <title>⚽ Predictor Pro</title>
     <style>
         :root {
-            --bg: #0f1a1a;
-            --surface: #1a2626;
-            --surface2: #243333;
-            --border: #2d4040;
-            --text: #f0f4fa;
-            --muted: #8a9bb5;
-            --accent: #4a9eff;
-            --accent-dark: #1a6bc4;
-            --card-bg: #1a2626;
-            --header-bg: #0f1a1a;
-            --admin-badge: #ffa94d;
-            --success: #00d4aa;
-            --danger: #ff6b7a;
-            --warning: #ffa94d;
-            --gold: #ffd700;
-            --gold-dark: #c9a800;
-            --nav-bg: #0f1a1a;
-            --odds-bg: #1a2626;
-            --odds-hover: #2d4040;
+            --bg: #07111f;
+            --surface: #0d1a2b;
+            --surface2: #111f33;
+            --border: #203149;
+            --text: #f5f8fc;
+            --muted: #8ea0b8;
+            --accent: #39e58c;
+            --accent2: #56a8ff;
+            --danger: #ff5c70;
+            --gold: #ffd166;
+            --nav-bg: #07111f;
+            --card-bg: #0d1a2b;
+            --shadow: 0 18px 45px rgba(0,0,0,.24);
         }
         .light-mode {
             --bg: #f0f4fa;
@@ -33,13 +27,10 @@
             --border: #d0d8e0;
             --text: #1a2438;
             --muted: #5a6a7a;
-            --accent: #4a9eff;
-            --accent-dark: #1a6bc4;
-            --card-bg: #ffffff;
-            --header-bg: #f0f4fa;
+            --accent: #39e58c;
+            --accent2: #56a8ff;
             --nav-bg: #ffffff;
-            --odds-bg: #f0f4fa;
-            --odds-hover: #e0e4ea;
+            --card-bg: #ffffff;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -50,7 +41,7 @@
             padding-bottom: 80px;
             min-height: 100vh;
             transition: background 0.3s, color 0.3s;
-            font-size: 13px;
+            font-size: 14px;
         }
         .app { max-width: 500px; margin: 0 auto; }
 
@@ -69,7 +60,7 @@
         }
         .top-nav .brand { display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 14px; color: var(--accent); cursor: pointer; }
         .top-nav .brand .icon { font-size: 18px; }
-        .top-nav .brand .admin-badge { display: none; padding: 1px 8px; background: var(--admin-badge); color: #0a0e17; border-radius: 100px; font-size: 8px; font-weight: 700; text-transform: uppercase; margin-left: 4px; }
+        .top-nav .brand .admin-badge { display: none; padding: 1px 8px; background: var(--gold); color: #0a0e17; border-radius: 100px; font-size: 8px; font-weight: 700; text-transform: uppercase; margin-left: 4px; }
         .top-nav .brand .admin-badge.show { display: inline-block; }
         .top-nav .nav-links { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
         .top-nav .nav-links::-webkit-scrollbar { display: none; }
@@ -83,7 +74,7 @@
             white-space: nowrap;
             transition: all 0.2s;
         }
-        .top-nav .nav-links a.active { color: var(--accent); background: var(--accent-glow); }
+        .top-nav .nav-links a.active { color: var(--accent); background: rgba(57, 229, 140, 0.15); }
         .top-nav .nav-links a:active { transform: scale(0.95); }
         .top-nav .nav-right { display: flex; gap: 4px; align-items: center; }
         .top-nav .nav-btn {
@@ -100,9 +91,9 @@
             transition: all 0.2s;
         }
         .top-nav .nav-btn:active { transform: scale(0.95); }
-        .top-nav .nav-btn.admin-btn { border-color: var(--admin-badge); color: var(--admin-badge); }
-        .top-nav .nav-btn.ai-btn { border-color: var(--success); color: var(--success); }
-        .top-nav .nav-btn.update-btn { border-color: var(--warning); color: var(--warning); }
+        .top-nav .nav-btn.admin-btn { border-color: var(--gold); color: var(--gold); }
+        .top-nav .nav-btn.ai-btn { border-color: var(--accent); color: var(--accent); }
+        .top-nav .nav-btn.update-btn { border-color: var(--accent2); color: var(--accent2); }
 
         /* ===== MENU DROPDOWN ===== */
         .menu-dropdown {
@@ -133,30 +124,6 @@
         .menu-dropdown a:active { background: var(--surface2); }
         .menu-dropdown .divider { border-top: 1px solid var(--border); margin: 4px 10px; }
 
-        /* ===== FILTER TABS ===== */
-        .filter-tabs {
-            display: flex;
-            gap: 4px;
-            padding: 8px 12px;
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
-        .filter-tabs::-webkit-scrollbar { display: none; }
-        .filter-tabs .ftab {
-            padding: 4px 14px;
-            border-radius: 100px;
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--muted);
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.2s;
-        }
-        .filter-tabs .ftab.active { background: var(--accent); color: #fff; }
-        .filter-tabs .ftab:active { transform: scale(0.95); }
-
         /* ===== STATS BAR ===== */
         .stats-bar {
             display: grid;
@@ -169,55 +136,97 @@
         .stats-bar .stat { text-align: center; }
         .stats-bar .stat small { display: block; color: var(--muted); font-size: 8px; text-transform: uppercase; letter-spacing: 0.3px; }
         .stats-bar .stat strong { display: block; font-size: 13px; margin-top: 1px; }
-        .stats-bar .stat .blue { color: var(--accent); }
-        .stats-bar .stat .green { color: var(--success); }
-        .stats-bar .stat .orange { color: var(--warning); }
+        .stats-bar .stat .blue { color: var(--accent2); }
+        .stats-bar .stat .green { color: var(--accent); }
+        .stats-bar .stat .orange { color: var(--gold); }
 
-        /* ===== SEARCH ===== */
-        .search-bar {
-            padding: 8px 12px;
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
+        /* ===== CONTENT ===== */
+        .content { padding: 12px; }
+        .panel { display: none; animation: fadeIn 0.3s ease; }
+        .panel.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .search-bar input {
-            width: 100%;
-            padding: 8px 12px;
-            background: var(--bg);
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text);
-            font-size: 12px;
-            outline: none;
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 12px;
+            transition: background 0.3s;
         }
-        .search-bar input:focus { border-color: var(--accent); }
-        .search-bar input::placeholder { color: var(--muted); }
-        .search-bar .info {
+        .card-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
-            margin-top: 4px;
-            font-size: 10px;
-            color: var(--muted);
+            align-items: center;
         }
-        .search-bar .info .count { color: var(--accent); font-weight: 700; }
+        .tag {
+            display: inline-block;
+            padding: 2px 10px;
+            background: rgba(57, 229, 140, 0.15);
+            color: var(--accent);
+            border-radius: 100px;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .hero .eyebrow { font-size: 10px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 800; }
+        .hero h2 { font-size: 22px; margin: 4px 0 6px; }
+        .hero p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+        .hero-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+
+        .btn {
+            padding: 8px 14px;
+            border: 1px solid var(--border);
+            background: var(--surface2);
+            color: var(--text);
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn:active { transform: scale(0.95); }
+        .btn-primary { background: var(--accent); color: #0a0e17; border-color: var(--accent); }
+        .btn-secondary { background: var(--accent2); color: #fff; border-color: var(--accent2); }
+        .btn-danger { border-color: var(--danger); color: var(--danger); background: rgba(255, 92, 112, 0.1); }
+        .btn-gold { background: var(--gold); color: #0a0e17; border-color: var(--gold); }
+        .btn-sm { padding: 4px 10px; font-size: 10px; }
+        .btn-block { width: 100%; }
 
         /* ===== MATCH CARDS ===== */
         .match-card {
             background: var(--surface);
-            border-bottom: 1px solid var(--border);
-            padding: 10px 12px;
-            transition: all 0.2s;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
         }
-        .match-card:active { background: var(--surface2); }
-        .match-card .match-time { font-size: 10px; color: var(--muted); margin-bottom: 2px; }
+        .match-card .match-time { font-size: 10px; color: var(--muted); }
         .match-card .match-teams {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 2px 0;
+            padding: 4px 0;
+            font-weight: 700;
+            font-size: 15px;
         }
-        .match-card .match-teams .home { font-weight: 700; font-size: 14px; flex: 1; }
-        .match-card .match-teams .vs { color: var(--muted); font-size: 10px; font-weight: 700; padding: 0 4px; }
-        .match-card .match-teams .away { font-weight: 600; font-size: 14px; color: var(--muted); flex: 1; text-align: right; }
+        .match-card .match-teams .vs { color: var(--muted); font-size: 10px; padding: 0 4px; }
+        .match-card .match-teams .away { color: var(--muted); font-weight: 600; }
         .match-card .match-league { font-size: 9px; color: var(--muted); margin-top: 2px; }
         .match-card .match-league .country { color: var(--accent); font-weight: 600; }
 
@@ -229,7 +238,7 @@
         }
         .odds-box {
             flex: 1;
-            background: var(--odds-bg);
+            background: var(--bg);
             border: 1px solid var(--border);
             border-radius: 6px;
             padding: 6px 4px;
@@ -237,11 +246,11 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        .odds-box:active { transform: scale(0.95); background: var(--odds-hover); }
+        .odds-box:active { transform: scale(0.95); background: var(--surface2); }
         .odds-box .label { font-size: 9px; color: var(--muted); font-weight: 600; }
         .odds-box .value { font-size: 14px; font-weight: 700; color: var(--text); }
-        .odds-box.best { border-color: var(--success); }
-        .odds-box.best .value { color: var(--success); }
+        .odds-box.best { border-color: var(--accent); }
+        .odds-box.best .value { color: var(--accent); }
 
         /* ===== PREDICTION BADGE ===== */
         .pred-badge {
@@ -252,42 +261,15 @@
             font-weight: 700;
             margin-top: 4px;
         }
-        .pred-badge.home { background: rgba(0, 212, 170, 0.2); color: var(--success); }
-        .pred-badge.draw { background: rgba(255, 169, 77, 0.2); color: var(--warning); }
-        .pred-badge.away { background: rgba(255, 107, 122, 0.2); color: var(--danger); }
-
-        /* ===== TEAM CARDS (Teams Tab) ===== */
-        .team-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .team-card:active { transform: scale(0.98); background: var(--surface2); }
-        .team-card .team-name { font-weight: 700; font-size: 14px; }
-        .team-card .team-stats { display: flex; gap: 12px; margin-top: 4px; font-size: 11px; color: var(--muted); }
-        .team-card .team-stats span { color: var(--text); font-weight: 600; }
-
-        /* ===== BONUS BANNER ===== */
-        .bonus-banner {
-            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
-            color: #0a0e17;
-            text-align: center;
-            padding: 8px 12px;
-            font-size: 11px;
-            font-weight: 700;
-            margin: 6px 12px;
-            border-radius: 8px;
-        }
+        .pred-badge.home { background: rgba(57, 229, 140, 0.2); color: var(--accent); }
+        .pred-badge.draw { background: rgba(255, 209, 102, 0.2); color: var(--gold); }
+        .pred-badge.away { background: rgba(255, 92, 112, 0.2); color: var(--danger); }
 
         /* ===== TICKETS ===== */
         .ticket-card {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 12px;
             margin-bottom: 10px;
         }
@@ -297,8 +279,15 @@
             align-items: center;
             margin-bottom: 6px;
         }
-        .ticket-card .ticket-header .target { font-weight: 700; font-size: 13px; color: var(--accent); }
-        .ticket-card .ticket-header .conf { font-size: 11px; font-weight: 700; }
+        .ticket-card .ticket-header .risk {
+            padding: 2px 10px;
+            border-radius: 100px;
+            font-size: 9px;
+            font-weight: 700;
+        }
+        .risk-safe { background: rgba(57, 229, 140, 0.2); color: var(--accent); }
+        .risk-balanced { background: rgba(255, 209, 102, 0.2); color: var(--gold); }
+        .risk-high { background: rgba(255, 92, 112, 0.2); color: var(--danger); }
         .ticket-card .ticket-selections { font-size: 12px; color: var(--muted); }
         .ticket-card .ticket-selections .sel { padding: 2px 0; border-bottom: 1px solid var(--border); }
         .ticket-card .ticket-footer {
@@ -312,33 +301,89 @@
         .ticket-card .ticket-footer .odds { font-size: 16px; font-weight: 700; color: var(--accent); }
         .ticket-actions { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px; }
 
-        /* ===== BUTTONS ===== */
-        .btn {
-            padding: 6px 12px;
+        /* ===== PERIOD SELECTOR ===== */
+        .period-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 4px;
+            margin-bottom: 10px;
+        }
+        .period-btn {
+            padding: 6px;
             border: 1px solid var(--border);
             background: var(--surface2);
-            color: var(--text);
-            border-radius: 6px;
+            color: var(--muted);
+            border-radius: 8px;
+            font-size: 10px;
             font-weight: 700;
-            font-size: 11px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .period-btn.active { background: var(--accent); color: #0a0e17; border-color: var(--accent); }
+        .period-btn:active { transform: scale(0.95); }
+
+        /* ===== TEAMS ===== */
+        .team-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 8px;
             cursor: pointer;
             transition: all 0.2s;
         }
-        .btn:active { transform: scale(0.95); }
-        .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-        .btn-success { background: var(--success); color: #0a0e17; border-color: var(--success); }
-        .btn-danger { border-color: var(--danger); color: var(--danger); background: rgba(255, 107, 122, 0.1); }
-        .btn-gold { background: var(--gold); color: #0a0e17; border-color: var(--gold); }
-        .btn-sm { padding: 4px 8px; font-size: 10px; }
-        .btn-block { width: 100%; }
+        .team-card:active { transform: scale(0.98); background: var(--surface2); }
+        .team-card .team-name { font-weight: 700; font-size: 14px; }
+        .team-card .team-stats { display: flex; gap: 12px; margin-top: 4px; font-size: 11px; color: var(--muted); }
+        .team-card .team-stats span { color: var(--text); font-weight: 600; }
 
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
-        .mt-2 { margin-top: 8px; }
-        .text-muted { color: var(--muted); }
-        .text-center { text-align: center; }
-        .flex-between { display: flex; justify-content: space-between; align-items: center; }
+        /* ===== LIVE ===== */
+        .live-match {
+            background: var(--surface);
+            border: 1px solid var(--danger);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 8px;
+        }
+        .live-match .live-teams {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .live-match .live-teams .score { color: var(--danger); font-size: 18px; }
+        .live-match .live-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+            margin-top: 6px;
+            font-size: 11px;
+            color: var(--muted);
+            text-align: center;
+        }
+        .live-match .live-stats .stat { background: var(--bg); border-radius: 6px; padding: 4px; }
+        .live-match .live-stats .stat strong { display: block; color: var(--text); font-size: 13px; }
 
+        /* ===== ACCOUNT ===== */
+        .account-item { padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+        .account-item .label { color: var(--muted); }
+        .account-item .value { font-weight: 600; }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 12px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 9px;
+            margin-top: 8px;
+        }
+        .footer .heart { color: var(--danger); }
+        .footer .name { color: var(--accent); font-weight: 700; }
+
+        /* ===== EMPTY & TOAST ===== */
         .empty {
             text-align: center;
             padding: 20px 12px;
@@ -367,7 +412,7 @@
             text-align: center;
         }
         .toast.error { border-color: var(--danger); }
-        .toast.success { border-color: var(--success); }
+        .toast.success { border-color: var(--accent); }
         @keyframes slideUp {
             from { opacity: 0; transform: translateX(-50%) translateY(20px); }
             to { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -383,32 +428,19 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        .panel { display: none; animation: fadeIn 0.3s ease; }
-        .panel.active { display: block; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .footer {
-            text-align: center;
-            padding: 12px;
-            border-top: 1px solid var(--border);
-            color: var(--muted);
-            font-size: 9px;
-            margin-top: 8px;
-        }
-        .footer .heart { color: var(--danger); }
-        .footer .name { color: var(--accent); font-weight: 700; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+        .mt-2 { margin-top: 8px; }
+        .text-muted { color: var(--muted); }
+        .text-center { text-align: center; }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 400px) {
             .top-nav .nav-links a { font-size: 10px; padding: 3px 8px; }
+            .period-selector { grid-template-columns: 1fr 1fr; }
+            .live-match .live-stats { grid-template-columns: repeat(2, 1fr); }
             .stats-bar { grid-template-columns: repeat(2, 1fr); }
-            .match-card .match-teams .home { font-size: 13px; }
-            .match-card .match-teams .away { font-size: 13px; }
-            .odds-box .value { font-size: 13px; }
-            .team-card .team-name { font-size: 13px; }
         }
         @media (min-width: 500px) {
             .app { max-width: 600px; }
@@ -426,9 +458,11 @@
             <span class="admin-badge" id="adminBadge">👑 Admin</span>
         </div>
         <div class="nav-links" id="navLinks">
-            <a href="#" class="active" data-page="sports">⚽ Sports</a>
-            <a href="#" data-page="teams">🏆 Teams</a>
+            <a href="#" class="active" data-page="home">🏠 Home</a>
+            <a href="#" data-page="sports">⚽ Sports</a>
+            <a href="#" data-page="teams">👥 Teams</a>
             <a href="#" data-page="tickets">🎟️ Tickets</a>
+            <a href="#" data-page="live">🔴 Live</a>
             <a href="#" data-page="account">👤 Account</a>
         </div>
         <div class="nav-right">
@@ -441,24 +475,18 @@
 
     <!-- ===== MENU DROPDOWN ===== -->
     <div class="menu-dropdown" id="menuDropdown">
+        <a href="#" data-page="home">🏠 Home</a>
         <a href="#" data-page="sports">⚽ Sports</a>
-        <a href="#" data-page="teams">🏆 Teams</a>
+        <a href="#" data-page="teams">👥 Teams</a>
         <a href="#" data-page="tickets">🎟️ Tickets</a>
+        <a href="#" data-page="live">🔴 Live</a>
         <a href="#" data-page="account">👤 Account</a>
         <div class="divider"></div>
         <a href="#" data-page="leaderboard">🏆 Leaderboard</a>
-        <a href="#" data-page="live">🔴 Live Scores</a>
-        <a href="#" data-page="combos">🧠 Combo Builder</a>
+        <a href="#" onclick="window.location.href='combos.html'">🧠 Combo Builder</a>
         <div class="divider"></div>
         <a href="#" id="adminMenuItem" style="display:none;" onclick="window.location.href='admin.html'">👑 Admin Panel</a>
         <a href="#" onclick="window.location.href='admin-ai.html'">🤖 AI Assistant</a>
-    </div>
-
-    <!-- ===== FILTER TABS ===== -->
-    <div class="filter-tabs" id="filterTabs">
-        <span class="ftab active" data-filter="upcoming">⚡ Upcoming</span>
-        <span class="ftab" data-filter="live">🔴 Live</span>
-        <span class="ftab" data-filter="popular">🏆 Popular</span>
     </div>
 
     <!-- ===== STATS BAR ===== -->
@@ -469,147 +497,181 @@
         <div class="stat"><small>Accuracy</small><strong id="accuracyDisplay" class="green">0%</strong></div>
     </div>
 
-    <!-- ===== SEARCH BAR ===== -->
-    <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="🔍 Search teams, leagues...">
-        <div class="info">
-            <span>Showing <span class="count" id="searchCount">0</span> matches</span>
-            <span class="clear-btn" id="clearSearch" style="color:var(--danger);cursor:pointer;">Clear</span>
-        </div>
-    </div>
-
     <!-- ===== CONTENT ===== -->
-    <div class="content" id="content">
+    <div class="content">
+
+        <!-- ===== HOME PAGE ===== -->
+        <div id="page-home" class="panel active">
+            <div class="hero">
+                <div class="eyebrow">⚡ Smart Football Intelligence</div>
+                <h2>Your edge, in one place.</h2>
+                <p>Explore model predictions, live match analysis and ready-made tickets. Probabilities are estimates, not guarantees.</p>
+                <div class="hero-actions">
+                    <button class="btn btn-primary" onclick="switchPage('sports')">⚽ Sports</button>
+                    <button class="btn btn-secondary" onclick="switchPage('tickets')">🎟️ Tickets</button>
+                    <button class="btn" onclick="switchPage('live')">🔴 Live</button>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">🎟️ Daily Ticket</div>
+                    <div style="font-size:13px;color:var(--muted);">Safe • Balanced • High Odds</div>
+                    <div style="font-size:12px;color:var(--muted);margin-top:4px;">AI-generated combinations</div>
+                    <button class="btn btn-primary btn-sm" style="margin-top:8px;" onclick="switchPage('tickets')">View Tickets</button>
+                </div>
+                <div class="card">
+                    <div class="card-title">🔴 Live Scores</div>
+                    <div style="font-size:13px;color:var(--muted);">Real-time match analysis</div>
+                    <div style="font-size:12px;color:var(--muted);margin-top:4px;">Live stats & predictions</div>
+                    <button class="btn btn-secondary btn-sm" style="margin-top:8px;" onclick="switchPage('live')">View Live</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">⭐ Top Picks</div>
+                <div id="homeTopPicks">
+                    <div class="empty"><span class="loading"></span><br><br>Loading picks...</div>
+                </div>
+            </div>
+        </div>
 
         <!-- ===== SPORTS PAGE ===== -->
-        <div id="page-sports" class="panel active">
-            <div id="matchesList">
+        <div id="page-sports" class="panel">
+            <div class="card">
+                <div class="card-title">
+                    <span>⚽ Matches</span>
+                    <span class="tag" id="sportsCount">0</span>
+                </div>
+                <!-- League Filters -->
+                <div style="display:flex;gap:4px;overflow-x:auto;padding:2px 0 8px 0;scrollbar-width:none;" id="leagueFilters">
+                    <button class="btn btn-sm active" data-league="all">All</button>
+                    <button class="btn btn-sm" data-league="Premier League">🏴 EPL</button>
+                    <button class="btn btn-sm" data-league="La Liga">🇪🇸 La Liga</button>
+                    <button class="btn btn-sm" data-league="Serie A">🇮🇹 Serie A</button>
+                    <button class="btn btn-sm" data-league="Bundesliga">🇩🇪 Bundesliga</button>
+                    <button class="btn btn-sm" data-league="Ligue 1">🇫🇷 Ligue 1</button>
+                </div>
+                <!-- Date Filters -->
+                <div style="display:flex;gap:4px;overflow-x:auto;padding:2px 0 8px 0;scrollbar-width:none;" id="dateFilters">
+                    <button class="btn btn-sm active" data-filter="today">Today</button>
+                    <button class="btn btn-sm" data-filter="tomorrow">Tomorrow</button>
+                    <button class="btn btn-sm" data-filter="week">This Week</button>
+                    <button class="btn btn-sm" data-filter="all">All</button>
+                </div>
+                <!-- Search -->
+                <input type="text" id="sportsSearch" placeholder="🔍 Search teams, leagues..." style="width:100%;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:12px;outline:none;margin-bottom:8px;">
+            </div>
+            <div id="sportsMatches">
                 <div class="empty"><span class="loading"></span><br><br>Loading matches...</div>
             </div>
-            <div class="bonus-banner">🎟️ ADD LEGS FOR UP TO 1250% WIN BONUS!</div>
         </div>
 
         <!-- ===== TEAMS PAGE ===== -->
         <div id="page-teams" class="panel">
-            <div style="padding:12px;">
-                <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px;">
-                    <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:6px;">🏆 League</div>
-                    <div style="display:flex;gap:6px;overflow-x:auto;padding:2px 0 4px 0;scrollbar-width:none;" id="teamLeagueFilters">
-                        <button class="btn btn-sm" data-league="all" style="background:var(--accent);color:#fff;">All</button>
-                        <button class="btn btn-sm" data-league="Premier League">🏴 Premier League</button>
-                        <button class="btn btn-sm" data-league="La Liga">🇪🇸 La Liga</button>
-                        <button class="btn btn-sm" data-league="Serie A">🇮🇹 Serie A</button>
-                        <button class="btn btn-sm" data-league="Bundesliga">🇩🇪 Bundesliga</button>
-                        <button class="btn btn-sm" data-league="Ligue 1">🇫🇷 Ligue 1</button>
-                    </div>
+            <div class="card">
+                <div class="card-title">
+                    <span>👥 Teams</span>
+                    <span class="tag" id="teamsCount">0</span>
                 </div>
-                <div id="teamsList">
-                    <div class="empty"><span class="loading"></span><br><br>Loading teams...</div>
+                <input type="text" id="teamsSearch" placeholder="🔍 Search teams..." style="width:100%;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:12px;outline:none;margin-bottom:8px;">
+                <div style="display:flex;gap:4px;overflow-x:auto;padding:2px 0 8px 0;scrollbar-width:none;" id="teamsLeagueFilters">
+                    <button class="btn btn-sm active" data-league="all">All</button>
+                    <button class="btn btn-sm" data-league="Premier League">🏴 EPL</button>
+                    <button class="btn btn-sm" data-league="La Liga">🇪🇸 La Liga</button>
+                    <button class="btn btn-sm" data-league="Serie A">🇮🇹 Serie A</button>
+                    <button class="btn btn-sm" data-league="Bundesliga">🇩🇪 Bundesliga</button>
+                    <button class="btn btn-sm" data-league="Ligue 1">🇫🇷 Ligue 1</button>
                 </div>
+            </div>
+            <div id="teamsList">
+                <div class="empty"><span class="loading"></span><br><br>Loading teams...</div>
             </div>
         </div>
 
         <!-- ===== TICKETS PAGE ===== -->
         <div id="page-tickets" class="panel">
-            <div style="padding:12px;">
-                <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px;">
-                    <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:6px;">🎯 Target Odds</div>
-                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                        <button class="btn btn-sm" data-target="2" style="flex:1;padding:8px;font-size:13px;border-color:var(--accent);">2.0</button>
-                        <button class="btn btn-sm" data-target="5" style="flex:1;padding:8px;font-size:13px;border-color:var(--accent);">5.0</button>
-                        <button class="btn btn-sm" data-target="10" style="flex:1;padding:8px;font-size:13px;border-color:var(--accent);">10.0</button>
-                        <button class="btn btn-sm" data-target="20" style="flex:1;padding:8px;font-size:13px;border-color:var(--accent);">20.0</button>
-                    </div>
-                    <button class="btn btn-primary btn-block" id="generateTicketBtn" style="padding:10px;font-size:14px;margin-top:8px;">🎟️ Generate Ticket</button>
+            <div class="card">
+                <div class="card-title">
+                    <span>🎟️ Tickets</span>
+                    <span class="tag" id="ticketsCount">0</span>
                 </div>
-
-                <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px;">
-                    <div class="flex-between"><span style="font-weight:700;font-size:13px;">📊 Generated</span><span class="tag" id="generatedCount" style="font-size:9px;color:var(--accent);background:var(--accent-glow);padding:2px 8px;border-radius:100px;">0</span></div>
-                    <div id="generatedTicketsList"><div class="empty">No tickets yet.<br><small>Select target odds and generate.</small></div></div>
+                <!-- Risk Tabs -->
+                <div style="display:flex;gap:4px;margin-bottom:8px;">
+                    <button class="btn btn-sm active" data-risk="safe">🛡️ Safe</button>
+                    <button class="btn btn-sm" data-risk="balanced">⚖️ Balanced</button>
+                    <button class="btn btn-sm" data-risk="high">🚀 High Odds</button>
                 </div>
+                <!-- Period Selector -->
+                <div class="period-selector" id="periodSelector">
+                    <button class="period-btn active" data-period="weekend">🏆 Weekend</button>
+                    <button class="period-btn" data-period="midweek">📅 Midweek</button>
+                    <button class="period-btn" data-period="fullweek">📆 Full Week</button>
+                    <button class="period-btn" data-period="custom">🗓️ Custom</button>
+                </div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+                    <select id="ticketPicks" style="flex:1;padding:6px 10px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;outline:none;">
+                        <option value="3">3 picks</option>
+                        <option value="4">4 picks</option>
+                        <option value="5" selected>5 picks</option>
+                        <option value="6">6 picks</option>
+                        <option value="8">8 picks</option>
+                    </select>
+                    <input type="text" id="customDates" placeholder="YYYY-MM-DD to YYYY-MM-DD" style="flex:2;padding:6px 10px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;outline:none;display:none;">
+                </div>
+                <button class="btn btn-primary btn-block" id="generateTicketBtn">🎲 Generate Ticket</button>
+                <div style="font-size:10px;color:var(--muted);margin-top:4px;">Smart Randomize: Creates tickets from qualifying matches</div>
+            </div>
+            <div id="ticketsList">
+                <div class="empty">No tickets generated yet.<br><small>Select risk level and click "Generate Ticket"</small></div>
+            </div>
+            <div id="savedTicketsList" class="card">
+                <div class="card-title">⭐ Saved Tickets</div>
+                <div class="empty">No saved tickets yet.</div>
+            </div>
+        </div>
 
-                <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;">
-                    <div class="flex-between"><span style="font-weight:700;font-size:13px;">⭐ Saved</span><span class="tag" id="ticketCount" style="font-size:9px;color:var(--accent);background:var(--accent-glow);padding:2px 8px;border-radius:100px;">0</span></div>
-                    <div id="savedTicketsList"><div class="empty">No saved tickets.</div></div>
+        <!-- ===== LIVE PAGE ===== -->
+        <div id="page-live" class="panel">
+            <div class="card">
+                <div class="card-title">
+                    <span>🔴 Live Scores</span>
+                    <span class="tag" id="liveCount">0</span>
+                </div>
+                <div id="liveMatches">
+                    <div class="empty"><span class="loading"></span><br><br>Loading live matches...</div>
                 </div>
             </div>
         </div>
 
         <!-- ===== ACCOUNT PAGE ===== -->
         <div id="page-account" class="panel">
-            <div style="padding:12px;">
-                <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px;">
-                    <div style="font-weight:700;font-size:14px;margin-bottom:6px;">👤 My Account</div>
-                    <p style="font-size:12px;"><strong style="color:var(--accent);">Username:</strong> <span id="profileUsername">-</span></p>
-                    <p style="font-size:12px;"><strong style="color:var(--accent);">Email:</strong> <span id="profileEmail">-</span></p>
-                    <p style="font-size:12px;"><strong style="color:var(--accent);">Member since:</strong> <span id="profileJoined">-</span></p>
-                    <p style="font-size:12px;"><strong style="color:var(--accent);">Role:</strong> <span id="profileRole">User</span></p>
+            <div class="card">
+                <div class="card-title">👤 My Account</div>
+                <div class="account-item"><span class="label">Username:</span> <span class="value" id="profileUsername">-</span></div>
+                <div class="account-item"><span class="label">Email:</span> <span class="value" id="profileEmail">-</span></div>
+                <div class="account-item"><span class="label">Member since:</span> <span class="value" id="profileJoined">-</span></div>
+                <div class="account-item"><span class="label">Role:</span> <span class="value" id="profileRole">User</span></div>
+            </div>
+            <div class="card">
+                <div class="card-title">🎨 Theme</div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                    <span class="theme-option" style="display:inline-block;width:28px;height:28px;border-radius:50%;border:2px solid var(--border);cursor:pointer;background:#07111f;" onclick="setTheme('dark')"></span>
+                    <span class="theme-option" style="display:inline-block;width:28px;height:28px;border-radius:50%;border:2px solid var(--border);cursor:pointer;background:#f0f4fa;" onclick="setTheme('light')"></span>
+                    <span class="theme-option" style="display:inline-block;width:28px;height:28px;border-radius:50%;border:2px solid var(--border);cursor:pointer;background:linear-gradient(135deg,#07111f,#f0f4fa);" onclick="setTheme('system')"></span>
                 </div>
-
-                <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px;">
-                    <div style="font-weight:700;font-size:14px;margin-bottom:6px;">🎨 Theme</div>
-                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                        <span class="theme-option" style="display:inline-block;width:28px;height:28px;border-radius:50%;border:2px solid var(--border);cursor:pointer;background:linear-gradient(135deg,#4a9eff,#ffd700);" onclick="setTheme('blue-gold')"></span>
-                        <span class="theme-option" style="display:inline-block;width:28px;height:28px;border-radius:50%;border:2px solid var(--border);cursor:pointer;background:linear-gradient(135deg,#00d4aa,#ffd700);" onclick="setTheme('green-gold')"></span>
-                        <span class="theme-option" style="display:inline-block;width:28px;height:28px;border-radius:50%;border:2px solid var(--border);cursor:pointer;background:#0a0e17;" onclick="setTheme('dark')"></span>
-                    </div>
-                </div>
-
-                <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;">
-                    <div style="font-weight:700;font-size:14px;margin-bottom:6px;">⚙️ Settings</div>
-                    <button class="btn btn-danger btn-block" id="clearHistoryBtn">🗑️ Clear History</button>
-                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">⚙️ Settings</div>
+                <button class="btn btn-danger btn-block" id="clearHistoryBtn">🗑️ Clear History</button>
             </div>
         </div>
 
         <!-- ===== LEADERBOARD PAGE ===== -->
         <div id="page-leaderboard" class="panel">
-            <div style="padding:12px;">
-                <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;">
-                    <div style="font-weight:700;font-size:14px;margin-bottom:6px;">🏆 Leaderboard</div>
-                    <div id="leaderboardList"><div class="empty"><span class="loading"></span><br><br>Loading...</div></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===== LIVE SCORES PAGE ===== -->
-        <div id="page-live" class="panel">
-            <div style="padding:12px;">
-                <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;">
-                    <div class="flex-between"><span style="font-weight:700;font-size:14px;">🔴 Live Scores</span><span class="tag" id="liveCount" style="font-size:9px;color:var(--accent);background:var(--accent-glow);padding:2px 8px;border-radius:100px;">0</span></div>
-                    <div id="liveList"><div class="empty">No live matches at the moment.</div></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===== COMBO BUILDER PAGE ===== -->
-        <div id="page-combos" class="panel">
-            <div style="padding:12px;">
-                <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;">
-                    <div style="font-weight:700;font-size:14px;margin-bottom:6px;">🧠 Combo Builder</div>
-                    <button class="btn btn-primary btn-block" onclick="window.location.href='combos.html'" style="padding:10px;font-size:14px;">🚀 Open Combo Builder</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===== HIDDEN ADMIN PAGE ===== -->
-        <div id="page-admin" class="panel">
-            <div style="padding:12px;">
-                <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px;">
-                    <div style="font-weight:700;font-size:14px;margin-bottom:6px;">👑 Admin Panel</div>
-                    <div class="grid-2">
-                        <div style="background:var(--bg);padding:8px;border-radius:8px;text-align:center;"><small style="color:var(--muted);font-size:8px;text-transform:uppercase;">Users</small><strong id="adminTotalUsers" style="display:block;font-size:14px;color:var(--accent);">0</strong></div>
-                        <div style="background:var(--bg);padding:8px;border-radius:8px;text-align:center;"><small style="color:var(--muted);font-size:8px;text-transform:uppercase;">Predictions</small><strong id="adminTotalPreds" style="display:block;font-size:14px;color:var(--orange);">0</strong></div>
-                        <div style="background:var(--bg);padding:8px;border-radius:8px;text-align:center;"><small style="color:var(--muted);font-size:8px;text-transform:uppercase;">Accuracy</small><strong id="adminAccuracy" style="display:block;font-size:14px;color:var(--success);">0%</strong></div>
-                        <div style="background:var(--bg);padding:8px;border-radius:8px;text-align:center;"><small style="color:var(--muted);font-size:8px;text-transform:uppercase;">Today</small><strong id="adminActive" style="display:block;font-size:14px;color:var(--gold);">0</strong></div>
-                    </div>
-                    <button class="btn btn-primary btn-block" id="adminRefreshData" style="margin-top:6px;">🔄 Refresh</button>
-                    <button class="btn btn-danger btn-block" id="adminClearCache" style="margin-top:4px;">🗑️ Clear Cache</button>
-                </div>
-                <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;">
-                    <div style="font-weight:700;font-size:14px;margin-bottom:6px;">👥 Users</div>
-                    <div id="adminUserList"><div class="empty">Loading...</div></div>
-                </div>
+            <div class="card">
+                <div class="card-title">🏆 Leaderboard</div>
+                <div id="leaderboardList"><div class="empty"><span class="loading"></span><br><br>Loading...</div></div>
             </div>
         </div>
 
@@ -618,28 +680,27 @@
     <!-- ===== FOOTER ===== -->
     <div class="footer">
         © 2024 <span class="name">Marcus</span> — Predictor Pro <span class="heart">❤️</span>
+        <div style="font-size:8px;color:var(--muted);margin-top:2px;">⚡ Auto-Update Ready</div>
     </div>
 </div>
 
 <script>
 // ============================================================
-//  PREDICTOR PRO - FINAL VERSION (BetPawa Style + Teams Tab)
+//  PREDICTOR PRO - COMPLETE PLATFORM
 // ============================================================
 
-const API_URL = window.location.hostname === 'localhost' 
-    ? 'http://localhost:3000/api' 
-    : 'https://football-predictor-e3s4.onrender.com/api';
-
 // ============ STATE ============
-let allPredictions = [];
-let currentFilter = 'upcoming';
-let searchQuery = '';
-let isAdmin = false;
+let allMatches = [];
+let allTeams = [];
+let currentRisk = 'safe';
+let currentPeriod = 'weekend';
+let currentTicketPicks = 5;
 let savedTickets = JSON.parse(localStorage.getItem('savedTickets') || '[]');
 let generatedTickets = [];
-let targetOdds = 5;
-let currentTeamLeague = 'all';
-let selectedTeam = null;
+let currentDateFilter = 'today';
+let currentLeagueFilter = 'all';
+let searchQuery = '';
+let isAdmin = false;
 
 // ============ DOM REFS ============
 const $ = id => document.getElementById(id);
@@ -676,8 +737,12 @@ if (localStorage.getItem('darkMode') === 'light') { document.body.classList.add(
 // ============ THEME ============
 function setTheme(theme) {
     document.querySelectorAll('.theme-option').forEach(el => el.style.borderColor = 'var(--border)');
-    document.querySelector(`.theme-option[onclick*="${theme}"]`).style.borderColor = 'var(--accent)';
+    const target = document.querySelector(`.theme-option[onclick*="${theme}"]`);
+    if (target) target.style.borderColor = 'var(--accent)';
     localStorage.setItem('theme', theme);
+    if (theme === 'light') { document.body.classList.add('light-mode'); }
+    else if (theme === 'dark') { document.body.classList.remove('light-mode'); }
+    else { document.body.classList.toggle('light-mode', window.matchMedia('(prefers-color-scheme: light)').matches); }
     toast('✅ Theme updated!', 'success');
 }
 
@@ -692,29 +757,25 @@ document.addEventListener('click', (e) => {
 });
 
 // ============ NAVIGATION ============
+function switchPage(page) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(`page-${page}`).classList.add('active');
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.querySelector(`.nav-links a[data-page="${page}"]`)?.classList.add('active');
+    document.getElementById('menuDropdown').classList.remove('show');
+    if (page === 'teams') renderTeams();
+    if (page === 'tickets') renderSavedTickets();
+    if (page === 'live') loadLiveMatches();
+    if (page === 'leaderboard') loadLeaderboard();
+    if (page === 'home') renderHomeTopPicks();
+}
+
 document.querySelectorAll('.nav-links a, .menu-dropdown a[data-page]').forEach(link => {
     link.addEventListener('click', function(e) {
         e.preventDefault();
         const page = this.dataset.page;
         if (!page) return;
-        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-        document.getElementById(`page-${page}`).classList.add('active');
-        document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-        document.querySelector(`.nav-links a[data-page="${page}"]`)?.classList.add('active');
-        document.getElementById('menuDropdown').classList.remove('show');
-        if (page === 'teams') renderTeams();
-        if (page === 'leaderboard') loadLeaderboard();
-        if (page === 'live') loadLiveScores();
-    });
-});
-
-// ============ FILTER TABS ============
-document.querySelectorAll('.ftab').forEach(tab => {
-    tab.addEventListener('click', function() {
-        document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
-        this.classList.add('active');
-        currentFilter = this.dataset.filter;
-        renderMatches();
+        switchPage(page);
     });
 });
 
@@ -727,6 +788,10 @@ function checkAdmin() {
         document.getElementById('adminMenuItem').style.display = 'flex';
         document.getElementById('profileRole').textContent = '👑 Admin';
         loadAdminData();
+    } else {
+        document.getElementById('adminBadge').classList.remove('show');
+        document.getElementById('adminMenuItem').style.display = 'none';
+        document.getElementById('profileRole').textContent = 'User';
     }
 }
 
@@ -746,9 +811,66 @@ async function apiCall(endpoint, options = {}) {
     return data;
 }
 
+// ============ API URL ============
+const API_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:3000/api' 
+    : 'https://football-predictor-e3s4.onrender.com/api';
+
+// ============ LOAD PREDICTIONS ============
+async function loadPredictions() {
+    try {
+        const data = await apiCall('/generate-predictions', { method: 'GET' });
+        if (data && data.length) {
+            allMatches = data;
+            // Extract teams
+            const teamMap = {};
+            data.forEach(m => {
+                if (!teamMap[m.home]) teamMap[m.home] = { name: m.home, league: m.league, matches: 0, wins: 0, draws: 0, losses: 0 };
+                if (!teamMap[m.away]) teamMap[m.away] = { name: m.away, league: m.league, matches: 0, wins: 0, draws: 0, losses: 0 };
+                teamMap[m.home].matches++;
+                teamMap[m.away].matches++;
+            });
+            allTeams = Object.values(teamMap);
+            renderMatches();
+            renderHomeTopPicks();
+            renderTeams();
+            updateStats();
+            toast(`✅ ${data.length} matches loaded`, 'success');
+        }
+    } catch (err) {
+        toast('Error loading predictions: ' + err.message, 'error');
+    }
+}
+
+// ============ UPDATE STATS ============
+function updateStats() {
+    const filtered = getFilteredMatches();
+    $('matchCount').textContent = filtered.length;
+    $('predCount').textContent = filtered.length;
+    const avgConf = filtered.length ? Math.round(filtered.reduce((s, p) => s + p.confidence, 0) / filtered.length) : 0;
+    $('avgConfidence').textContent = avgConf + '%';
+    $('sportsCount').textContent = filtered.length;
+    $('teamsCount').textContent = allTeams.length;
+}
+
 // ============ GET FILTERED MATCHES ============
 function getFilteredMatches() {
-    let filtered = [...allPredictions];
+    let filtered = [...allMatches];
+    
+    // Date filter
+    const today = new Date().toISOString().split('T')[0];
+    const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+    const weekLater = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
+    if (currentDateFilter === 'today') filtered = filtered.filter(p => p.date === today);
+    else if (currentDateFilter === 'tomorrow') filtered = filtered.filter(p => p.date === tomorrow);
+    else if (currentDateFilter === 'week') filtered = filtered.filter(p => p.date >= today && p.date <= weekLater);
+    
+    // League filter
+    if (currentLeagueFilter !== 'all') {
+        filtered = filtered.filter(p => p.league && p.league.toLowerCase().includes(currentLeagueFilter.toLowerCase()));
+    }
+    
+    // Search
     if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim();
         filtered = filtered.filter(p => {
@@ -756,35 +878,26 @@ function getFilteredMatches() {
             return text.includes(q);
         });
     }
-    if (currentFilter === 'live') {
-        filtered = filtered.filter(p => p.status === 'live');
-    } else if (currentFilter === 'popular') {
-        filtered = filtered.filter(p => p.confidence > 70);
-    }
+    
     filtered.sort((a, b) => a.date.localeCompare(b.date));
     return filtered;
 }
 
 // ============ RENDER MATCHES ============
 function renderMatches() {
-    const list = $('matchesList');
+    const container = $('sportsMatches');
     const filtered = getFilteredMatches();
-    $('searchCount').textContent = filtered.length;
-    $('matchCount').textContent = filtered.length;
-    $('predCount').textContent = filtered.length;
-    const avgConf = filtered.length ? Math.round(filtered.reduce((s, p) => s + p.confidence, 0) / filtered.length) : 0;
-    $('avgConfidence').textContent = avgConf + '%';
-
+    
     if (!filtered.length) {
-        list.innerHTML = '<div class="empty">📭 No matches found</div>';
+        container.innerHTML = '<div class="empty">📭 No matches found</div>';
         return;
     }
-
-    const predLabels = { home: '🏠 Home', draw: '🤝 Draw', away: '✈️ Away' };
+    
+    const predLabels = { home: '🏠 Home Win', draw: '🤝 Draw', away: '✈️ Away Win' };
     const predClasses = { home: 'home', draw: 'draw', away: 'away' };
-
-    list.innerHTML = filtered.map(p => {
-        const odds = p.odds || { home: 1.85, draw: 3.60, away: 4.20 };
+    
+    container.innerHTML = filtered.map(p => {
+        const odds = p.odds || { home: (1.5 + Math.random() * 1.5).toFixed(2), draw: (2.5 + Math.random() * 1.5).toFixed(2), away: (1.5 + Math.random() * 1.5).toFixed(2) };
         const date = new Date(p.date);
         const dateStr = date.toLocaleDateString();
         const timeStr = p.time || '00:00';
@@ -798,7 +911,6 @@ function renderMatches() {
                 <span class="away">${esc(p.away)}</span>
             </div>
             <div class="match-league">⚽ <span class="country">${esc(p.league)}</span></div>
-            
             <div class="odds-row">
                 <div class="odds-box ${parseFloat(odds.home) > 1.9 ? 'best' : ''}" onclick="toast('Added to betslip!', 'success')">
                     <div class="label">1</div>
@@ -813,318 +925,169 @@ function renderMatches() {
                     <div class="value">${odds.away}</div>
                 </div>
             </div>
-            
             <div style="display:flex;align-items:center;gap:6px;margin-top:4px;flex-wrap:wrap;">
                 <span class="pred-badge ${predClasses[p.prediction]}">🎯 ${predLabels[p.prediction]} (${p.confidence}%)</span>
                 <span style="font-size:9px;color:var(--muted);">📊 ${p.h2h?.homeWins || 0}W - ${p.h2h?.draws || 0}D - ${p.h2h?.awayWins || 0}L</span>
             </div>
+            <button class="btn btn-sm btn-secondary" style="margin-top:4px;" onclick="addToTicket('${p.id}')">🎟️ Add to Ticket</button>
         </div>
         `;
     }).join('');
 }
 
-// ============ RENDER TEAMS ============
-function renderTeams() {
-    const list = $('teamsList');
-    
-    // Group matches by team
-    const teamMap = {};
-    allPredictions.forEach(p => {
-        if (!teamMap[p.home]) teamMap[p.home] = { name: p.home, league: p.league, matches: [], wins: 0, draws: 0, losses: 0 };
-        if (!teamMap[p.away]) teamMap[p.away] = { name: p.away, league: p.league, matches: [], wins: 0, draws: 0, losses: 0 };
-        
-        // Add match to both teams
-        const matchResult = p.prediction === 'home' ? 'win' : p.prediction === 'draw' ? 'draw' : 'loss';
-        teamMap[p.home].matches.push({ opponent: p.away, result: matchResult, date: p.date, league: p.league });
-        teamMap[p.away].matches.push({ opponent: p.home, result: matchResult === 'win' ? 'loss' : matchResult === 'loss' ? 'win' : 'draw', date: p.date, league: p.league });
-    });
-    
-    // Calculate stats
-    Object.values(teamMap).forEach(team => {
-        team.wins = team.matches.filter(m => m.result === 'win').length;
-        team.draws = team.matches.filter(m => m.result === 'draw').length;
-        team.losses = team.matches.filter(m => m.result === 'loss').length;
-        team.total = team.matches.length;
-        team.winRate = team.total ? Math.round((team.wins / team.total) * 100) : 0;
-    });
-    
-    let teams = Object.values(teamMap);
-    
-    // Filter by league
-    if (currentTeamLeague !== 'all') {
-        teams = teams.filter(t => t.league && t.league.toLowerCase().includes(currentTeamLeague.toLowerCase()));
-    }
-    
-    // Sort by win rate
-    teams.sort((a, b) => b.winRate - a.winRate);
-    
-    if (!teams.length) {
-        list.innerHTML = '<div class="empty">No teams found</div>';
+// ============ RENDER HOME TOP PICKS ============
+function renderHomeTopPicks() {
+    const container = $('homeTopPicks');
+    const sorted = [...allMatches].sort((a, b) => b.confidence - a.confidence).slice(0, 3);
+    if (!sorted.length) {
+        container.innerHTML = '<div class="empty">No picks available</div>';
         return;
     }
-    
-    list.innerHTML = teams.map(team => `
-        <div class="team-card" onclick="showTeamMatches('${esc(team.name)}')">
-            <div class="team-name">⚽ ${esc(team.name)}</div>
-            <div style="font-size:10px;color:var(--muted);">${esc(team.league || 'Unknown League')}</div>
+    container.innerHTML = sorted.map(p => `
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:6px;">
+            <div style="font-weight:700;font-size:14px;">${esc(p.home)} 🆚 ${esc(p.away)}</div>
+            <div style="font-size:11px;color:var(--muted);">${esc(p.league)}</div>
+            <div style="font-size:12px;color:var(--accent);font-weight:700;">🎯 ${p.confidence}% confidence</div>
+        </div>
+    `).join('');
+}
+
+// ============ RENDER TEAMS ============
+function renderTeams() {
+    const container = $('teamsList');
+    const search = $('teamsSearch').value.toLowerCase().trim();
+    let teams = [...allTeams];
+    if (search) teams = teams.filter(t => t.name.toLowerCase().includes(search));
+    if (currentLeagueFilter !== 'all') teams = teams.filter(t => t.league && t.league.toLowerCase().includes(currentLeagueFilter.toLowerCase()));
+    teams.sort((a, b) => b.matches - a.matches);
+    if (!teams.length) {
+        container.innerHTML = '<div class="empty">No teams found</div>';
+        return;
+    }
+    container.innerHTML = teams.map(t => `
+        <div class="team-card" onclick="showTeamMatches('${esc(t.name)}')">
+            <div class="team-name">⚽ ${esc(t.name)}</div>
+            <div style="font-size:10px;color:var(--muted);">${esc(t.league || 'Unknown League')}</div>
             <div class="team-stats">
-                <span>📊 ${team.total} matches</span>
-                <span>✅ ${team.wins} wins</span>
-                <span>🤝 ${team.draws} draws</span>
-                <span>❌ ${team.losses} losses</span>
-                <span>📈 ${team.winRate}% win rate</span>
+                <span>📊 ${t.matches} matches</span>
+                <span>✅ ${t.wins} wins</span>
+                <span>🤝 ${t.draws} draws</span>
+                <span>❌ ${t.losses} losses</span>
             </div>
         </div>
     `).join('');
 }
 
-// ============ SHOW TEAM MATCHES ============
 function showTeamMatches(teamName) {
-    const matches = allPredictions.filter(p => p.home === teamName || p.away === teamName);
-    
-    if (!matches.length) {
-        toast('No matches found for this team', 'error');
-        return;
-    }
-    
-    const list = $('teamsList');
-    list.innerHTML = `
-        <div style="margin-bottom:10px;">
-            <button class="btn btn-sm btn-primary" onclick="renderTeams()">🔙 Back to Teams</button>
-            <div style="font-weight:700;font-size:16px;margin-top:6px;">⚽ ${esc(teamName)}</div>
-            <div style="font-size:11px;color:var(--muted);">${matches.length} matches</div>
-        </div>
+    const matches = allMatches.filter(p => p.home === teamName || p.away === teamName);
+    if (!matches.length) { toast('No matches for this team', 'error'); return; }
+    const container = $('teamsList');
+    container.innerHTML = `
+        <button class="btn btn-sm btn-primary" onclick="renderTeams()" style="margin-bottom:8px;">🔙 Back</button>
+        <div style="font-weight:700;font-size:18px;margin-bottom:4px;">⚽ ${esc(teamName)}</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">${matches.length} matches</div>
+        ${matches.sort((a,b) => a.date.localeCompare(b.date)).map(p => `
+            <div class="match-card">
+                <div class="match-teams">
+                    <span class="home">${esc(p.home)}</span>
+                    <span class="vs">VS</span>
+                    <span class="away">${esc(p.away)}</span>
+                </div>
+                <div class="match-league">${esc(p.date)} • ${esc(p.league)}</div>
+                <div style="font-size:11px;color:var(--accent);">🎯 ${p.confidence}% confidence</div>
+            </div>
+        `).join('')}
     `;
-    
-    matches.sort((a, b) => a.date.localeCompare(b.date));
-    
-    list.innerHTML += matches.map(p => {
-        const isHome = p.home === teamName;
-        const opponent = isHome ? p.away : p.home;
-        const result = p.prediction === 'home' ? (isHome ? '✅ Win' : '❌ Loss') : 
-                       p.prediction === 'draw' ? '🤝 Draw' : 
-                       (isHome ? '❌ Loss' : '✅ Win');
-        const resultColor = result.includes('Win') ? 'var(--success)' : result.includes('Draw') ? 'var(--warning)' : 'var(--danger)';
-        
-        return `
-        <div class="match-card" style="border-left:3px solid ${resultColor};">
-            <div class="match-teams">
-                <span class="home" style="font-size:13px;">${isHome ? '🏠' : '✈️'} ${esc(p.home)}</span>
-                <span class="vs">VS</span>
-                <span class="away" style="font-size:13px;">${isHome ? '✈️' : '🏠'} ${esc(p.away)}</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;margin-top:4px;">
-                <span style="font-size:11px;color:var(--muted);">${esc(p.date)} • ${esc(p.league)}</span>
-                <span style="font-size:11px;font-weight:700;color:${resultColor};">${result}</span>
-            </div>
-        </div>
-        `;
-    }).join('');
 }
 
-// ============ GENERATE PREDICTIONS ============
-async function generatePredictions() {
-    const list = $('matchesList');
-    list.innerHTML = `<div class="empty"><span class="loading"></span><br><br>Loading...</div>`;
-
-    try {
-        const data = await apiCall('/generate-predictions', { method: 'GET' });
-        if (data && data.length) {
-            allPredictions = data;
-            renderMatches();
-            if (document.getElementById('page-teams').classList.contains('active')) {
-                renderTeams();
-            }
-            toast(`✅ ${data.length} matches loaded`, 'success');
-        } else {
-            list.innerHTML = `<div class="empty">📭 No predictions available</div>`;
-        }
-    } catch (err) {
-        list.innerHTML = `<div class="empty">❌ ${err.message}</div>`;
-        toast(err.message, 'error');
-    }
-}
-
-// ============ TEAM LEAGUE FILTERS ============
-document.querySelectorAll('#teamLeagueFilters .btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        document.querySelectorAll('#teamLeagueFilters .btn').forEach(b => {
-            b.style.background = 'var(--surface2)';
-            b.style.color = 'var(--text)';
-        });
-        this.style.background = 'var(--accent)';
-        this.style.color = '#fff';
-        currentTeamLeague = this.dataset.league;
-        renderTeams();
-    });
-});
-
-// ============ TICKETS SYSTEM ============
-document.querySelectorAll('[data-target]').forEach(btn => {
-    btn.addEventListener('click', function() {
-        document.querySelectorAll('[data-target]').forEach(b => {
-            b.style.background = 'var(--surface2)';
-            b.style.color = 'var(--text)';
-        });
-        this.style.background = 'var(--accent)';
-        this.style.color = '#fff';
-        targetOdds = parseInt(this.dataset.target);
-        toast(`🎯 Target: ${targetOdds}.0`, 'success');
-    });
-});
-
-document.querySelector('[data-target="5"]').style.background = 'var(--accent)';
-document.querySelector('[data-target="5"]').style.color = '#fff';
-
-$('generateTicketBtn').addEventListener('click', function() {
-    generateTicket(targetOdds);
-});
-
-function generateTicket(target) {
+// ============ TICKETS ============
+function generateTicket() {
     const matches = getFilteredMatches();
-    if (!matches.length) {
-        toast('No matches available!', 'error');
-        return;
-    }
-
-    const available = matches.slice(0, 8);
-    if (available.length < 2) {
-        toast('Need at least 2 matches', 'error');
-        return;
-    }
-
-    let ticket = null;
-    let attempts = 0;
+    if (!matches.length) { toast('No matches available', 'error'); return; }
     
-    while (!ticket && attempts < 30) {
-        attempts++;
-        const selections = [];
-        const used = new Set();
-        const shuffled = [...available].sort(() => Math.random() - 0.5);
-        
-        for (const match of shuffled) {
-            if (used.has(match.id)) continue;
-            const odds = [
-                { label: 'Home Win', odds: parseFloat(match.odds?.home || (1.5 + Math.random() * 1.5)) },
-                { label: 'Draw', odds: parseFloat(match.odds?.draw || (2.5 + Math.random() * 1.5)) },
-                { label: 'Away Win', odds: parseFloat(match.odds?.away || (1.5 + Math.random() * 1.5)) }
-            ];
-            const chosen = odds[Math.floor(Math.random() * odds.length)];
-            selections.push({
-                match: `${match.home} vs ${match.away}`,
-                selection: chosen.label,
-                odds: chosen.odds
-            });
-            used.add(match.id);
-            if (selections.length >= 5) break;
-        }
-        
-        if (selections.length >= 2) {
-            const combined = selections.reduce((acc, s) => acc * s.odds, 1);
-            if (combined >= target - 0.5 && combined <= target + 1.5) {
-                ticket = { selections, combinedOdds: combined, target: target };
-                break;
-            }
-        }
-    }
+    const picks = Math.min(parseInt($('ticketPicks').value) || 5, matches.length);
+    const shuffled = [...matches].sort(() => Math.random() - 0.5);
+    const selected = shuffled.slice(0, picks);
     
-    if (!ticket) {
-        const selections = [];
-        const used = new Set();
-        const shuffled = [...available].sort(() => Math.random() - 0.5);
-        let count = 0;
-        for (const match of shuffled) {
-            if (used.has(match.id)) continue;
-            const odds = [
-                { label: 'Home Win', odds: parseFloat(match.odds?.home || 1.85) },
-                { label: 'Draw', odds: parseFloat(match.odds?.draw || 3.60) },
-                { label: 'Away Win', odds: parseFloat(match.odds?.away || 4.20) }
-            ];
-            const chosen = odds[Math.floor(Math.random() * odds.length)];
-            selections.push({
-                match: `${match.home} vs ${match.away}`,
-                selection: chosen.label,
-                odds: chosen.odds
-            });
-            used.add(match.id);
-            count++;
-            if (count >= 4) break;
-        }
-        const combined = selections.reduce((acc, s) => acc * s.odds, 1);
-        ticket = { selections, combinedOdds: combined, target: target };
-    }
+    const combinedOdds = selected.reduce((acc, m) => acc * (1 + (m.confidence / 100)), 1);
+    const avgConfidence = Math.round(selected.reduce((acc, m) => acc + m.confidence, 0) / selected.length);
     
-    const avgProb = 0.5;
-    const trueProb = Math.pow(avgProb, ticket.selections.length);
-    const ev = (trueProb * ticket.combinedOdds - 1) * 100;
-    const confidence = Math.min(Math.round((50 + ev) + 15), 85);
+    const riskNames = { safe: '🛡️ SAFE', balanced: '⚖️ BALANCED', high: '🚀 HIGH ODDS' };
+    const riskClasses = { safe: 'risk-safe', balanced: 'risk-balanced', high: 'risk-high' };
+    const riskColors = { safe: 'var(--accent)', balanced: 'var(--gold)', high: 'var(--danger)' };
     
-    const ticketData = {
+    const ticket = {
         id: Date.now(),
-        target: target,
-        selections: ticket.selections,
-        combinedOdds: ticket.combinedOdds,
-        confidence: confidence,
+        risk: currentRisk,
+        selections: selected.map(m => ({ home: m.home, away: m.away, confidence: m.confidence, odds: (1 + (m.confidence / 100)).toFixed(2) })),
+        combinedOdds: combinedOdds,
+        confidence: avgConfidence,
         date: new Date().toISOString()
     };
     
-    generatedTickets.unshift(ticketData);
-    renderGeneratedTickets();
-    toast(`✅ Ticket: ${ticket.combinedOdds.toFixed(2)}`, 'success');
+    generatedTickets.unshift(ticket);
+    renderTickets();
+    toast('✅ Ticket generated!', 'success');
 }
 
-function renderGeneratedTickets() {
-    const container = $('generatedTicketsList');
-    $('generatedCount').textContent = generatedTickets.length;
+function renderTickets() {
+    const container = $('ticketsList');
+    $('ticketsCount').textContent = generatedTickets.length;
     if (!generatedTickets.length) {
-        container.innerHTML = '<div class="empty">No tickets yet.<br><small>Select target odds and generate.</small></div>';
+        container.innerHTML = '<div class="empty">No tickets generated yet.<br><small>Select risk level and click "Generate Ticket"</small></div>';
         return;
     }
+    
+    const riskNames = { safe: '🛡️ SAFE', balanced: '⚖️ BALANCED', high: '🚀 HIGH ODDS' };
+    const riskClasses = { safe: 'risk-safe', balanced: 'risk-balanced', high: 'risk-high' };
+    
     container.innerHTML = generatedTickets.map((t, i) => `
         <div class="ticket-card">
             <div class="ticket-header">
-                <span class="target">🎯 ${t.target}.0</span>
-                <span class="conf" style="color:${t.confidence > 70 ? 'var(--success)' : 'var(--warning)'};">${t.confidence}%</span>
+                <span style="font-weight:700;">${riskNames[t.risk]}</span>
+                <span class="risk ${riskClasses[t.risk]}">${t.confidence}% confidence</span>
             </div>
             <div class="ticket-selections">
                 ${t.selections.map(s => `
-                    <div class="sel">${esc(s.match)} → ${esc(s.selection)} (${s.odds.toFixed(2)})</div>
+                    <div class="sel">${esc(s.home)} vs ${esc(s.away)} → ${s.confidence}% (${s.odds})</div>
                 `).join('')}
             </div>
             <div class="ticket-footer">
                 <div><span style="font-size:10px;color:var(--muted);">Combined</span><div class="odds">${t.combinedOdds.toFixed(2)}</div></div>
                 <div class="ticket-actions">
-                    <button class="btn btn-sm btn-primary" onclick="copyTicket('${t.id}')">📋</button>
-                    <button class="btn btn-sm btn-success" onclick="saveTicket('${t.id}')">⭐</button>
-                    <button class="btn btn-sm btn-gold" onclick="shareTicket('${t.id}')">🔗</button>
+                    <button class="btn btn-sm btn-primary" onclick="copyTicket(${i})">📋 Copy</button>
+                    <button class="btn btn-sm btn-success" onclick="saveTicket(${i})">⭐ Save</button>
+                    <button class="btn btn-sm btn-gold" onclick="shareTicket(${i})">🔗 Share</button>
                 </div>
             </div>
         </div>
     `).join('');
 }
 
-function copyTicket(id) {
-    const t = generatedTickets.find(t => t.id == id);
+function copyTicket(index) {
+    const t = generatedTickets[index];
     if (!t) return;
-    const text = t.selections.map(s => `${s.match} → ${s.selection} (${s.odds.toFixed(2)})`).join('\n') + `\n\nCombined: ${t.combinedOdds.toFixed(2)} | ${t.confidence}%`;
-    navigator.clipboard.writeText(text).then(() => toast('📋 Copied!', 'success'));
+    const text = t.selections.map(s => `${s.home} vs ${s.away} → ${s.confidence}% (${s.odds})`).join('\n') + `\n\nCombined Odds: ${t.combinedOdds.toFixed(2)}`;
+    navigator.clipboard.writeText(text).then(() => toast('📋 Copied!', 'success')).catch(() => toast('Copy failed', 'error'));
 }
 
-function saveTicket(id) {
-    const t = generatedTickets.find(t => t.id == id);
+function saveTicket(index) {
+    const t = generatedTickets[index];
     if (!t) return;
     if (!savedTickets.some(st => st.id === t.id)) {
         savedTickets.push(t);
         localStorage.setItem('savedTickets', JSON.stringify(savedTickets));
         renderSavedTickets();
-        toast('⭐ Saved!', 'success');
+        toast('⭐ Ticket saved!', 'success');
+    } else {
+        toast('Already saved!', 'success');
     }
 }
 
-function shareTicket(id) {
-    const t = generatedTickets.find(t => t.id == id);
+function shareTicket(index) {
+    const t = generatedTickets[index];
     if (!t) return;
-    const text = `🎟️ Ticket (${t.target}.0)\n\n${t.selections.map(s => `${s.match} → ${s.selection} (${s.odds.toFixed(2)})`).join('\n')}\n\nCombined: ${t.combinedOdds.toFixed(2)} | ${t.confidence}%`;
+    const text = `🎟️ My Ticket\n\n${t.selections.map(s => `${s.home} vs ${s.away} → ${s.confidence}%`).join('\n')}\n\nCombined Odds: ${t.combinedOdds.toFixed(2)}`;
     if (navigator.share) {
         navigator.share({ title: 'My Ticket', text }).catch(() => {});
     } else {
@@ -1134,65 +1097,95 @@ function shareTicket(id) {
 
 function renderSavedTickets() {
     const container = $('savedTicketsList');
-    $('ticketCount').textContent = savedTickets.length;
     if (!savedTickets.length) {
-        container.innerHTML = '<div class="empty">No saved tickets.</div>';
+        container.innerHTML = '<div class="card"><div class="empty">No saved tickets.</div></div>';
         return;
     }
+    const riskNames = { safe: '🛡️ SAFE', balanced: '⚖️ BALANCED', high: '🚀 HIGH ODDS' };
     container.innerHTML = savedTickets.map((t, i) => `
         <div class="ticket-card">
             <div class="flex-between">
-                <span style="font-weight:700;">⭐ ${t.target}.0</span>
-                <span style="color:${t.confidence > 70 ? 'var(--success)' : 'var(--warning)'};">${t.confidence}%</span>
+                <span style="font-weight:700;">⭐ ${riskNames[t.risk]}</span>
+                <span style="color:var(--accent);">${t.confidence}%</span>
             </div>
-            <div style="font-size:11px;color:var(--muted);margin:4px 0;">
-                ${t.selections.map(s => `${s.match} → ${s.selection}`).join(' • ')}
+            <div style="font-size:11px;color:var(--muted);">
+                ${t.selections.map(s => `${s.home} vs ${s.away} → ${s.confidence}%`).join(' • ')}
             </div>
-            <div class="flex-between">
+            <div class="flex-between" style="margin-top:4px;">
                 <span style="font-weight:700;color:var(--accent);">${t.combinedOdds.toFixed(2)}</span>
-                <button class="btn btn-sm btn-danger" onclick="deleteTicket(${i})">🗑️</button>
+                <button class="btn btn-sm btn-danger" onclick="deleteSavedTicket(${i})">🗑️</button>
             </div>
         </div>
     `).join('');
 }
 
-function deleteTicket(index) {
+function deleteSavedTicket(index) {
     savedTickets.splice(index, 1);
     localStorage.setItem('savedTickets', JSON.stringify(savedTickets));
     renderSavedTickets();
     toast('Ticket deleted', 'success');
 }
 
-// ============ LOAD LIVE SCORES ============
-function loadLiveScores() {
-    const list = $('liveList');
-    const live = allPredictions.filter(p => p.status === 'live');
-    $('liveCount').textContent = live.length;
-    if (!live.length) {
-        list.innerHTML = '<div class="empty">🔴 No live matches.</div>';
-        return;
-    }
-    list.innerHTML = live.map(p => `
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:6px;border-color:var(--danger);">
-            <div style="font-weight:700;">${esc(p.home)} vs ${esc(p.away)}</div>
-            <div style="font-size:11px;color:var(--muted);">${esc(p.league)}</div>
-            <span style="color:var(--danger);font-size:11px;font-weight:700;">🔴 LIVE</span>
-        </div>
-    `).join('');
+function addToTicket(matchId) {
+    const match = allMatches.find(m => m.id === matchId);
+    if (!match) return;
+    toast(`✅ ${match.home} vs ${match.away} added!`, 'success');
 }
 
-// ============ LOAD LEADERBOARD ============
+// ============ LIVE MATCHES ============
+async function loadLiveMatches() {
+    const container = $('liveMatches');
+    container.innerHTML = '<div class="empty"><span class="loading"></span><br><br>Loading live matches...</div>';
+    try {
+        // Try to get live matches from ESPN API via our server
+        const response = await fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard');
+        if (!response.ok) throw new Error('API error');
+        const data = await response.json();
+        const live = (data.events || []).filter(e => e.status?.type?.state === 'in' || e.status?.type?.name === 'STATUS_IN_PROGRESS');
+        $('liveCount').textContent = live.length;
+        if (!live.length) {
+            container.innerHTML = '<div class="empty">🔴 No live matches at the moment.</div>';
+            return;
+        }
+        container.innerHTML = live.map(e => {
+            const c = e.competitions?.[0];
+            const home = c?.competitors?.find(t => t.homeAway === 'home');
+            const away = c?.competitors?.find(t => t.homeAway === 'away');
+            return `
+            <div class="live-match">
+                <div class="live-teams">
+                    <span>${esc(home?.team?.displayName || 'Home')}</span>
+                    <span class="score">${home?.score || 0} - ${away?.score || 0}</span>
+                    <span>${esc(away?.team?.displayName || 'Away')}</span>
+                </div>
+                <div style="font-size:11px;color:var(--danger);font-weight:700;text-align:center;">🔴 ${e.status?.displayClock || 'LIVE'}</div>
+                <div class="live-stats">
+                    <div class="stat"><strong>⚽</strong> Shots</div>
+                    <div class="stat"><strong>🎯</strong> On Target</div>
+                    <div class="stat"><strong>🚩</strong> Corners</div>
+                    <div class="stat"><strong>🟨</strong> Cards</div>
+                </div>
+                <button class="btn btn-secondary btn-sm" style="margin-top:6px;width:100%;" onclick="toast('Live analysis opening...', 'success')">📊 View Analysis</button>
+            </div>
+            `;
+        }).join('');
+    } catch (e) {
+        container.innerHTML = '<div class="empty">❌ Could not load live scores. Please try again.</div>';
+    }
+}
+
+// ============ LEADERBOARD ============
 async function loadLeaderboard() {
-    const list = $('leaderboardList');
-    list.innerHTML = '<div class="empty"><span class="loading"></span><br><br>Loading...</div>';
+    const container = $('leaderboardList');
+    container.innerHTML = '<div class="empty"><span class="loading"></span><br><br>Loading...</div>';
     try {
         const users = await apiCall('/admin/users', { method: 'GET' });
         const sorted = users.sort((a, b) => (b.stats?.accuracy || 0) - (a.stats?.accuracy || 0));
         if (!sorted.length) {
-            list.innerHTML = '<div class="empty">No users yet.</div>';
+            container.innerHTML = '<div class="empty">No users yet.</div>';
             return;
         }
-        list.innerHTML = sorted.slice(0, 10).map((u, i) => {
+        container.innerHTML = sorted.slice(0, 10).map((u, i) => {
             const medals = ['🥇', '🥈', '🥉'];
             const rank = i < 3 ? medals[i] : `#${i+1}`;
             return `
@@ -1204,11 +1197,28 @@ async function loadLeaderboard() {
             `;
         }).join('');
     } catch (e) {
-        list.innerHTML = '<div class="empty">Error loading</div>';
+        container.innerHTML = '<div class="empty">Error loading leaderboard</div>';
     }
 }
 
-// ============ LOAD PROFILE ============
+// ============ ADMIN DATA ============
+async function loadAdminData() {
+    try {
+        const stats = await apiCall('/admin/stats', { method: 'GET' });
+        // Update admin stats if they exist on page
+        const adminStats = document.getElementById('adminStats');
+        if (adminStats) {
+            adminStats.innerHTML = `
+                <div class="grid-2">
+                    <div class="stat-card"><small>Users</small><strong>${stats.totalUsers || 0}</strong></div>
+                    <div class="stat-card"><small>Predictions</small><strong>${stats.totalPredictions || 0}</strong></div>
+                </div>
+            `;
+        }
+    } catch (e) {}
+}
+
+// ============ PROFILE ============
 function loadProfile() {
     const user = getUser();
     $('profileUsername').textContent = user.username || '-';
@@ -1217,42 +1227,9 @@ function loadProfile() {
     $('accuracyDisplay').textContent = (user.stats?.accuracy || 0).toFixed(1) + '%';
 }
 
-// ============ ADMIN DATA ============
-async function loadAdminData() {
-    try {
-        const stats = await apiCall('/admin/stats', { method: 'GET' });
-        $('adminTotalUsers').textContent = stats.totalUsers || 0;
-        $('adminTotalPreds').textContent = stats.totalPredictions || 0;
-        $('adminAccuracy').textContent = (stats.accuracy || 0) + '%';
-        $('adminActive').textContent = 'N/A';
-        
-        const users = await apiCall('/admin/users', { method: 'GET' });
-        const list = $('adminUserList');
-        if (!users.length) {
-            list.innerHTML = '<div class="empty">No users</div>';
-            return;
-        }
-        list.innerHTML = users.filter(u => !u.isOwner).map(u => `
-            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;">
-                <div><strong>${esc(u.username)}</strong> <small style="color:var(--muted);">${u.stats?.totalPredictions || 0} bets</small></div>
-                <button class="btn btn-sm btn-danger" onclick="deleteUser('${u.id}')">Delete</button>
-            </div>
-        `).join('');
-    } catch (e) {}
-}
-
-window.deleteUser = async function(id) {
-    if (!confirm('Delete this user?')) return;
-    try {
-        await apiCall(`/admin/users/${id}`, { method: 'DELETE' });
-        toast('✅ User deleted', 'success');
-        loadAdminData();
-    } catch (err) { toast(err.message, 'error'); }
-};
-
 // ============ QUICK UPDATE ============
 async function quickUpdate() {
-    if (!confirm('⚡ Deploy?')) return;
+    if (!confirm('⚡ Deploy latest changes?')) return;
     const btn = $('updateBtn');
     const orig = btn.innerHTML;
     btn.innerHTML = '⏳';
@@ -1271,21 +1248,71 @@ async function quickUpdate() {
 }
 
 // ============ EVENTS ============
-$('searchInput').addEventListener('input', function() {
+// Sports search
+$('sportsSearch')?.addEventListener('input', function() {
     searchQuery = this.value;
     renderMatches();
 });
 
-$('clearSearch').addEventListener('click', function() {
-    $('searchInput').value = '';
-    searchQuery = '';
-    renderMatches();
-    toast('Search cleared', 'success');
+// Teams search
+$('teamsSearch')?.addEventListener('input', function() {
+    renderTeams();
 });
 
-$('logoutBtn').addEventListener('click', () => { if (confirm('Logout?')) logout(); });
+// League filters
+document.querySelectorAll('#leagueFilters .btn, #teamsLeagueFilters .btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll(this.closest('div').querySelectorAll('.btn')).forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentLeagueFilter = this.dataset.league;
+        if (this.closest('#leagueFilters')) renderMatches();
+        else renderTeams();
+    });
+});
 
-$('clearHistoryBtn').addEventListener('click', () => {
+// Date filters
+document.querySelectorAll('#dateFilters .btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('#dateFilters .btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentDateFilter = this.dataset.filter;
+        renderMatches();
+    });
+});
+
+// Ticket risk tabs
+document.querySelectorAll('[data-risk]').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('[data-risk]').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentRisk = this.dataset.risk;
+    });
+});
+
+// Period selector
+document.querySelectorAll('.period-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentPeriod = this.dataset.period;
+        if (currentPeriod === 'custom') {
+            $('customDates').style.display = 'block';
+        } else {
+            $('customDates').style.display = 'none';
+        }
+    });
+});
+
+// Generate ticket
+$('generateTicketBtn')?.addEventListener('click', generateTicket);
+
+// Ticket picks
+$('ticketPicks')?.addEventListener('change', function() {
+    currentTicketPicks = parseInt(this.value) || 5;
+});
+
+// Clear history
+$('clearHistoryBtn')?.addEventListener('click', function() {
     if (!confirm('Clear all history?')) return;
     localStorage.removeItem('savedTickets');
     savedTickets = [];
@@ -1293,17 +1320,9 @@ $('clearHistoryBtn').addEventListener('click', () => {
     toast('History cleared', 'success');
 });
 
-$('adminRefreshData').addEventListener('click', () => {
-    generatePredictions();
-    loadAdminData();
-    toast('✅ Refreshed!', 'success');
-});
-
-$('adminClearCache').addEventListener('click', () => {
-    if (!confirm('Clear cache?')) return;
-    localStorage.clear();
-    toast('✅ Cache cleared!', 'success');
-    setTimeout(() => window.location.reload(), 1000);
+// Logout
+$('logoutBtn')?.addEventListener('click', function() {
+    if (confirm('Logout?')) logout();
 });
 
 // ============ INIT ============
@@ -1314,10 +1333,18 @@ async function init() {
     }
     checkAdmin();
     loadProfile();
-    await generatePredictions();
+    await loadPredictions();
     renderSavedTickets();
-    toast('⚽ Welcome!', 'success');
+    loadLiveMatches();
+    toast('⚽ Welcome to Predictor Pro!', 'success');
     console.log('⚽ Predictor Pro loaded!');
+}
+
+// Check if system theme preference exists
+if (localStorage.getItem('theme') === 'light') {
+    document.body.classList.add('light-mode');
+} else if (localStorage.getItem('theme') === 'system') {
+    document.body.classList.toggle('light-mode', window.matchMedia('(prefers-color-scheme: light)').matches);
 }
 
 init();

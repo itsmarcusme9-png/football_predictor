@@ -1,0 +1,31 @@
+<!
+<
+>
+
+`).
+}
+()
+{
+
+
+	('
+
+
+});
+
+$('adminClearCache').addEventListener('click', 
+    () => { if (!confirm('Clear cache?')) 
+    return; localStorage.clear(); toast('✅ 
+    Cache cleared!', 'success'); 
+    setTimeout(() => 
+    window.location.reload(), 1000);
+});
+function init() { if (!getToken()) { return; 
+    checkAdmin(); loadProfile(); 
+    generatePredictions(); renderHistory(); 
+    loadRecentCombos(); toast('⚽ Welcome 
+    back!', 'success'); console.log('⚽ 
+    Dashboard loaded!');
+}
+
+init(); </script> </body> </html>

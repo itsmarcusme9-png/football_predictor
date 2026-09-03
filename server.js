@@ -1,10 +1,11 @@
-// server.js - Complete Working Version
+// server.js - Complete Backend with Auto-Update System
 const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
+const { exec } = require('child_process');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -83,7 +84,7 @@ async function fetchRealMatches() {
 
         console.log(`📅 Fetching matches from ${from} to ${to}`);
 
-        const response = await fetch(
+        let response = await fetch(
             `${API_BASE}/fixtures?from=${from}&to=${to}`,
             {
                 headers: {
@@ -101,7 +102,6 @@ async function fetchRealMatches() {
         const data = await response.json();
         console.log('✅ API Response received');
 
-        // Extract matches
         let matches = [];
         if (data.data && Array.isArray(data.data)) {
             matches = data.data;
@@ -120,7 +120,6 @@ async function fetchRealMatches() {
 
         console.log(`📊 Found ${matches.length} total matches`);
 
-        // Filter to upcoming matches (next 7 days)
         const now = new Date();
         const todayStr = now.toISOString().split('T')[0];
         const nextWeekStr = new Date(now.getTime() + 7 * 86400000).toISOString().split('T')[0];
@@ -133,74 +132,18 @@ async function fetchRealMatches() {
 
         console.log(`📅 Next 7 days: ${matches.length} matches`);
 
-        // Show ALL leagues found
-        const leagueNames = [...new Set(matches.map(m => {
-            // Try all possible league fields
-            const fields = [
-                m.league?.name,
-                m.league?.league_name,
-                m.league?.full_name,
-                m.competition?.name,
-                m.competition?.league_name,
-                m.tournament?.name,
-                m.tournament?.league_name,
-                m.league_name,
-                m.league,
-                m.division,
-                m.category,
-                m.group,
-                m.series,
-                m.season?.name,
-                m.season?.league_name,
-                m.name?.split(' - ')[0],
-                m.fixture?.league?.name,
-                m.fixture?.league?.league_name
-            ];
-            for (const field of fields) {
-                if (field && field !== 'Unknown' && field !== 'Unknown League' && field !== '' && typeof field === 'string') {
-                    return field;
-                }
-            }
-            return 'Unknown';
-        }))];
-        console.log(`📋 Leagues found: ${leagueNames.join(', ')}`);
+        const leagueNames = [...new Set(matches.map(m => 
+            (m.league?.name || m.league || m.competition?.name || 'Unknown')
+        ))];
+        console.log(`📋 Leagues: ${leagueNames.join(', ')}`);
 
-       // Show ALL matches (no limit)
-console.log(`📊 Showing all ${matches.length} matches`);
+        if (matches.length > 100) {
+            matches = matches.slice(0, 100);
+            console.log(`📊 Limited to top 100 matches`);
+        }
 
-        // Transform to our format
         const transformed = matches.map(m => {
             const matchDate = new Date(m.date || m.kickoff || m.start_time || m.startTime || Date.now());
-            
-            // Extract league name
-            let leagueName = 'Unknown League';
-            const leagueFields = [
-                m.league?.name,
-                m.league?.league_name,
-                m.league?.full_name,
-                m.competition?.name,
-                m.competition?.league_name,
-                m.tournament?.name,
-                m.tournament?.league_name,
-                m.league_name,
-                m.league,
-                m.division,
-                m.category,
-                m.group,
-                m.series,
-                m.season?.name,
-                m.season?.league_name,
-                m.name?.split(' - ')[0],
-                m.fixture?.league?.name,
-                m.fixture?.league?.league_name
-            ];
-            for (const field of leagueFields) {
-                if (field && field !== 'Unknown' && field !== 'Unknown League' && field !== '' && typeof field === 'string') {
-                    leagueName = field;
-                    break;
-                }
-            }
-            
             const homeForm = generateForm();
             const awayForm = generateForm();
             
@@ -208,7 +151,7 @@ console.log(`📊 Showing all ${matches.length} matches`);
                 id: m.id || `match-${Date.now()}-${Math.random()}`,
                 date: matchDate.toISOString().split('T')[0],
                 time: matchDate.toTimeString().slice(0, 5),
-                league: leagueName,
+                league: m.league?.name || m.competition?.name || m.tournament?.name || m.league_name || 'Unknown League',
                 home: m.home?.name || m.homeTeam?.name || m.team_home?.name || m.home_name || 'Home',
                 away: m.away?.name || m.awayTeam?.name || m.team_away?.name || m.away_name || 'Away',
                 status: m.status === 'LIVE' || m.status === 'live' || m.status === 'inplay' ? 'live' : 'upcoming',
@@ -231,7 +174,7 @@ console.log(`📊 Showing all ${matches.length} matches`);
             };
         });
 
-        console.log(`✅ Final: ${transformed.length} matches ready`);
+        console.log(`✅ Final: ${transformed.length} matches ready for predictions`);
         return transformed;
 
     } catch (error) {
@@ -729,6 +672,92 @@ function generateFallbackPredictions(userId) {
     return matches.map(match => generatePredictionForMatch(match, userId));
 }
 
+// ============ AUTO-UPDATE SYSTEM ============
+// This allows you to update your site with ONE command!
+
+// Endpoint 1: Update a file and deploy
+app.post('/api/update-site', async (req, res) => {
+    try {
+        const { file, content } = req.body;
+        
+        const token = req.headers['authorization']?.split(' ')[1];
+        if (!token) return res.status(401).json({ error: 'Unauthorized' });
+        
+        let responseMessage = '';
+
+        if (file && content) {
+            const filePath = path.join(__dirname, file);
+            fs.writeFileSync(filePath, content);
+            responseMessage += `✅ Updated: ${file}\n`;
+            console.log(`✅ Updated: ${file}`);
+        }
+        
+        exec('git add . && git commit -m "🤖 AI auto-update" && git push origin main', 
+            (error, stdout, stderr) => {
+                if (error) {
+                    console.log('Git error:', error);
+                    return res.json({ 
+                        success: true, 
+                        message: responseMessage + 'File updated but git push failed. Manual push needed.',
+                        error: stderr
+                    });
+                }
+                console.log('✅ Git push successful');
+                console.log('📤 Git output:', stdout);
+                
+                res.json({ 
+                    success: true, 
+                    message: responseMessage + '🚀 Site updated and deployed! Changes will be live in 1-2 minutes.',
+                    gitOutput: stdout
+                });
+            }
+        );
+        
+    } catch (error) {
+        console.error('❌ Update error:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Endpoint 2: Quick deploy (just push current changes)
+app.post('/api/deploy-site', async (req, res) => {
+    try {
+        const token = req.headers['authorization']?.split(' ')[1];
+        if (!token) return res.status(401).json({ error: 'Unauthorized' });
+        
+        exec('git add . && git commit -m "⚡ Quick deploy" && git push origin main', 
+            (error, stdout, stderr) => {
+                if (error) {
+                    return res.json({ success: false, error: stderr });
+                }
+                res.json({ 
+                    success: true, 
+                    message: '🚀 Deploy triggered! Site will update in 1-2 minutes.',
+                    output: stdout
+                });
+            }
+        );
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Endpoint 3: Get site status (what's changed, etc.)
+app.get('/api/site-status', (req, res) => {
+    exec('git status --porcelain', (error, stdout) => {
+        if (error) {
+            return res.json({ status: 'error', message: error.message });
+        }
+        const changes = stdout ? stdout.split('\n').filter(Boolean) : [];
+        res.json({
+            status: 'ok',
+            changes: changes,
+            hasChanges: changes.length > 0,
+            message: changes.length ? `${changes.length} files changed` : 'No changes'
+        });
+    });
+});
+
 // ============ START SERVER ============
 app.listen(PORT, () => {
     console.log(`⚽ Football Predictor Server running on http://localhost:${PORT}`);
@@ -740,4 +769,7 @@ app.listen(PORT, () => {
     console.log(`   - GET  /api/predictions`);
     console.log(`   - GET  /api/generate-predictions (REAL DATA!)`);
     console.log(`   - GET  /api/admin/users (Admin only)`);
+    console.log(`   - POST /api/update-site (Auto-update)`);
+    console.log(`   - POST /api/deploy-site (Quick deploy)`);
+    console.log(`   - GET  /api/site-status (Check status)`);
 });
